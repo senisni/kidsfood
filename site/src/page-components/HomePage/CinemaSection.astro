@@ -1,6 +1,5 @@
 ---
 import KitImage from '@/components/KitImage.astro'
-import PaperEdge from '@/components/PaperEdge.astro'
 import Scene from '@/components/Scene.astro'
 import VideoTile from '@/components/VideoTile.astro'
 import { videos } from '@/data/videos'
@@ -27,5 +26,4 @@ const [main, ...episodes] = videos
     </div>
     <a href="/multfilmy/" class="relative mt-[1.6rem] inline-block rounded-full bg-night/70 px-[1rem] py-[0.4rem] font-bold text-paper underline underline-offset-4 hover:text-sand">{typo('Все мультфильмы и вопросы для обсуждения →')}</a>
   </div>
-  <PaperEdge class="text-skyline" />
 </Scene>

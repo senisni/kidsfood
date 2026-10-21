@@ -21,5 +21,5 @@ const Heading = standalone ? 'h1' : 'h2'
       {games.map((game, index) => <li class="flex w-[calc(50%-0.4rem)] sm:w-[13.5rem] lg:w-[15.5rem]"><GameCard game={game} number={index + 1} class="w-full" /></li>)}
     </ul>
   </div>
-  <PaperEdge class={standalone ? 'text-pine' : 'text-peach'} />
+  {standalone && <PaperEdge class="text-pine" />}
 </Scene>
