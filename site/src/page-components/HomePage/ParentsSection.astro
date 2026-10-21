@@ -1,11 +1,35 @@
 ---
 import FactCard from '@/components/FactCard.astro'
-import Button from '@/components/Button.astro'
-import { facts } from '@/data/facts'
+import Icon from '@/components/Icon.astro'
+import KitImage from '@/components/KitImage.astro'
+import PaperEdge from '@/components/PaperEdge.astro'
+import { facts, homeFacts } from '@/data/facts'
+import { typo } from '@/lib/typo'
+
+// full — все вопросы (страница «О проекте»), иначе — выбранные для главной
 interface Props { full?: boolean }
 const { full = false } = Astro.props
+const list = full ? facts : homeFacts
+const notes = [
+  { href: '/roditelyam/', label: 'Памятка: как кормить ребёнка', tone: 'bg-sand/80 rotate-[-2deg]' },
+  { href: '/o-proekte/#sources', label: 'Источники', tone: 'bg-[#f6e7a6] rotate-[1.5deg]' },
+]
 ---
-<section id="parents" class="mx-auto grid max-w-7xl scroll-mt-24 gap-8 px-5 py-12 md:px-8 md:py-16 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
-  <div><p class="mb-3 text-xs font-extrabold tracking-[0.14em] text-protein uppercase">Родителям и учителям</p><h2 class="font-display text-3xl leading-tight font-bold md:text-4xl">Говорим о еде<br />спокойно и с интересом</h2><p class="mt-5 max-w-md text-lg leading-relaxed text-ink/80">Вместе смотреть, пробовать, обсуждать. Без подсчёта калорий, ярлыков «плохая еда» и требования доесть.</p>{!full && <Button href="/o-proekte/" variant="ghost" class="mt-6 text-base">О проекте и источниках →</Button>}</div>
-  <div>{facts.map((fact) => <FactCard fact={fact} />)}</div>
+<section id="parents" aria-labelledby="parents-title" class="relative scroll-mt-[5rem] overflow-hidden bg-cream pt-[3rem] pb-[9rem] sm:pt-[3.6rem] sm:pb-[10rem]">
+  <div aria-hidden="true" class="stage">
+<KitImage name="books-plant" sizes="14rem" class="absolute bottom-[2.6rem] left-[1%] w-[6.5rem] sm:w-[11rem]" />
+  <KitImage name="foliage-left" sizes="20rem" class="absolute -bottom-[1.5rem] left-[16%] hidden w-[11rem] sm:block" />
+  <KitImage name="foliage-right" sizes="20rem" class="absolute -right-[2rem] -bottom-[1rem] w-[9rem] sm:w-[15rem]" />
+    </div>
+  <div class="shell relative grid gap-[1.6rem] lg:grid-cols-[1fr_15rem] lg:items-end lg:gap-[3rem]">
+    <div class="max-w-[48rem]">
+      <h2 id="parents-title" class="font-display text-[2.5rem] leading-[1] font-black text-forest-deep sm:text-[3.3rem]">Родителям и учителям</h2>
+      <p class="mt-[0.7rem] max-w-[38rem] text-[1.05rem] leading-relaxed text-ink/80">{typo('Как говорить с детьми о еде спокойно и с интересом: без подсчёта калорий, ярлыков «плохая еда» и требования доесть.')}</p>
+      <div class="mt-[1.4rem] grid gap-[0.8rem]">{list.map((fact) => <FactCard fact={fact} />)}</div>
+    </div>
+    <ul class="flex flex-wrap gap-[1rem] lg:flex-col">
+      {notes.map((note) => <li><a href={note.href} class:list={['inline-flex items-center gap-[0.6rem] rounded-[0.4rem] px-[1.2rem] py-[1rem] font-display text-[1.05rem] font-extrabold text-ink shadow-paper-lg transition hover:rotate-0', note.tone]}>{typo(note.label)} <Icon name="arrow" /></a></li>)}
+    </ul>
+  </div>
+  <PaperEdge class="text-pine" />
 </section>

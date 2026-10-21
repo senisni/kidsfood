@@ -1,9 +1,17 @@
 ---
+import Logo from '@/components/Logo.astro'
 import { nav } from '@/data/nav'
+const extra = [
+  { href: '/roditelyam/', label: 'Как кормить ребёнка: памятка' },
+  { href: '/o-proekte/', label: 'О проекте и источники' },
+  { href: '/menu/#prep', label: 'План заготовок' },
+]
 ---
-<footer class="bg-forest text-paper">
-  <div class="mx-auto grid max-w-7xl gap-8 px-5 py-10 md:grid-cols-[1.2fr_1fr] md:px-8">
-    <div><p class="font-display text-2xl font-bold">Три друга на тарелке</p><p class="mt-3 max-w-md text-base leading-relaxed text-paper/85">Мультфильмы и игры о еде для детей 8–12 лет. Идеи для семейного стола и разговоров без «доешь».</p></div>
-    <div><nav aria-label="Навигация в подвале" class="flex flex-wrap gap-x-5 gap-y-3">{nav.map((item) => <a href={item.href} class="font-bold underline-offset-4 hover:underline">{item.label}</a>)}</nav><div class="mt-5 flex flex-wrap gap-x-5 gap-y-3 text-sm"><a href="/o-proekte/" class="underline underline-offset-4">О проекте и источники</a><a href="/menu/#prep" class="underline underline-offset-4">План заготовок</a></div></div>
+<footer class="bg-pine text-paper">
+  <div class="shell grid gap-[1.6rem] py-[2.4rem] sm:grid-cols-[auto_1fr] sm:items-center sm:gap-x-[3rem]">
+    <Logo tone="paper" />
+    <nav aria-label="Навигация в подвале" class="flex flex-wrap gap-x-[1.6rem] gap-y-[0.6rem] sm:justify-end">{nav.map((item) => <a href={item.href} class="font-display text-[1.05rem] font-extrabold hover:underline underline-offset-4">{item.label}</a>)}</nav>
+    <p class="max-w-[34rem] text-[0.95rem] leading-relaxed text-paper/75">Мультфильмы и игры о еде для детей 8–12 лет. Идеи для семейного стола и разговоров без «доешь». Бесплатно и без регистрации.</p>
+    <div class="flex flex-wrap gap-x-[1.4rem] gap-y-[0.5rem] text-[0.9rem] sm:justify-end">{extra.map((item) => <a href={item.href} class="text-paper/85 underline underline-offset-4 hover:text-paper">{item.label}</a>)}</div>
   </div>
 </footer>

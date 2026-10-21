@@ -20,3 +20,7 @@ export const videoSchema = (video: Video) => ({
   inLanguage: 'ru',
   isAccessibleForFree: true,
 })
+export const faqSchema = (items: { title: string; text: string }[]) => ({
+  '@type': 'FAQPage',
+  mainEntity: items.map((item) => ({ '@type': 'Question', name: item.title, acceptedAnswer: { '@type': 'Answer', text: item.text } })),
+})

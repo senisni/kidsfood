@@ -1,0 +1,129 @@
+{
+  "method": "built-in imagegen",
+  "style": "Project: «Три друга на тарелке», a children's food website, ages 8–12. Use the SELECTED reference 1 as the art direction to MATCH, not a chance to redesign. Keep its richly crafted paper world, warm colors and charming storytelling. Reference 2 defines paper world/material, refs 3 and 4 define exact boy/girl identity, ref 5 defines simple flat food. Boy: brown hair, cream sun shirt, green shorts and cream sneakers. Girl: slightly taller, pale pink bob, daisy clip, light-yellow dress, green sandals. European picture-book faces, small simple eyes, no anime or toddlers.\nMaterial: subjects built from clearly separable FLAT matte colored paper pieces with gentle irregular scissor edges; depth from overlap and short soft contact shadows, quiet sparse paper fibers. Food must also be simple flat paper cutouts, not realistic crust, porous bread, wet gloss, ceramic shine or volumetric 3D/clay. No all-over noise, embossing or crumpled textures. Clean readable silhouette and consistent directional shadows. Preserve overall detail and charm of selected reference, but arrange a little more freely. No logos, text, lettering, digits, UI buttons or watermarks in individual production assets.\nAsset must be usable as a real separate website image, not an illustration of a browser or a sample website. Match the reference palette: sky mint-blue, forest and sage greens, ivory, warm mustard, terracotta, peach wood; evening navy-teal in cinema. DO NOT copy the same landscape into every asset.",
+  "jobs": [
+    {
+      "name": "layout-airy-approved",
+      "path": "layout-airy-approved.png",
+      "alpha": false,
+      "prompt": "Use case: ui-mockup. Edit selected reference 1 into the FINAL APPROVED DESIGN DIRECTION, with only MODERATELY more breathing room (about 15–20% more padding and gaps). Keep the same rich detailed style, all scenes and the same characters; do NOT simplify into a minimalist blank website or change the design direction. ONE complete DESKTOP homepage in a tall 1:3 image, header to footer. Keep hero landscape and characters at the table, plate explanation, immersive evening outdoor cinema with fairy lights and foliage, seven games in a playful garden, warm kitchen with family dish cards, adult FAQ and forest footer. Remove only a few competing tiny ornaments near labels; main improvement is spacing. Let page be longer rather than squeezing sections. Useful content centered, full-width continuous backgrounds that can extend on ultrawide monitors; no stretched figures. Text in clean Russian: brand «Три друга»; nav «Смотреть», «Играть», «Семейное меню», «Взрослым». Hero «Три друга на тарелке», «Истории и игры о еде · 8–12 лет», «Смотреть мультфильм», «Выбрать игру», speech «Тосту скучно одному!». Groups «Кого позовём на тарелку?», «Овощи и фрукты», «Крупы и хлеб», «Белок». Film «Смотрим истории», 3 previews «Три друга на тарелке» 68 секунд, «Сад в животе» 27 секунд, «Ужин: слушай живот» 26 секунд. Games «Пробуем сами», exactly seven entries «Собери тарелку», «Паровозик и сад», «Ланч-бокс для друга», «Что в блюде?», «Правда или миф», «Что говорит живот?», «Собери перекус». Menu «Продолжим дома», «Что приготовить завтра?», three dishes «Сырники с ягодами», «Плов с курицей», «Рыба с картошкой», «Все 45 блюд и заготовки». FAQ «Родителям и учителям», «Нужно ли доедать?», «Как говорить о еде?», «На что мы опираемся?», «Источники». No search or social icons. This image IS the whole website mockup, so text/UI are required here, unlike the separate assets."
+    },
+    {
+      "name": "hero-background",
+      "path": "backgrounds/hero-garden.png",
+      "alpha": false,
+      "prompt": "Use case: illustration-story. Asset: WIDE HERO BACKGROUND ONLY, 3:1 panoramic landscape, target 2400x800 or larger. Recreate the first section's sunny paper garden from selected reference, WITHOUT people, foreground table, food, labels, speech balloons or UI. Mint-blue sky, layered soft green distant hills, small cream school with mustard roof on the far right, winding cream path, well-separated forest-green foliage at the lower corners and a few cream clouds. NO sun (sun will be a separate asset). Upper/left central 60% stays open enough for large HTML title and buttons. Lower-right central area remains open for a separately overlaid character group. Keep the world's detail near lower/corner regions, not wallpaper of leaves. Left/right outer 12% contain quiet broad sky and hill bands with no cropped hero objects, so the image can meet matching CSS sky/hill color fills on big monitors. Entire scene visible, front-facing landscape, not a website screenshot."
+    },
+    {
+      "name": "cinema-background",
+      "path": "backgrounds/cinema-night.png",
+      "alpha": false,
+      "prompt": "Use case: illustration-story. Asset: WIDE EMPTY OUTDOOR CINEMA BACKDROP, target 2400x1100, landscape around 2.2:1. Match the selected reference's magical evening paper cinema: deep navy-teal sky, forest cut-paper layers at left/right edges, warm mustard lantern at lower-left and three low flat paper cushions in muted teal, rust and mustard along bottom foreground. Top CENTRAL 75% and middle CENTRAL 75% must be empty plain dark sky for an HTML heading plus three actual video elements. DO NOT generate screens, screen outlines, wooden video frames, posters, people, food, fairy-light string, moon, stars, text or buttons: screens are HTML, lights/moon separate overlays. Frame the empty central opening gently with foliage, don't crowd it. Make outer left/right 10% quiet deep-teal broad color with low forest bands to continue into a CSS fill. Distinct readable paper layers, not mist/fog, not noisy dark texture."
+    },
+    {
+      "name": "games-background",
+      "path": "backgrounds/games-garden.png",
+      "alpha": false,
+      "prompt": "Use case: illustration-story. Asset: WIDE EMPTY GARDEN PLAY AREA BACKGROUND, target 2400x1200, landscape 2:1. Match the selected games section: light sage paper ground, very gentle broad cream path areas, tiny paper flowers and rounded bushes only at lower corners and outer margins, a few flat yellow-green leaves. LARGE CENTRAL 80% stays quiet and almost uniform sage for seven independently positioned HTML cards in a responsive layout. No predefined seven spaces, no card-shaped holes, no route markers, no numbers, dotted routes, characters, food, crowns, labels, signs or buttons. Preserve playful natural material without baking a fixed interface into the raster. Outer left/right 12% broad calm matching sage field; no abrupt cropped objects at canvas edges. Slightly undulating lower silhouette can remain within image bounds."
+    },
+    {
+      "name": "kitchen-background",
+      "path": "backgrounds/kitchen-warm.png",
+      "alpha": false,
+      "prompt": "Use case: illustration-story. Asset: WIDE EMPTY WARM KITCHEN BACKGROUND, target 2400x1200, landscape 2:1. Recreate the selected family-menu section's peach and honey paper kitchen: pale peach wall, matte warm wooden counter along BOTTOM 20%, one modest wall shelf with a teal jug and cream cups at UPPER RIGHT, small paper plant by shelf, one chopping-board silhouette behind. Main LEFT and CENTRAL 80% of wall must remain nearly plain pale peach/cream for an HTML title and three recipe cards. NO people, leaning heads, dish/food plates, recipe cards, menus, writing, labels, controls or buttons. Keep shelf small and unobtrusive, no densely packed utensils. Counter not perspective-realistic wood, use broad flat paper planks, very quiet texture. Outer edges should meet broad simple peach wall and wood color bands, to continue naturally into CSS full-width fills."
+    },
+    {
+      "name": "hero-family",
+      "path": "cutouts/hero-family.png",
+      "alpha": true,
+      "prompt": "Use case: identity-preserve. Asset: one ISOLATED HERO FOREGROUND COMPOSITION on TRUE transparent background, target 1600x1100 landscape. Recreate the reference's boy and girl at a small warm paper tabletop. Boy on LEFT smiling toward girl and holding a tiny broccoli floret near chest; girl on RIGHT resting her chin on both hands with elbows on table, smiling. Girl's daisy and pink bob exact, boy's sun shirt exact. Medium-wide framing showing both from waist/table level up, entire heads/hair/hands with generous transparent margins, NO landscape, sky, school, bushes or background. A simple broad paper food plate at lower center, containing a modest selection of flat broccoli, tomato, grains, toast, egg and fish pieces; apple at lower left and a matte mint water bottle at lower right. Keep food relatively small so faces remain focus. Table is a short contained cut-paper tabletop oval/trapezoid, not a scene-wide opaque rectangular strip; everything around and beneath cutout silhouette is transparent. No lettering, speech bubble or buttons. Not a character sheet. One group as a single reusable transparent composition."
+    },
+    {
+      "name": "plate-diagram",
+      "path": "cutouts/plate-three-friends.png",
+      "alpha": true,
+      "prompt": "Use case: scientific-educational. Asset: ISOLATED PAPER PLATE DIAGRAM, top view, centered on TRUE transparency, square target 1400x1400. One warm ivory cut-paper circular plate, left HALF occupied by simple flat cucumber slices, broccoli and tomato; top-right QUARTER has flat grains and one toast cutout; bottom-right QUARTER has simple fish, half egg and a few beans. Exactly half + quarter + quarter geometry, broad pale sage/mustard/peach paper sector backing, clean paper rim and short contact shadows. Match selected reference's three-friend plate but food must be flat layered paper, no glazed ceramic, 3D kernels, porous toast or wet food. No arrows, labels, text, numbers, hands, scenery or props outside plate. Generous transparent margin all around."
+    },
+    {
+      "name": "games-sheet-a",
+      "path": "sheets/games-a.png",
+      "alpha": true,
+      "grid": [
+        2,
+        2
+      ],
+      "names": [
+        "game-plate",
+        "game-fiber",
+        "game-lunchbox",
+        "game-dishes"
+      ],
+      "prompt": "Use case: illustration-story. Asset: FOUR SEPARATE GAME-PREVIEW CUTOUTS on TRUE transparent canvas, square target 2048x2048. Strict invisible 2x2 grid with one centered isolated object group in EACH equal square cell; keep 20% blank transparent margin INSIDE every cell so nothing touches/crosses cell boundaries. No grid lines, text, labels, buttons, shadows extending between cells or opaque card backgrounds. Objects exactly in reading order: TOP LEFT = top-down ivory plate with flat vegetables, grain and egg, leaving one simple empty pale sector to suggest completing the plate; TOP RIGHT = small mustard/teal paper toy locomotive next to a blue-green magnifying glass containing one leaf/garden sprout; BOTTOM LEFT = open mustard-yellow compartment lunchbox holding simple apple, toast and green vegetables; BOTTOM RIGHT = a small shallow paper bowl with broad rice, carrot and bean shapes and a blue magnifying glass highlighting ingredients. Match selected game illustrations and approved matte FLAT cut-paper material; all are separate reusable cutouts, not four screenshots. No people or characters."
+    },
+    {
+      "name": "games-sheet-b",
+      "path": "sheets/games-b.png",
+      "alpha": true,
+      "grid": [
+        3,
+        1
+      ],
+      "names": [
+        "game-myths",
+        "game-tummy",
+        "game-snack"
+      ],
+      "prompt": "Use case: illustration-story. Asset: THREE SEPARATE GAME-PREVIEW CUTOUTS on TRUE transparent wide canvas, 3:1 target 2400x800. Strict invisible 3 columns x 1 row, one centered isolated group in each equal square cell, 20% transparent margins inside EACH cell and NO crossing. LEFT = two slightly overlapping ivory paper game cards, one simple green check mark and one terracotta cross; CENTER = friendly soft peach simplified cartoon tummy symbol with small gentle face and two simple little hands, as in selected preview, NOT a realistic anatomical organ, no blood/gore; RIGHT = simple red apple beside a small ivory paper yogurt cup, blue spoon and two flat blueberries. No labels, words, numbers, controls, opaque backdrops or tile rectangles. Keep shapes clean, modest detail, quiet paper and short contact shadows."
+    },
+    {
+      "name": "characters-sheet",
+      "path": "sheets/characters.png",
+      "alpha": true,
+      "grid": [
+        3,
+        1
+      ],
+      "names": [
+        "boy-leaning",
+        "girl-leaning",
+        "girl-thinking"
+      ],
+      "prompt": "Use case: identity-preserve. Asset: THREE SEPARATE CHARACTER CUTOUTS on TRUE transparent wide canvas, strict 3-column x1-row invisible grid, target 2400x1000. Each portrait group fully inside its own cell with 18% transparent cell margin, no overlap across cells, no labels/grid/scenery/table/card edges. Each is a waist/chest-up cutout with hands and elbows in the pose, entire hair and hands visible, bottom silhouette neatly ends at waist. LEFT: exact boy from reference 3, leaning forward with chin supported on both hands, elbows lower, friendly face turned slightly toward image right; cream sun T-shirt. CENTER: exact girl from reference 4, chin supported on both hands and elbows lower, gentle smile turned slightly toward image left, pink bob daisy and yellow dress. RIGHT: same exact girl with chin resting lightly on hands, curious expression, front/three-quarter view matching girl above games in selected page. Preserve outfit and natural child proportions and small kind eyes, avoid huge toddler heads. No food, no speech balloons or interface."
+    },
+    {
+      "name": "decor-sheet",
+      "path": "sheets/decor.png",
+      "alpha": true,
+      "grid": [
+        4,
+        2
+      ],
+      "names": [
+        "sun",
+        "moon",
+        "fairy-lights",
+        "lantern",
+        "foliage-left",
+        "foliage-right",
+        "books-plant",
+        "mustard-sprig"
+      ],
+      "prompt": "Use case: illustration-story. Asset: EIGHT SEPARATE WEB DECOR CUTOUTS on TRUE transparent landscape canvas, target 2400x1200, strict invisible 4 columns x2 rows. Each equal square cell contains one centered isolated group with 18% transparent inside-cell margin, no crossings, no writing, no grid lines. Reading order TOP: (1) flat mustard-yellow layered paper sun disk, no face, (2) ivory crescent moon with two tiny flat stars, (3) one short gently curved dark wire with THREE warm paper fairy light bulbs, full wire endpoints within cell, no huge glow, (4) small warm mustard paper lantern. BOTTOM: (5) broad forest-green left-corner foliage cluster with 5–7 simple layered leaves, (6) mirrored complementary right-corner foliage cluster, (7) a low stack of three paper books with one modest leafy plant in a terracotta pot, (8) two slender mustard paper sprigs. Match rich selected world but quiet sparse fibers and short contact shadows. No backgrounds, UI or frames."
+    },
+    {
+      "name": "recipes-sheet",
+      "path": "sheets/recipes.png",
+      "alpha": true,
+      "grid": [
+        3,
+        1
+      ],
+      "names": [
+        "dish-syrniki",
+        "dish-plov",
+        "dish-fish"
+      ],
+      "prompt": "Use case: illustration-story. Asset: THREE SEPARATE DISH CUTOUTS on TRUE transparent wide canvas, 3:1 target 2400x800, strict invisible three equal square cells, one centered dish per cell with 20% transparent margin, no crossings, no labels, text, table, background or UI. LEFT: ivory paper plate with three simple golden syrniki, a spoonful of white sour cream and a few flat red/blue berries; CENTER: shallow ivory paper dish with simplified broad groups of yellow rice, orange carrot strips and a few cream chicken cutouts for plov; RIGHT: ivory paper plate with one flat orange fish fillet, three mustard potato shapes and simple green broccoli. Top-down/slight overhead SAME angle and same plate size for all three. IMPORTANT: paper food, not photoreal food or sculpted toy food. Syrniki are flat circles with 2 broad golden paper patches not realistic browned crust; rice uses a few grouped flat grain cutouts not hundreds of 3D grains; fish a flat orange silhouette with few cream stripes, no glistening wet surface. Short contact shadows only. Match selected family menu style and palette while keeping approved paper flatness."
+    }
+  ]
+}

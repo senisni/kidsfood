@@ -1,0 +1,35 @@
+---
+import Button from '@/components/Button.astro'
+import DishTile from '@/components/DishTile.astro'
+import KitImage from '@/components/KitImage.astro'
+import PaperEdge from '@/components/PaperEdge.astro'
+import Scene from '@/components/Scene.astro'
+import { dishes } from '@/data/dishes'
+import { typo } from '@/lib/typo'
+
+// один день из меню: блюдо → вырезка из site-kit
+const picks = [
+  { id: 'B01', image: 'dish-syrniki' },
+  { id: 'L05', image: 'dish-plov' },
+  { id: 'D01', image: 'dish-fish' },
+]
+const day = picks.map((pick) => ({ ...pick, dish: dishes.find((dish) => dish.id === pick.id) })).filter((item) => item.dish)
+---
+<Scene id="menu" background="kitchen-warm" fill="bg-peach" position="object-bottom" aria-labelledby="menu-title" class="scroll-mt-[5rem] pt-[3rem] pb-[11rem] sm:pt-[3.6rem] sm:pb-[12rem] lg:pb-[6rem]">
+  <div aria-hidden="true" class="stage">
+<KitImage name="boy-leaning" sizes="(min-width: 640px) 18rem, 10rem" alt="" class="absolute bottom-[1.4rem] left-0 w-[9.5rem] sm:bottom-[1.8rem] sm:w-[11rem] lg:w-[17rem]" />
+  <KitImage name="girl-leaning" sizes="(min-width: 640px) 18rem, 10rem" alt="" class="absolute right-0 bottom-[1.4rem] w-[9.5rem] sm:bottom-[1.8rem] sm:w-[11rem] lg:w-[17rem]" />
+    </div>
+  <div class="shell relative">
+    <div class="lg:px-[11rem]">
+      <p class="font-display text-[1.1rem] font-extrabold text-terracotta">Продолжим дома</p>
+      <h2 id="menu-title" class="mt-[0.2rem] font-display text-[2.5rem] leading-[1] font-black text-forest-deep sm:text-[3.3rem]">Что приготовить завтра?</h2>
+      <p class="mt-[0.7rem] max-w-[36rem] text-[1.05rem] leading-relaxed text-ink/80">{typo('Один день из семейного меню. Всего 45 идей для завтрака, обеда и ужина, рецепты и план заготовок на неделю.')}</p>
+      <ul class="-mx-[1rem] mt-[1.6rem] flex snap-x snap-mandatory gap-[0.9rem] overflow-x-auto px-[1rem] pb-[0.6rem] sm:mx-0 sm:grid sm:grid-cols-3 sm:gap-[1.2rem] sm:overflow-visible sm:px-0">
+        {day.map((item) => item.dish && <li class="flex w-[72%] shrink-0 snap-center sm:w-auto"><DishTile dish={item.dish} image={item.image} class="w-full" /></li>)}
+      </ul>
+      <div class="mt-[1.6rem] flex justify-center"><Button href="/menu/" variant="green" arrow>Все 45 блюд и заготовки</Button></div>
+    </div>
+  </div>
+  <PaperEdge class="text-cream" />
+</Scene>

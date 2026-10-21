@@ -1,0 +1,27 @@
+---
+// Блюдо из семейного меню карточкой: приём пищи, картинка, название
+import { twMerge } from 'tailwind-merge'
+import Icon from '@/components/Icon.astro'
+import KitImage from '@/components/KitImage.astro'
+import { dishHref, mealNames, type Dish } from '@/data/dishes'
+import { typo } from '@/lib/typo'
+
+interface Props {
+  dish: Dish
+  image?: string
+  class?: string
+  [key: string]: unknown
+}
+
+const { dish, image, class: className, ...rest } = Astro.props
+const mealIcon = dish.meal === 'D' ? 'moon' : 'sun'
+---
+
+<a href={dishHref(dish)} class:list={[twMerge('group flex flex-col rounded-[1.4rem] bg-paper p-[0.9rem] shadow-paper-lg ring-2 ring-cream-deep/70 transition hover:-translate-y-1', className)]} {...rest}>
+  <span class="flex items-center gap-[0.4rem] text-[0.9rem] font-extrabold text-grain"><Icon name={mealIcon} class:list={[dish.meal === 'D' ? 'text-night' : 'text-sand']} />{mealNames[dish.meal]}</span>
+  <span class="my-[0.5rem] grid aspect-[4/3] place-items-center">
+    {image ? <KitImage name={image} alt={dish.title} sizes="(min-width: 640px) 16rem, 70vw" class="h-full drop-shadow-[0_0.3rem_0.3rem_rgb(60_40_10/0.18)] transition group-hover:scale-105" /> : dish.sprite && <img src={dish.sprite} alt={dish.title} width="320" height="240" loading="lazy" decoding="async" class="h-full object-contain" />}
+  </span>
+  <span class="font-display text-[1.15rem] leading-tight font-black text-ink">{typo(dish.title)}</span>
+  <span class="mt-[0.3rem] text-[0.85rem] leading-snug text-ink/70">{typo(`${dish.veg}; ${dish.grain}; ${dish.protein}`)}</span>
+</a>

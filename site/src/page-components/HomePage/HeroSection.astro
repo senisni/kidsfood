@@ -1,27 +1,28 @@
 ---
 import Button from '@/components/Button.astro'
-import Plate from '@/components/Plate.astro'
-import Sprite from '@/components/Sprite.astro'
-import { typo } from '@/lib/typo'
+import KitImage from '@/components/KitImage.astro'
+import PaperEdge from '@/components/PaperEdge.astro'
+import Scene from '@/components/Scene.astro'
+import SpeechBubble from '@/components/SpeechBubble.astro'
+import { phrases } from '@/data/phrases'
 ---
-<section class="relative overflow-hidden bg-paper" aria-labelledby="hero-title">
-  <div class="mx-auto grid max-w-7xl items-center gap-10 px-5 pt-10 pb-12 md:px-8 md:pt-14 md:pb-16 lg:grid-cols-[1fr_1.05fr] lg:gap-16">
-    <div class="relative z-10">
-      <p class="mb-5 text-sm font-extrabold tracking-wider text-forest uppercase">Истории и игры о еде · 8–12 лет</p>
-      <h1 id="hero-title" class="max-w-xl font-display text-5xl leading-[1.06] font-bold tracking-tight sm:text-6xl xl:text-7xl">Три друга<br />на тарелке<span class="text-protein">.</span></h1>
-      <p class="mt-6 max-w-lg text-lg leading-relaxed md:text-xl">{typo('Одному тосту нужна компания. Познакомься с тремя друзьями, посмотри мультфильм и собери свой завтрак в игре.')}</p>
-      <div class="mt-7 flex flex-wrap gap-3">
-        <Button href="/multfilmy/film/" variant="green">Смотреть · 68 секунд <span aria-hidden="true">↗</span></Button>
-        <Button href="#games" variant="ghost">Выбрать игру <span aria-hidden="true">↓</span></Button>
-      </div>
-      <p class="mt-5 text-sm text-ink/70">Бесплатно · без регистрации · можно вместе со взрослыми</p>
+<Scene background="hero-garden" fill="bg-skyline" position="object-[50%_100%]" eager aria-labelledby="hero-title" class="pb-[2.2rem] sm:pb-[2.6rem]">
+  <div aria-hidden="true" class="stage">
+<KitImage name="sun" eager sizes="8rem" class="absolute top-[1.2rem] right-[1rem] w-[4.2rem] animate-bob sm:top-[1.6rem] sm:right-[3%] sm:w-[6rem]" />
     </div>
-    <div class="relative isolate mx-auto w-full max-w-xl rounded-t-[45%] rounded-b-[2rem] bg-mint/35 px-9 pt-10 pb-12 sm:px-12">
-      <img src="/img/garden.webp" alt="" class="absolute inset-0 -z-10 size-full rounded-[inherit] object-cover opacity-25" fetchpriority="high" width="2400" height="1350" />
-      <Plate veg={['cucumber', 'apple']} grain={['bread']} protein={['egg', 'tvorog']} class="mx-auto w-[85%]" />
-      <Sprite name="toast-1" alt="Мальчик с тостом" class="absolute bottom-0 -left-2 h-[58%] w-[31%]" eager />
-      <Sprite name="toast-4" alt="Девочка в жёлтом платье" class="absolute -right-1 bottom-0 h-[61%] w-[31%]" eager />
-      <p class="absolute top-1 left-3 max-w-[14rem] -rotate-3 rounded-xl bg-paper px-4 py-2 font-display text-lg shadow-paper sm:top-4">Тосту скучно одному!</p>
+  <div class="shell grid items-center gap-[0.5rem] pt-[2.2rem] sm:min-h-[36rem] sm:grid-cols-2 lg:grid-cols-[0.85fr_1.15fr] sm:gap-[2rem] sm:pt-[2.5rem]">
+    <div class="relative z-10">
+      <h1 id="hero-title" class="font-display text-[3.3rem] leading-[0.95] font-black tracking-tight text-forest-deep [text-shadow:0_0.15rem_0_rgb(255_252_244/0.7)] sm:text-[4rem] lg:text-[4.8rem]">Три друга <br />на тарелке</h1>
+      <p class="mt-[0.9rem] max-w-[31rem] text-[1.15rem] leading-snug font-extrabold text-forest-deep sm:text-[1.3rem]">Мультфильмы и игры о еде для детей <span class="whitespace-nowrap">8–12 лет</span></p>
+      <div class="mt-[1.5rem] flex flex-col items-start gap-[0.8rem]">
+        <Button href="/multfilmy/film/" icon="play">Смотреть мультфильм</Button>
+        <Button href="#games" variant="green" icon="gamepad">Выбрать игру</Button>
+      </div>
+    </div>
+    <div class="relative pt-[3.5rem] sm:pt-[4rem]">
+      <KitImage name="hero-family" eager sizes="(min-width: 640px) 55vw, 100vw" alt="Мальчик и девочка за столом. На тарелке овощи, крупа, хлеб и рыба, рядом яблоко и вода" class="relative w-full" />
+      <SpeechBubble phrase={phrases.heroGirl} tail="down-left" class="absolute top-0 right-[4%] max-w-[10.5rem] rotate-[-3deg] sm:right-[8%] sm:max-w-[12rem]" />
     </div>
   </div>
-</section>
+  <PaperEdge class="text-cream" />
+</Scene>

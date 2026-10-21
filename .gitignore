@@ -4,6 +4,7 @@ site/dist/
 site/public/
 site/.astro/
 site/src/data/menu.json
+site/src/data/kit.json
 video/build/
 
 # прежние версии роликов — локально (финальные лежат в video/out/)

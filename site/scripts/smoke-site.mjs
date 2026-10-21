@@ -14,7 +14,7 @@ const request = async (path, options = {}) => {
   }
   throw lastError
 }
-const paths = ['/', '/menu/', '/menu/b01/', '/menu/l05/', '/menu/d01/', '/igry/', '/multfilmy/', '/o-proekte/', '/sitemap.xml', '/video-sitemap.xml', '/robots.txt', ...videos.map((video) => `/multfilmy/${video.id}/`), ...games.map((game) => game.href)]
+const paths = ['/', '/menu/', '/menu/b01/', '/menu/l05/', '/menu/d01/', '/igry/', '/multfilmy/', '/roditelyam/', '/o-proekte/', '/sitemap.xml', '/video-sitemap.xml', '/robots.txt', ...videos.map((video) => `/multfilmy/${video.id}/`), ...games.map((game) => game.href)]
 for (const path of paths) {
   const response = await request(path)
   const content = await response.text()

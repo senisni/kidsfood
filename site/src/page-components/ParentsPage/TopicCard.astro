@@ -1,0 +1,22 @@
+---
+// Тема памятки: что рассказать, о чём спросить, почему это важно
+import { twMerge } from 'tailwind-merge'
+import Icon from '@/components/Icon.astro'
+import { typo } from '@/lib/typo'
+import type { GuideTopic } from './data/guide'
+
+interface Props { topic: GuideTopic; index: number; class?: string; [key: string]: unknown }
+const { topic, index, class: className, ...rest } = Astro.props
+const rows = [
+  { label: 'Рассказать', text: topic.tell },
+  { label: 'Спросить', text: topic.ask },
+  { label: 'Почему это важно', text: topic.why },
+]
+---
+<section id={topic.id} aria-labelledby={`${topic.id}-title`} class:list={[twMerge('scroll-mt-[5.5rem] rounded-[1.6rem] bg-paper p-[1.3rem] shadow-paper ring-2 ring-cream-deep/70 sm:p-[1.8rem]', className)]} {...rest}>
+  <h2 id={`${topic.id}-title`} class="flex items-start gap-[0.8rem] font-display text-[1.45rem] leading-tight font-black text-forest-deep sm:text-[1.7rem]"><span aria-hidden="true" class="grid size-[2.2rem] shrink-0 place-items-center rounded-full bg-forest text-[1rem] text-paper">{index}</span>{typo(topic.title)}</h2>
+  <dl class="mt-[1rem] grid gap-[0.8rem] sm:grid-cols-[10rem_1fr] sm:gap-x-[1.4rem]">
+    {rows.map((row) => <><dt class="font-display text-[0.95rem] font-extrabold text-terracotta">{row.label}</dt><dd class="text-[1.05rem] leading-relaxed text-ink/85">{typo(row.text)}</dd></>)}
+  </dl>
+  {topic.link && <a href={topic.link.href} class="mt-[1rem] inline-flex items-center gap-[0.4rem] font-bold text-forest underline underline-offset-4">{topic.link.label}<Icon name="arrow" /></a>}
+</section>

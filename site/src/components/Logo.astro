@@ -1,0 +1,20 @@
+---
+// Знак и название проекта: шапка, подвал
+import { twMerge } from 'tailwind-merge'
+import KitImage from '@/components/KitImage.astro'
+
+interface Props {
+  tone?: 'ink' | 'paper'
+  class?: string
+  [key: string]: unknown
+}
+
+const { tone = 'ink', class: className, ...rest } = Astro.props
+---
+
+<a href="/" aria-label="Три друга на тарелке — главная" class:list={[twMerge('inline-flex shrink-0 items-center gap-[0.6rem] font-display text-[1.6rem] leading-none font-black', tone === 'ink' ? 'text-forest-deep' : 'text-paper', className)]} {...rest}>
+  <span class="grid size-[2.9rem] place-items-center rounded-full bg-paper shadow-paper ring-2 ring-cream-deep">
+    <KitImage name="plate-three-friends" sizes="4rem" eager class="size-[2.4rem]" />
+  </span>
+  Три друга
+</a>

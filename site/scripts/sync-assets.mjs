@@ -5,6 +5,7 @@ import { dirname, extname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import sharp from 'sharp'
 import { games } from '../src/data/games.ts'
+import { videos } from '../src/data/videos.ts'
 import { execFileSync } from 'node:child_process'
 
 const site = join(dirname(fileURLToPath(import.meta.url)), '..')
@@ -78,6 +79,35 @@ await syncDir(join(root, 'docs/menu/img'), join(pub, 'menu'), {
   write: (source, target) => sharp(source).resize({ width: 1200 }).webp({ quality: 82 }).toFile(target),
 })
 
+// иллюстрации сайта — из ../assets/site-kit/paper-adventure-v1 (фоны и вырезки) в public/kit,
+// по два размера WebP; размеры пишутся в src/data/kit.json для width/height и srcset
+const kitRoot = join(root, 'assets/site-kit/paper-adventure-v1')
+const kitSets = [
+  { folder: 'backgrounds', widths: [1280, 2400], quality: 78 },
+  { folder: 'cutouts', widths: [640, 1280], quality: 84 },
+]
+const kit = {}
+await mkdir(join(pub, 'kit'), { recursive: true })
+let kitCount = 0
+for (const set of kitSets) {
+  for (const file of await readdir(join(kitRoot, set.folder))) {
+    if (extname(file) !== '.png') continue
+    const source = join(kitRoot, set.folder, file)
+    const name = file.replace(/\.png$/, '')
+    const { width, height } = await sharp(source).metadata()
+    const widths = [...new Set(set.widths.map((size) => Math.min(size, width)))]
+    for (const size of widths) {
+      const target = join(pub, 'kit', `${name}-${size}.webp`)
+      if (await isFresh(source, target)) continue
+      await sharp(source).resize({ width: size }).webp({ quality: set.quality, alphaQuality: 90, effort: 5 }).toFile(target)
+      kitCount++
+    }
+    kit[name] = { width, height, widths }
+  }
+}
+await writeFile(join(site, 'src/data/kit.json'), JSON.stringify(kit, null, 1))
+console.log(`public/kit: обновлено ${kitCount}, всего ${Object.keys(kit).length} картинок`)
+
 // фон первого экрана — сад без солнца
 const heroSource = join(root, 'video/sprites/garden-nosun.jpg')
 const heroTarget = join(pub, 'img/garden.webp')
@@ -86,6 +116,24 @@ if (!(await isFresh(heroSource, heroTarget))) await sharp(heroSource).resize({ w
 
 // robots.txt — сайт открыт для поиска
 await writeFile(join(pub, 'robots.txt'), `User-agent: *\nAllow: /\n\nSitemap: ${siteUrl}/sitemap.xml\nSitemap: ${siteUrl}/video-sitemap.xml\n`)
+// llms.txt — краткая карта сайта для ИИ-поиска (формат llmstxt.org); те же данные, что у карточек
+const llms = `# Три друга на тарелке
+
+> Бесплатные мультфильмы и игры о еде для детей 8–12 лет, семейное меню на 45 блюд и памятка для родителей. Главная идея: на тарелке три группы — овощи и фрукты (половина), крупы и хлеб, белок; без деления еды на «хорошую» и «плохую», без подсчёта калорий и требования доедать.
+
+## Для родителей и учителей
+- [Как кормить ребёнка 8–12 лет и объяснить пользу еды](${siteUrl}/roditelyam/): 11 тем для разговора — тарелка, завтрак, школа, клетчатка, вода, сладкое, сытость, перекус.
+- [О проекте и источники](${siteUrl}/o-proekte/): принципы и рекомендации, на которые опираемся (Canada’s Food Guide, Harvard Healthy Eating Plate, ВОЗ, AAP, Эллин Саттер).
+- [Семейное меню](${siteUrl}/menu/): 15 завтраков, 15 обедов и 15 ужинов с рецептами и планом заготовок.
+
+## Мультфильмы
+${videos.map((video) => `- [${video.title}](${siteUrl}/multfilmy/${video.id}/): ${video.length}. ${video.text}`).join('\n')}
+
+## Игры
+${games.map((game) => `- [${game.title}](${siteUrl}${game.href}): ${game.text}`).join('\n')}
+`
+await writeFile(join(pub, 'llms.txt'), llms)
+
 const revision = process.env.GITHUB_SHA ?? execFileSync('git', ['rev-parse', 'HEAD'], { cwd: root, encoding: 'utf8' }).trim()
 await writeFile(join(pub, 'version.json'), JSON.stringify({ revision }) + '\n')
 

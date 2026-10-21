@@ -1,0 +1,32 @@
+---
+// Картинка из site-kit: WebP в двух размерах, width/height берутся из исходника
+import { twMerge } from 'tailwind-merge'
+import { kitImage } from '@/data/kit'
+
+interface Props {
+  name: string
+  alt?: string
+  sizes?: string
+  eager?: boolean
+  class?: string
+  [key: string]: unknown
+}
+
+const { name, alt = '', sizes = '(min-width: 640px) 40vw, 90vw', eager = false, class: className, ...rest } = Astro.props
+const image = kitImage(name)
+---
+
+<img
+  src={image.src}
+  srcset={image.srcset}
+  sizes={sizes}
+  width={image.width}
+  height={image.height}
+  alt={alt}
+  loading={eager ? 'eager' : 'lazy'}
+  fetchpriority={eager ? 'high' : undefined}
+  decoding="async"
+  draggable="false"
+  class:list={[twMerge('pointer-events-none select-none object-contain', className)]}
+  {...rest}
+/>

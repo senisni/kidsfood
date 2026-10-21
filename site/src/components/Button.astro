@@ -1,25 +1,33 @@
 ---
 import { twMerge } from 'tailwind-merge'
+import Icon from '@/components/Icon.astro'
+import type { IconName } from '@/data/icons'
 
 interface Props {
   href: string
-  variant?: 'primary' | 'green' | 'ghost'
+  variant?: 'primary' | 'green' | 'paper'
+  size?: 'md' | 'sm'
+  icon?: IconName
+  arrow?: boolean
   class?: string
   [key: string]: unknown
 }
 
-const { href, variant = 'primary', class: className, ...rest } = Astro.props
+const { href, variant = 'primary', size = 'md', icon, arrow = false, class: className, ...rest } = Astro.props
 const tone = {
-  primary: 'bg-protein text-paper',
-  green: 'bg-veg text-paper',
-  ghost: 'bg-paper text-ink ring-1 ring-inset ring-ink/20',
+  primary: 'bg-terracotta text-paper shadow-[0_0.25rem_0_#97401f]',
+  green: 'bg-forest text-paper shadow-[0_0.25rem_0_#1f4a33]',
+  paper: 'bg-paper text-forest-deep shadow-[0_0.25rem_0_#d9c9a3]',
 }[variant]
+const scale = size === 'md' ? 'gap-[0.7rem] px-[1.6rem] py-[0.85rem] text-[1.15rem]' : 'gap-[0.4rem] px-[1rem] py-[0.4rem] text-[0.95rem]'
 ---
 
 <a
   href={href}
-  class:list={[twMerge('inline-flex items-center gap-2 rounded-2xl px-6 py-3 font-display text-lg font-bold shadow-paper transition hover:-translate-y-0.5 active:translate-y-0.5 md:text-xl', tone, className)]}
+  class:list={[twMerge('inline-flex items-center justify-center rounded-full font-display font-extrabold transition hover:-translate-y-0.5 active:translate-y-0.5 active:shadow-none', tone, scale, className)]}
   {...rest}
 >
+  {icon && <Icon name={icon} />}
   <slot />
+  {arrow && <Icon name="arrow" class="transition group-hover:translate-x-1" />}
 </a>

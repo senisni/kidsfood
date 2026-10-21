@@ -1,0 +1,487 @@
+{
+  "selectedReference": "reference-selected.png",
+  "layout": "layout-airy-approved.png",
+  "sourceSpecification": "prompts.json",
+  "generatedWith": "built-in imagegen",
+  "assets": [
+    {
+      "name": "layout-airy-approved",
+      "role": "design-reference",
+      "png": "layout-airy-approved.png",
+      "webp": "web/layout-airy-approved.webp",
+      "width": 727,
+      "height": 2164,
+      "channels": 3,
+      "hasAlpha": false,
+      "transparentFraction": 0,
+      "partialFraction": 0
+    },
+    {
+      "name": "hero-background",
+      "role": "background",
+      "png": "backgrounds/hero-garden.png",
+      "webp": "web/hero-background.webp",
+      "width": 2172,
+      "height": 724,
+      "channels": 3,
+      "hasAlpha": false,
+      "transparentFraction": 0,
+      "partialFraction": 0
+    },
+    {
+      "name": "cinema-background",
+      "role": "background",
+      "png": "backgrounds/cinema-night.png",
+      "webp": "web/cinema-background.webp",
+      "width": 1851,
+      "height": 850,
+      "channels": 3,
+      "hasAlpha": false,
+      "transparentFraction": 0,
+      "partialFraction": 0
+    },
+    {
+      "name": "games-background",
+      "role": "background",
+      "png": "backgrounds/games-garden.png",
+      "webp": "web/games-background.webp",
+      "width": 1774,
+      "height": 887,
+      "channels": 3,
+      "hasAlpha": false,
+      "transparentFraction": 0,
+      "partialFraction": 0
+    },
+    {
+      "name": "kitchen-background",
+      "role": "background",
+      "png": "backgrounds/kitchen-warm.png",
+      "webp": "web/kitchen-background.webp",
+      "width": 1774,
+      "height": 887,
+      "channels": 3,
+      "hasAlpha": false,
+      "transparentFraction": 0,
+      "partialFraction": 0
+    },
+    {
+      "name": "hero-family",
+      "role": "transparent-cutout",
+      "png": "cutouts/hero-family.png",
+      "webp": "web/hero-family.webp",
+      "width": 1513,
+      "height": 1039,
+      "channels": 4,
+      "hasAlpha": true,
+      "transparentFraction": 0.4282,
+      "partialFraction": 0.5708
+    },
+    {
+      "name": "plate-diagram",
+      "role": "transparent-cutout",
+      "png": "cutouts/plate-three-friends.png",
+      "webp": "web/plate-diagram.webp",
+      "width": 1254,
+      "height": 1254,
+      "channels": 4,
+      "hasAlpha": true,
+      "transparentFraction": 0.4336,
+      "partialFraction": 0.5657
+    },
+    {
+      "name": "game-plate",
+      "role": "transparent-cutout",
+      "png": "cutouts/game-plate.png",
+      "webp": "web/game-plate.webp",
+      "width": 1254,
+      "height": 1254,
+      "channels": 4,
+      "hasAlpha": true,
+      "transparentFraction": 0.4336,
+      "partialFraction": 0.5657,
+      "sourceSheet": "cutouts/plate-three-friends.png",
+      "crop": null
+    },
+    {
+      "name": "game-fiber",
+      "role": "transparent-cutout",
+      "png": "cutouts/game-fiber.png",
+      "webp": "web/game-fiber.webp",
+      "width": 571,
+      "height": 396,
+      "channels": 4,
+      "hasAlpha": true,
+      "transparentFraction": 0.2663,
+      "partialFraction": 0.7304,
+      "sourceSheet": "sheets/games-a.png",
+      "crop": {
+        "left": 627,
+        "top": 0,
+        "width": 627,
+        "height": 627
+      }
+    },
+    {
+      "name": "game-lunchbox",
+      "role": "transparent-cutout",
+      "png": "cutouts/game-lunchbox.png",
+      "webp": "web/game-lunchbox.webp",
+      "width": 551,
+      "height": 540,
+      "channels": 4,
+      "hasAlpha": true,
+      "transparentFraction": 0.2434,
+      "partialFraction": 0.7546,
+      "sourceSheet": "sheets/games-a.png",
+      "crop": {
+        "left": 0,
+        "top": 627,
+        "width": 627,
+        "height": 627
+      }
+    },
+    {
+      "name": "game-dishes",
+      "role": "transparent-cutout",
+      "png": "cutouts/game-dishes.png",
+      "webp": "web/game-dishes.webp",
+      "width": 558,
+      "height": 483,
+      "channels": 4,
+      "hasAlpha": true,
+      "transparentFraction": 0.3296,
+      "partialFraction": 0.6683,
+      "sourceSheet": "sheets/games-a.png",
+      "crop": {
+        "left": 627,
+        "top": 627,
+        "width": 627,
+        "height": 627
+      }
+    },
+    {
+      "name": "game-myths",
+      "role": "transparent-cutout",
+      "png": "cutouts/game-myths.png",
+      "webp": "web/game-myths.webp",
+      "width": 639,
+      "height": 454,
+      "channels": 4,
+      "hasAlpha": true,
+      "transparentFraction": 0.1958,
+      "partialFraction": 0.8033,
+      "sourceSheet": "sheets/games-b.png",
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 724,
+        "height": 724
+      }
+    },
+    {
+      "name": "game-tummy",
+      "role": "transparent-cutout",
+      "png": "cutouts/game-tummy.png",
+      "webp": "web/game-tummy.webp",
+      "width": 690,
+      "height": 513,
+      "channels": 4,
+      "hasAlpha": true,
+      "transparentFraction": 0.4531,
+      "partialFraction": 0.5458,
+      "sourceSheet": "sheets/games-b.png",
+      "crop": {
+        "left": 724,
+        "top": 0,
+        "width": 724,
+        "height": 724
+      }
+    },
+    {
+      "name": "game-snack",
+      "role": "transparent-cutout",
+      "png": "cutouts/game-snack.png",
+      "webp": "web/game-snack.webp",
+      "width": 626,
+      "height": 446,
+      "channels": 4,
+      "hasAlpha": true,
+      "transparentFraction": 0.2748,
+      "partialFraction": 0.7235,
+      "sourceSheet": "sheets/games-b.png",
+      "crop": {
+        "left": 1448,
+        "top": 0,
+        "width": 724,
+        "height": 724
+      }
+    },
+    {
+      "name": "boy-leaning",
+      "role": "transparent-cutout",
+      "png": "cutouts/boy-leaning.png",
+      "webp": "web/boy-leaning.webp",
+      "width": 519,
+      "height": 658,
+      "channels": 4,
+      "hasAlpha": true,
+      "transparentFraction": 0.24,
+      "partialFraction": 0.7589,
+      "sourceSheet": "sheets/characters.png",
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 640,
+        "height": 819
+      }
+    },
+    {
+      "name": "girl-leaning",
+      "role": "transparent-cutout",
+      "png": "cutouts/girl-leaning.png",
+      "webp": "web/girl-leaning.webp",
+      "width": 576,
+      "height": 583,
+      "channels": 4,
+      "hasAlpha": true,
+      "transparentFraction": 0.2906,
+      "partialFraction": 0.7087,
+      "sourceSheet": "sheets/characters.png",
+      "crop": {
+        "left": 640,
+        "top": 0,
+        "width": 640,
+        "height": 819
+      }
+    },
+    {
+      "name": "girl-thinking",
+      "role": "transparent-cutout",
+      "png": "cutouts/girl-thinking.png",
+      "webp": "web/girl-thinking.webp",
+      "width": 530,
+      "height": 574,
+      "channels": 4,
+      "hasAlpha": true,
+      "transparentFraction": 0.2938,
+      "partialFraction": 0.7056,
+      "sourceSheet": "sheets/characters.png",
+      "crop": {
+        "left": 1280,
+        "top": 0,
+        "width": 640,
+        "height": 819
+      }
+    },
+    {
+      "name": "sun",
+      "role": "transparent-cutout",
+      "png": "cutouts/sun.png",
+      "webp": "web/sun.webp",
+      "width": 314,
+      "height": 312,
+      "channels": 4,
+      "hasAlpha": true,
+      "transparentFraction": 0.185,
+      "partialFraction": 0.8135,
+      "sourceSheet": "sheets/decor.png",
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 443,
+        "height": 443
+      }
+    },
+    {
+      "name": "moon",
+      "role": "transparent-cutout",
+      "png": "cutouts/moon.png",
+      "webp": "web/moon.webp",
+      "width": 326,
+      "height": 299,
+      "channels": 4,
+      "hasAlpha": true,
+      "transparentFraction": 0.387,
+      "partialFraction": 0.6114,
+      "sourceSheet": "sheets/decor.png",
+      "crop": {
+        "left": 443,
+        "top": 0,
+        "width": 444,
+        "height": 443
+      }
+    },
+    {
+      "name": "fairy-lights",
+      "role": "transparent-cutout",
+      "png": "cutouts/fairy-lights.png",
+      "webp": "web/fairy-lights.webp",
+      "width": 426,
+      "height": 209,
+      "channels": 4,
+      "hasAlpha": true,
+      "transparentFraction": 0.5658,
+      "partialFraction": 0.4334,
+      "sourceSheet": "sheets/decor.png",
+      "crop": {
+        "left": 887,
+        "top": 0,
+        "width": 465,
+        "height": 443
+      }
+    },
+    {
+      "name": "lantern",
+      "role": "transparent-cutout",
+      "png": "cutouts/lantern.png",
+      "webp": "web/lantern.webp",
+      "width": 329,
+      "height": 339,
+      "channels": 4,
+      "hasAlpha": true,
+      "transparentFraction": 0.475,
+      "partialFraction": 0.5237,
+      "sourceSheet": "sheets/decor.png",
+      "crop": {
+        "left": 1352,
+        "top": 0,
+        "width": 422,
+        "height": 443
+      }
+    },
+    {
+      "name": "foliage-left",
+      "role": "transparent-cutout",
+      "png": "cutouts/foliage-left.png",
+      "webp": "web/foliage-left.webp",
+      "width": 403,
+      "height": 404,
+      "channels": 4,
+      "hasAlpha": true,
+      "transparentFraction": 0.2257,
+      "partialFraction": 0.7721,
+      "sourceSheet": "sheets/decor.png",
+      "crop": {
+        "left": 0,
+        "top": 443,
+        "width": 443,
+        "height": 444
+      }
+    },
+    {
+      "name": "foliage-right",
+      "role": "transparent-cutout",
+      "png": "cutouts/foliage-right.png",
+      "webp": "web/foliage-right.webp",
+      "width": 437,
+      "height": 394,
+      "channels": 4,
+      "hasAlpha": true,
+      "transparentFraction": 0.2862,
+      "partialFraction": 0.7122,
+      "sourceSheet": "sheets/decor.png",
+      "crop": {
+        "left": 443,
+        "top": 443,
+        "width": 473,
+        "height": 444
+      }
+    },
+    {
+      "name": "books-plant",
+      "role": "transparent-cutout",
+      "png": "cutouts/books-plant.png",
+      "webp": "web/books-plant.webp",
+      "width": 433,
+      "height": 396,
+      "channels": 4,
+      "hasAlpha": true,
+      "transparentFraction": 0.3723,
+      "partialFraction": 0.6258,
+      "sourceSheet": "sheets/decor.png",
+      "crop": {
+        "left": 916,
+        "top": 443,
+        "width": 433,
+        "height": 444
+      }
+    },
+    {
+      "name": "mustard-sprig",
+      "role": "transparent-cutout",
+      "png": "cutouts/mustard-sprig.png",
+      "webp": "web/mustard-sprig.webp",
+      "width": 375,
+      "height": 377,
+      "channels": 4,
+      "hasAlpha": true,
+      "transparentFraction": 0.5083,
+      "partialFraction": 0.4891,
+      "sourceSheet": "sheets/decor.png",
+      "crop": {
+        "left": 1349,
+        "top": 443,
+        "width": 425,
+        "height": 444
+      }
+    },
+    {
+      "name": "dish-syrniki",
+      "role": "transparent-cutout",
+      "png": "cutouts/dish-syrniki.png",
+      "webp": "web/dish-syrniki.webp",
+      "width": 597,
+      "height": 584,
+      "channels": 4,
+      "hasAlpha": true,
+      "transparentFraction": 0.1952,
+      "partialFraction": 0.8033,
+      "sourceSheet": "sheets/recipes.png",
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 724,
+        "height": 724
+      }
+    },
+    {
+      "name": "dish-plov",
+      "role": "transparent-cutout",
+      "png": "cutouts/dish-plov.png",
+      "webp": "web/dish-plov.webp",
+      "width": 601,
+      "height": 585,
+      "channels": 4,
+      "hasAlpha": true,
+      "transparentFraction": 0.1941,
+      "partialFraction": 0.8039,
+      "sourceSheet": "sheets/recipes.png",
+      "crop": {
+        "left": 724,
+        "top": 0,
+        "width": 724,
+        "height": 724
+      }
+    },
+    {
+      "name": "dish-fish",
+      "role": "transparent-cutout",
+      "png": "cutouts/dish-fish.png",
+      "webp": "web/dish-fish.webp",
+      "width": 596,
+      "height": 585,
+      "channels": 4,
+      "hasAlpha": true,
+      "transparentFraction": 0.1917,
+      "partialFraction": 0.8066,
+      "sourceSheet": "sheets/recipes.png",
+      "crop": {
+        "left": 1448,
+        "top": 0,
+        "width": 724,
+        "height": 724
+      }
+    }
+  ],
+  "failures": []
+}

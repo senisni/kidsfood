@@ -5,6 +5,5 @@ import { games } from '@/data/games'
 import { absoluteUrl, breadcrumbSchema } from '@/lib/seo'
 ---
 <BaseLayout title="Игры о еде для детей 8–12 лет — 7 бесплатных игр" description="Собери тарелку и ланч-бокс, найди клетчатку, разбери блюдо и научись замечать сытость. Семь игр о еде с подсказками, без регистрации и оплаты." schema={[breadcrumbSchema([{ name: 'Главная', href: '/' }, { name: 'Игры', href: '/igry/' }]), { '@type': 'ItemList', itemListElement: games.map((game, index) => ({ '@type': 'ListItem', position: index + 1, name: game.title, url: absoluteUrl(game.href) })) }]}>
-  <h1 class="mx-auto max-w-7xl px-5 pt-10 font-display text-4xl leading-tight font-bold md:px-8 md:text-5xl">Семь игр о еде</h1>
   <GamesSection standalone />
 </BaseLayout>

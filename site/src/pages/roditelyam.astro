@@ -1,0 +1,65 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import Breadcrumbs from '@/components/Breadcrumbs.astro'
+import Button from '@/components/Button.astro'
+import KitImage from '@/components/KitImage.astro'
+import TopicCard from '@/page-components/ParentsPage/TopicCard.astro'
+import { summary, talkRules, topics } from '@/page-components/ParentsPage/data/guide'
+import { sources } from '@/data/facts'
+import { absoluteUrl, breadcrumbSchema, siteName } from '@/lib/seo'
+import { typo } from '@/lib/typo'
+
+const crumbs = [{ name: 'Главная', href: '/' }, { name: 'Родителям', href: '/roditelyam/' }]
+const title = 'Как кормить ребёнка 8–12 лет и объяснить пользу еды — памятка'
+const description = 'Чем кормить детей на завтрак, в школу и на ужин, как объяснить пользу разной еды и клетчатки, нужно ли доедать. 11 тем для разговора с ребёнком и источники.'
+const article = {
+  '@type': 'Article',
+  '@id': absoluteUrl('/roditelyam/#article'),
+  headline: 'Как кормить ребёнка 8–12 лет и объяснить пользу еды',
+  description,
+  inLanguage: 'ru',
+  datePublished: '2026-10-21',
+  dateModified: '2026-10-21',
+  image: absoluteUrl('/img/social.jpg'),
+  author: { '@type': 'Organization', name: siteName, url: absoluteUrl('/') },
+  publisher: { '@type': 'Organization', name: siteName, url: absoluteUrl('/') },
+  about: ['детское питание', 'тарелка здорового питания', 'клетчатка', 'голод и сытость'],
+  audience: { '@type': 'PeopleAudience', audienceType: 'Родители и учителя детей 8–12 лет' },
+  citation: sources.map((source) => source.href),
+  hasPart: topics.map((topic) => ({ '@type': 'WebPageElement', name: topic.title, url: absoluteUrl(`/roditelyam/#${topic.id}`) })),
+}
+---
+<BaseLayout title={title} description={description} schema={[article, breadcrumbSchema(crumbs)]}>
+  <article id="article">
+    <header class="relative overflow-hidden bg-cream pt-[2rem] pb-[2.4rem]">
+      <div class="shell relative grid items-center gap-[1.5rem] sm:grid-cols-[1.4fr_1fr]">
+        <div>
+          <Breadcrumbs items={crumbs} />
+          <h1 class="font-display text-[2.4rem] leading-[1.02] font-black text-forest-deep sm:text-[3.2rem]">Как кормить ребёнка <span class="whitespace-nowrap">8–12 лет</span> {typo('и объяснить пользу еды')}</h1>
+          <p class="mt-[1rem] max-w-[40rem] text-[1.15rem] leading-relaxed">{typo('Памятка для родителей и учителей. Главное помещается в пять пунктов, а ниже — 11 тем для разговора: что рассказать, о чём спросить и почему это работает.')}</p>
+        </div>
+        <KitImage name="plate-three-friends" eager sizes="(min-width: 640px) 22rem, 60vw" alt="Тарелка: половина — овощи, четверть — крупы и хлеб, четверть — белок" class="mx-auto w-[60%] sm:w-[80%]" />
+      </div>
+      <div class="shell mt-[1.6rem]">
+        <section aria-labelledby="summary-title" class="rounded-[1.6rem] bg-sage/45 p-[1.3rem] sm:p-[1.8rem]">
+          <h2 id="summary-title" class="font-display text-[1.5rem] font-black text-forest-deep">Коротко</h2>
+          <ul class="mt-[0.8rem] grid gap-[0.6rem] text-[1.05rem] leading-relaxed">{summary.map((line) => <li class="flex gap-[0.6rem]"><span aria-hidden="true" class="mt-[0.55rem] size-[0.55rem] shrink-0 rounded-full bg-forest"></span>{typo(line)}</li>)}</ul>
+        </section>
+        <nav aria-label="Темы памятки" class="mt-[1.4rem]"><ol class="flex flex-wrap gap-[0.5rem]">{topics.map((topic) => <li><a href={`#${topic.id}`} class="inline-block rounded-full bg-paper px-[0.9rem] py-[0.4rem] text-[0.9rem] font-bold text-forest-deep shadow-paper hover:bg-sage/40">{typo(topic.title)}</a></li>)}</ol></nav>
+      </div>
+    </header>
+    <div class="shell grid gap-[1.2rem] pb-[2.4rem]">{topics.map((topic, index) => <TopicCard topic={topic} index={index + 1} />)}</div>
+    <section aria-labelledby="rules-title" class="bg-peach/60 py-[2.4rem]">
+      <div class="shell">
+        <h2 id="rules-title" class="font-display text-[2rem] font-black text-forest-deep sm:text-[2.4rem]">Как говорить о еде</h2>
+        <ul class="mt-[1.2rem] grid gap-[1rem] sm:grid-cols-2 lg:grid-cols-4">{talkRules.map((rule) => <li class="rounded-[1.3rem] bg-paper p-[1.2rem] shadow-paper"><h3 class="font-display text-[1.15rem] leading-tight font-black">{typo(rule.title)}</h3><p class="mt-[0.4rem] leading-relaxed text-ink/80">{typo(rule.text)}</p></li>)}</ul>
+        <div class="mt-[1.6rem] flex flex-wrap gap-[0.8rem]"><Button href="/multfilmy/film/" icon="play">Посмотреть вместе</Button><Button href="/igry/" variant="green" icon="gamepad">Выбрать игру</Button><Button href="/menu/" variant="paper" arrow>Семейное меню</Button></div>
+      </div>
+    </section>
+    <section id="sources" aria-labelledby="sources-title" class="shell scroll-mt-[5rem] py-[2.4rem] pb-[3.4rem]">
+      <h2 id="sources-title" class="font-display text-[1.6rem] font-black text-forest-deep">На что опирается памятка</h2>
+      <p class="mt-[0.6rem] max-w-[46rem] leading-relaxed text-ink/80">{typo('Схема тарелки Canada’s Food Guide и Гарвардской школы общественного здравоохранения, рекомендации ВОЗ о сахаре, материалы Американской академии педиатрии и подход Эллин Саттер к кормлению без давления. Памятка знакомит с едой и не заменяет консультацию врача; особые потребности и аллергии обсуждают со специалистом.')}</p>
+      <ul class="mt-[1rem] grid gap-[0.5rem]">{sources.map((source) => <li><a href={source.href} target="_blank" rel="noopener noreferrer" class="font-bold text-water underline underline-offset-4">{source.name} ↗</a></li>)}</ul>
+    </section>
+  </article>
+</BaseLayout>

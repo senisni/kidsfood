@@ -14,7 +14,9 @@
 
 @theme {
   --font-sans: 'Nunito', ui-sans-serif, system-ui, sans-serif;
-  --font-display: 'Balsamiq', 'Nunito', ui-sans-serif, sans-serif;
+  /* заголовки — Nunito Black: круглый, плотный, с кириллицей; реплики героев — рукописный Balsamiq */
+  --font-display: 'Nunito', ui-sans-serif, system-ui, sans-serif;
+  --font-hand: 'Balsamiq', 'Nunito', ui-sans-serif, sans-serif;
 
   /* палитра бумажного коллажа */
   --color-cream: #f8f3e7;
@@ -22,6 +24,15 @@
   --color-paper: #fffcf4;
   --color-ink: #2c3a33;
   --color-forest: #2f6b4a;
+  --color-forest-deep: #1f4a33;
+  --color-pine: #173a2a;
+  --color-night: #0d2f45;
+  --color-sage: #c3d38a;
+  --color-peach: #fcdcb3;
+  --color-skyline: #86d6da;
+  --color-terracotta: #c9582c;
+  --color-wood: #7a5634;
+  --color-wood-dark: #4f3520;
   --color-mint: #9fd3cf;
   --color-sky: #cfe7ee;
   --color-pink: #f0b9b0;
@@ -54,6 +65,26 @@
   }
 }
 
+/* контентная колонка: на ≥1440 px root перестаёт расти, поэтому ширина фиксируется сама */
+@utility shell {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 76rem;
+  padding-inline: 1rem;
+  @media (width >= 40rem) { padding-inline: 2.5rem; }
+}
+
+/* слой декора секции: на очень широких экранах вырезки держатся у контента, а не у краёв окна */
+@utility stage {
+  position: absolute;
+  inset-block: 0;
+  left: 50%;
+  width: 100%;
+  max-width: 100rem;
+  translate: -50% 0;
+  pointer-events: none;
+}
+
 @utility z-sticky { z-index: var(--z-index-sticky); }
 @utility z-overlay { z-index: var(--z-index-overlay); }
 @utility z-modal { z-index: var(--z-index-modal); }
@@ -74,7 +105,18 @@
 }
 
 @layer base {
-  html { scroll-behavior: smooth; }
+  /*
+   * Резиновый rem. Медиазапросы в Tailwind считаются от 16 px браузера, а не от этого значения.
+   * 0–639 px — мобильная вёрстка, пропорционально: 1rem = 16 px на ширине 375 px (27 px на 639).
+   * 640–1439 px — вёрстка sm+, линейно от 12 до 16 px. Чистая пропорция дала бы 7 px текста на 640 px.
+   * ≥1440 px — 16 px, дальше не растёт; широкие фоны дополняются цветом секции.
+   */
+  html {
+    scroll-behavior: smooth;
+    font-size: calc(100vw / 23.4375);
+    @media (width >= 40rem) { font-size: calc(12px + (100vw - 640px) * 0.005); }
+    @media (width >= 90rem) { font-size: 16px; }
+  }
   body { @apply bg-cream font-sans font-semibold text-ink antialiased; }
   summary { cursor: pointer; }
   img { max-width: 100%; }
