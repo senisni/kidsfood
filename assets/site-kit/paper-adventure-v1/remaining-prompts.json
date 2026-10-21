@@ -1,0 +1,157 @@
+{
+  "method": "built-in imagegen",
+  "note": "Requested sizes in jobs; actual native dimensions in manifest.json. No upscaling.",
+  "jobs": [
+    {
+      "path": "cutouts/logo-mark.png",
+      "alpha": true,
+      "width": 1024,
+      "height": 1024,
+      "prompt": "Use case: logo-brand. Make one isolated SMALL SIMPLE FOOD ICON ONLY. Reference image is FOOD MATERIAL AND COLORS ONLY. Do not reproduce the entire reference composition. NO HUMANS, NO FACES, NO CHARACTERS, NO TABLE OR LANDSCAPE. Flat matte cut paper collage, quiet texture, crisp scissor edges, subtle short contact shadows. No letters or numbers. ONE round plate logo mark, top-down, half green vegetables broccoli and cucumber, quarter mustard grains and toast, quarter terracotta fish and egg. One leaf peeking rim. Bold simple shapes legible at 32px, thick ivory rim, centered 12% transparent margins.",
+      "name": "logo-mark"
+    },
+    {
+      "path": "backgrounds/social-cover.png",
+      "alpha": false,
+      "width": 1200,
+      "height": 630,
+      "prompt": "Use case: illustration-story. Generate ONE production website illustration, NOT a screenshot or layout. References: image1 selected visual style only, image2 paper world, image3 exact boy identity, image4 exact girl identity. Project Three friends on a plate, ages 8–12. Flat matte cut-paper collage, gentle scissor edges, short soft contact shadows, sparse quiet paper fibers. European picture-book faces small kind eyes, no anime or toddlers. Boy brown messy hair cream small-sun T-shirt green shorts. Girl pale pink bob daisy clip yellow dress. Food simple flat paper shapes. Mint-blue forest sage ivory mustard terracotta peach; navy teal evening. No text letters numbers UI watermarks. No 3D plastic, embossing, photographic food or grain noise. Wide social preview. Boy and girl at small paper table with three-part meal plate in sunny garden. Characters entirely on RIGHT HALF. LEFT HALF only calm mint sky and distant sage hills, reserved for title. No letters.",
+      "name": "social-cover"
+    },
+    {
+      "path": "backgrounds/poster-film.png",
+      "alpha": false,
+      "width": 1920,
+      "height": 1080,
+      "prompt": "Use case: illustration-story. Generate ONE production website illustration, NOT a screenshot or layout. References: image1 selected visual style only, image2 paper world, image3 exact boy identity, image4 exact girl identity. Project Three friends on a plate, ages 8–12. Flat matte cut-paper collage, gentle scissor edges, short soft contact shadows, sparse quiet paper fibers. European picture-book faces small kind eyes, no anime or toddlers. Boy brown messy hair cream small-sun T-shirt green shorts. Girl pale pink bob daisy clip yellow dress. Food simple flat paper shapes. Mint-blue forest sage ivory mustard terracotta peach; navy teal evening. No text letters numbers UI watermarks. No 3D plastic, embossing, photographic food or grain noise. 16:9 movie poster frame. Boy holding one lonely toast, girl kindly offering broccoli and egg, warm paper kitchen window behind. Upper two-thirds story, bottom third calm uncluttered table area reserved for caption. No text.",
+      "name": "poster-film"
+    },
+    {
+      "path": "backgrounds/poster-fiber.png",
+      "alpha": false,
+      "width": 1920,
+      "height": 1080,
+      "prompt": "16:9 children's film poster. One circular storybook PORTAL filled with a magical paper vegetable garden, five tiny smiling colorful microbe gardeners and a small paper train. Flat ivory circular frame on calm sage meadow. Frame is a symbolic tummy WINDOW only, NOT a body: NO TORSO, NO HEADLESS BODY, NO ANATOMY, NO HUMAN CHARACTERS. Lower third calm sage for a title, no text.",
+      "name": "poster-fiber"
+    },
+    {
+      "path": "backgrounds/poster-dinner.png",
+      "alpha": false,
+      "width": 1920,
+      "height": 1080,
+      "prompt": "Use case: illustration-story. Generate ONE production website illustration, NOT a screenshot or layout. References: image1 selected visual style only, image2 paper world, image3 exact boy identity, image4 exact girl identity. Project Three friends on a plate, ages 8–12. Flat matte cut-paper collage, gentle scissor edges, short soft contact shadows, sparse quiet paper fibers. European picture-book faces small kind eyes, no anime or toddlers. Boy brown messy hair cream small-sun T-shirt green shorts. Girl pale pink bob daisy clip yellow dress. Food simple flat paper shapes. Mint-blue forest sage ivory mustard terracotta peach; navy teal evening. No text letters numbers UI watermarks. No 3D plastic, embossing, photographic food or grain noise. 16:9 movie poster frame. Evening family table, girl hand on tummy smiling comfortably full, boy beside her, small warm lamp and navy evening window. No pressure to finish food. Bottom third calm for overlay. No text.",
+      "name": "poster-dinner"
+    },
+    {
+      "path": "backgrounds/page-cinema.png",
+      "alpha": false,
+      "width": 2400,
+      "height": 700,
+      "prompt": "Use case: illustration-story. Generate ONE production website illustration, NOT a screenshot or layout. References: image1 selected visual style only, image2 paper world, image3 exact boy identity, image4 exact girl identity. Project Three friends on a plate, ages 8–12. Flat matte cut-paper collage, gentle scissor edges, short soft contact shadows, sparse quiet paper fibers. European picture-book faces small kind eyes, no anime or toddlers. Boy brown messy hair cream small-sun T-shirt green shorts. Girl pale pink bob daisy clip yellow dress. Food simple flat paper shapes. Mint-blue forest sage ivory mustard terracotta peach; navy teal evening. No text letters numbers UI watermarks. No 3D plastic, embossing, photographic food or grain noise. Extremely wide LOW header strip 24:7. Navy teal evening sky, delicate fairy light string near top, foliage restricted to outer LEFT and RIGHT 15%, calm uncluttered middle 70% for title. No screens or people.",
+      "name": "page-cinema"
+    },
+    {
+      "path": "backgrounds/page-kitchen.png",
+      "alpha": false,
+      "width": 2400,
+      "height": 700,
+      "prompt": "Use case: illustration-story. Generate ONE production website illustration, NOT a screenshot or layout. References: image1 selected visual style only, image2 paper world, image3 exact boy identity, image4 exact girl identity. Project Three friends on a plate, ages 8–12. Flat matte cut-paper collage, gentle scissor edges, short soft contact shadows, sparse quiet paper fibers. European picture-book faces small kind eyes, no anime or toddlers. Boy brown messy hair cream small-sun T-shirt green shorts. Girl pale pink bob daisy clip yellow dress. Food simple flat paper shapes. Mint-blue forest sage ivory mustard terracotta peach; navy teal evening. No text letters numbers UI watermarks. No 3D plastic, embossing, photographic food or grain noise. Extremely wide LOW header strip 24:7. Warm peach kitchen wall, short wooden counter at very bottom, little shelf and jug at FAR RIGHT only. Left and middle 65% calm peach wall for title. No food, no people.",
+      "name": "page-kitchen"
+    },
+    {
+      "path": "backgrounds/page-reading.png",
+      "alpha": false,
+      "width": 2400,
+      "height": 700,
+      "prompt": "Use case: illustration-story. Generate ONE production website illustration, NOT a screenshot or layout. References: image1 selected visual style only, image2 paper world, image3 exact boy identity, image4 exact girl identity. Project Three friends on a plate, ages 8–12. Flat matte cut-paper collage, gentle scissor edges, short soft contact shadows, sparse quiet paper fibers. European picture-book faces small kind eyes, no anime or toddlers. Boy brown messy hair cream small-sun T-shirt green shorts. Girl pale pink bob daisy clip yellow dress. Food simple flat paper shapes. Mint-blue forest sage ivory mustard terracotta peach; navy teal evening. No text letters numbers UI watermarks. No 3D plastic, embossing, photographic food or grain noise. Extremely wide LOW header strip 24:7. Cozy ivory reading corner wall, low bookshelf and potted plant at FAR RIGHT only, small rug edge bottom. LEFT 65% completely calm ivory for title. No people.",
+      "name": "page-reading"
+    },
+    {
+      "path": "cutouts/family-reading.png",
+      "alpha": true,
+      "width": 1400,
+      "height": 1000,
+      "prompt": "Use case: illustration-story. Generate ONE production website illustration, NOT a screenshot or layout. References: image1 selected visual style only, image2 paper world, image3 exact boy identity, image4 exact girl identity. Project Three friends on a plate, ages 8–12. Flat matte cut-paper collage, gentle scissor edges, short soft contact shadows, sparse quiet paper fibers. European picture-book faces small kind eyes, no anime or toddlers. Boy brown messy hair cream small-sun T-shirt green shorts. Girl pale pink bob daisy clip yellow dress. Food simple flat paper shapes. Mint-blue forest sage ivory mustard terracotta peach; navy teal evening. No text letters numbers UI watermarks. No 3D plastic, embossing, photographic food or grain noise. ONE isolated waist-up group: neutral adult parent wearing soft sage cardigan sitting with exact boy and girl, all naturally looking at an open picture book with simple three-part plate drawing, no letters. Natural friendly moment. All hands book and heads fully visible, generous transparent margins.",
+      "name": "family-reading"
+    },
+    {
+      "path": "cutouts/girl-waving.png",
+      "alpha": true,
+      "width": 1024,
+      "height": 1024,
+      "prompt": "Use case: illustration-story. Generate ONE production website illustration, NOT a screenshot or layout. References: image1 selected visual style only, image2 paper world, image3 exact boy identity, image4 exact girl identity. Project Three friends on a plate, ages 8–12. Flat matte cut-paper collage, gentle scissor edges, short soft contact shadows, sparse quiet paper fibers. European picture-book faces small kind eyes, no anime or toddlers. Boy brown messy hair cream small-sun T-shirt green shorts. Girl pale pink bob daisy clip yellow dress. Food simple flat paper shapes. Mint-blue forest sage ivory mustard terracotta peach; navy teal evening. No text letters numbers UI watermarks. No 3D plastic, embossing, photographic food or grain noise. ONE isolated exact girl waist-up, waving with one hand, other hand holding red paper apple, cheerful. Pale pink bob daisy clip light yellow dress. All hands and apple fully inside canvas, generous transparent margins.",
+      "name": "girl-waving"
+    },
+    {
+      "path": "cutouts/boy-pointing.png",
+      "alpha": true,
+      "width": 1024,
+      "height": 1024,
+      "prompt": "Use case: illustration-story. Generate ONE production website illustration, NOT a screenshot or layout. References: image1 selected visual style only, image2 paper world, image3 exact boy identity, image4 exact girl identity. Project Three friends on a plate, ages 8–12. Flat matte cut-paper collage, gentle scissor edges, short soft contact shadows, sparse quiet paper fibers. European picture-book faces small kind eyes, no anime or toddlers. Boy brown messy hair cream small-sun T-shirt green shorts. Girl pale pink bob daisy clip yellow dress. Food simple flat paper shapes. Mint-blue forest sage ivory mustard terracotta peach; navy teal evening. No text letters numbers UI watermarks. No 3D plastic, embossing, photographic food or grain noise. ONE isolated exact boy waist-up, pointing toward IMAGE RIGHT with one hand and holding a small folded paper map in other, big kind smile. Brown messy hair cream sun T-shirt. No letters on map. All hands visible and inside canvas with generous transparent margins.",
+      "name": "boy-pointing"
+    },
+    {
+      "path": "cutouts/friend-veg.png",
+      "alpha": true,
+      "width": 512,
+      "height": 512,
+      "prompt": "Use case: logo-brand. Make one isolated SMALL SIMPLE FOOD ICON ONLY. Reference image is FOOD MATERIAL AND COLORS ONLY. Do not reproduce the entire reference composition. NO HUMANS, NO FACES, NO CHARACTERS, NO TABLE OR LANDSCAPE. Flat matte cut paper collage, quiet texture, crisp scissor edges, subtle short contact shadows. No letters or numbers. ONE small round sage paper disc icon, centered broccoli and red apple cutouts. Bold few simple shapes, clean readable silhouette, 12% transparent outer margin. No characters or text.",
+      "name": "friend-veg"
+    },
+    {
+      "path": "cutouts/friend-grain.png",
+      "alpha": true,
+      "width": 512,
+      "height": 512,
+      "prompt": "Use case: logo-brand. Make one isolated SMALL SIMPLE FOOD ICON ONLY. Reference image is FOOD MATERIAL AND COLORS ONLY. Do not reproduce the entire reference composition. NO HUMANS, NO FACES, NO CHARACTERS, NO TABLE OR LANDSCAPE. Flat matte cut paper collage, quiet texture, crisp scissor edges, subtle short contact shadows. No letters or numbers. ONE small round mustard paper disc icon, centered toast slice with a few grain cutouts. Bold few simple shapes, clean readable silhouette, 12% transparent outer margin. No characters or text.",
+      "name": "friend-grain"
+    },
+    {
+      "path": "cutouts/friend-protein.png",
+      "alpha": true,
+      "width": 512,
+      "height": 512,
+      "prompt": "Use case: logo-brand. Make one isolated SMALL SIMPLE FOOD ICON ONLY. Reference image is FOOD MATERIAL AND COLORS ONLY. Do not reproduce the entire reference composition. NO HUMANS, NO FACES, NO CHARACTERS, NO TABLE OR LANDSCAPE. Flat matte cut paper collage, quiet texture, crisp scissor edges, subtle short contact shadows. No letters or numbers. ONE small round terracotta paper disc icon, centered simple fish cutout, half egg and one bean. Bold few simple shapes, clean readable silhouette, 12% transparent outer margin. No characters or text.",
+      "name": "friend-protein"
+    },
+    {
+      "path": "cutouts/path-dots.png",
+      "alpha": true,
+      "width": 2400,
+      "height": 600,
+      "prompt": "Use case: illustration-story. Generate ONE production website illustration, NOT a screenshot or layout. References: image1 selected visual style only, image2 paper world, image3 exact boy identity, image4 exact girl identity. Project Three friends on a plate, ages 8–12. Flat matte cut-paper collage, gentle scissor edges, short soft contact shadows, sparse quiet paper fibers. European picture-book faces small kind eyes, no anime or toddlers. Boy brown messy hair cream small-sun T-shirt green shorts. Girl pale pink bob daisy clip yellow dress. Food simple flat paper shapes. Mint-blue forest sage ivory mustard terracotta peach; navy teal evening. No text letters numbers UI watermarks. No 3D plastic, embossing, photographic food or grain noise. ONE long 4:1 gently winding horizontal dotted route made only of small ivory paper ovals across transparent canvas, with exactly four tiny yellow paper flowers along it. Route curves up and down gently, all dots inside canvas. Nothing else, no landscape or characters.",
+      "name": "path-dots"
+    },
+    {
+      "path": "backgrounds/hero-garden-portrait.png",
+      "alpha": false,
+      "width": 1080,
+      "height": 1600,
+      "prompt": "Use case: illustration-story. Generate ONE production website illustration, NOT a screenshot or layout. References: image1 selected visual style only, image2 paper world, image3 exact boy identity, image4 exact girl identity. Project Three friends on a plate, ages 8–12. Flat matte cut-paper collage, gentle scissor edges, short soft contact shadows, sparse quiet paper fibers. European picture-book faces small kind eyes, no anime or toddlers. Boy brown messy hair cream small-sun T-shirt green shorts. Girl pale pink bob daisy clip yellow dress. Food simple flat paper shapes. Mint-blue forest sage ivory mustard terracotta peach; navy teal evening. No text letters numbers UI watermarks. No 3D plastic, embossing, photographic food or grain noise. Portrait mobile website background 27:40, same sunny paper garden as world reference, upper 45% calm mint sky for overlay title, layered sage hills and cream winding path in lower half, restrained plants at outer bottom corners. No people, no food, no text.",
+      "name": "hero-garden-portrait"
+    },
+    {
+      "path": "backgrounds/garden-autumn.png",
+      "alpha": false,
+      "width": 2400,
+      "height": 900,
+      "prompt": "Wide paper garden in gentle autumn: mustard and rust leaves framing outer edges, sage distant hills, small ivory winding path, calm mint sky middle and left for website headings. No people, no food, no text.",
+      "name": "garden-autumn"
+    },
+    {
+      "path": "backgrounds/garden-winter.png",
+      "alpha": false,
+      "width": 2400,
+      "height": 900,
+      "prompt": "Wide winter paper garden: layered ivory snow hills, forest teal evergreens at outer edges, small winding pale blue path, calm frosty mint sky middle and left for website headings. Quiet paper snowflakes only at edges. No people, no food, no text.",
+      "name": "garden-winter"
+    }
+  ],
+  "references": [
+    "reference-selected.png",
+    "../../paper-collage/world-01-garden.png",
+    "../../paper-collage/boy-summer-poses.png",
+    "../../paper-collage/girl-summer-pink-poses.png"
+  ],
+  "iconReference": "cutouts/plate-three-friends.png"
+}

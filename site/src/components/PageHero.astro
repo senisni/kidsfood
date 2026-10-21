@@ -1,0 +1,40 @@
+---
+// Шапка внутренней страницы: широкий бумажный фон, крошки, h1, вводный текст, вырезка справа.
+// Текст лежит на бумажной плашке, чтобы читаться поверх любого фона. tone="night" — тёмная плашка и светлый текст. Кнопки и прочее — в слот.
+import { twMerge } from 'tailwind-merge'
+import Breadcrumbs from '@/components/Breadcrumbs.astro'
+import KitImage from '@/components/KitImage.astro'
+import Scene from '@/components/Scene.astro'
+import { typo } from '@/lib/typo'
+
+interface Props {
+  background: string
+  fill: string
+  crumbs: { name: string; href: string }[]
+  title: string
+  kicker?: string
+  lead?: string
+  image?: string
+  imageAlt?: string
+  tone?: 'day' | 'night'
+  position?: string
+  class?: string
+  [key: string]: unknown
+}
+
+const { background, fill, crumbs, title, kicker, lead, image, imageAlt = '', tone = 'day', position = 'object-right-bottom', class: className, ...rest } = Astro.props
+const night = tone === 'night'
+---
+
+<Scene background={background} fill={fill} position={position} eager class={twMerge('pt-[1.6rem] pb-[2.4rem] sm:pt-[2rem] sm:pb-[3rem]', night ? 'text-paper' : 'text-forest-deep', className)} {...rest}>
+  <div class:list={['shell grid items-center gap-[1.2rem]', image && 'sm:grid-cols-[1.5fr_1fr]']}>
+    <div class:list={['relative z-10 max-w-[46rem] justify-self-start rounded-[1.6rem] p-[1.2rem] shadow-paper backdrop-blur-[2px] sm:p-[1.6rem]', night ? 'bg-night/75' : 'bg-paper/90']}>
+      <Breadcrumbs items={crumbs} />
+      {kicker && <p class:list={['font-display text-[1.05rem] font-extrabold', night ? 'text-sand' : 'text-terracotta']}>{kicker}</p>}
+      <h1 class="mt-[0.2rem] max-w-[44rem] font-display text-[2.4rem] leading-[1.02] font-black sm:text-[3.2rem]">{typo(title)}</h1>
+      {lead && <p class:list={['mt-[0.9rem] max-w-[40rem] text-[1.1rem] leading-relaxed', night ? 'text-paper/85' : 'text-ink/85']}>{typo(lead)}</p>}
+      <slot />
+    </div>
+    {image && <KitImage name={image} alt={imageAlt} eager sizes="(min-width: 640px) 30vw, 70vw" class="mx-auto w-[70%] drop-shadow-[0_0.4rem_0.5rem_rgb(60_40_10/0.2)] sm:w-full sm:max-w-[24rem]" />}
+  </div>
+</Scene>

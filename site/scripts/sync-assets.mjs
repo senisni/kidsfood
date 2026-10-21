@@ -137,9 +137,20 @@ await writeFile(join(pub, 'llms.txt'), llms)
 const revision = process.env.GITHUB_SHA ?? execFileSync('git', ['rev-parse', 'HEAD'], { cwd: root, encoding: 'utf8' }).trim()
 await writeFile(join(pub, 'version.json'), JSON.stringify({ revision }) + '\n')
 
-const socialSource = join(root, 'video/out/web/three-friends.jpg')
-const socialTarget = join(pub, 'img/social.jpg')
-if (!(await isFresh(socialSource, socialTarget))) await sharp(socialSource).resize(1200, 630, { fit: 'cover' }).jpeg({ quality: 88 }).toFile(socialTarget)
+// обложка ссылок, иконки вкладки и постеры мультфильмов — из site-kit
+const kitFile = (folder, name) => join(kitRoot, folder, `${name}.png`)
+const derived = [
+  { source: kitFile('backgrounds', 'social-cover'), target: 'img/social.jpg', make: (image) => image.resize(1200, 630, { fit: 'cover' }).jpeg({ quality: 86, mozjpeg: true }) },
+  { source: kitFile('cutouts', 'logo-mark'), target: 'favicon.png', make: (image) => image.trim().resize(64, 64, { fit: 'contain', background: { r: 0, g: 0, b: 0, alpha: 0 } }).png() },
+  { source: kitFile('cutouts', 'logo-mark'), target: 'apple-touch-icon.png', make: (image) => image.trim().resize(160, 160, { fit: 'contain', background: '#fffcf4' }).extend({ top: 10, bottom: 10, left: 10, right: 10, background: '#fffcf4' }).flatten({ background: '#fffcf4' }).png() },
+  ...videos.map((video) => ({ source: kitFile('backgrounds', `poster-${video.id}`), target: `media/poster-${video.id}.jpg`, make: (image) => image.resize(1280, 720, { fit: 'cover' }).jpeg({ quality: 84, mozjpeg: true }) })),
+]
+for (const item of derived) {
+  const target = join(pub, item.target)
+  await mkdir(dirname(target), { recursive: true })
+  if (!(await isFresh(item.source, target))) await item.make(sharp(item.source)).toFile(target)
+}
+console.log(`обложка, иконки и постеры: ${derived.length}`)
 
 // данные меню для страницы /menu: берём из docs/menu/menu.html (массив D), чтобы не дублировать
 const menuHtml = await readFile(join(root, 'docs/menu/menu.html'), 'utf8')

@@ -1,5 +1,7 @@
 ---
+// Мультфильм карточкой (кадр + описание) или плеером в деревянной раме (playable)
 import { twMerge } from 'tailwind-merge'
+import VideoTile from '@/components/VideoTile.astro'
 import type { Video } from '@/data/videos'
 import { typo } from '@/lib/typo'
 interface Props { video: Video; large?: boolean; playable?: boolean; class?: string; [key: string]: unknown }
@@ -7,6 +9,7 @@ const { video, large = false, playable = false, class: className, ...rest } = As
 const href = `/multfilmy/${video.id}/`
 ---
 <article class:list={[twMerge('min-w-0', className)]} {...rest}>
-  {playable ? <video id="video" class="aspect-video w-full rounded-2xl bg-ink" controls playsinline preload="metadata" poster={video.poster} aria-label={video.title}><source src={video.src} type="video/mp4" /><a href={video.src}>Скачать мультфильм</a></video> : <a href={href} aria-label={`Смотреть «${video.title}», ${video.length}`} class="group relative block overflow-hidden rounded-2xl bg-ink"><img src={video.poster} alt={`Кадр мультфильма «${video.title}»`} width="1280" height="720" loading="lazy" class="aspect-video w-full object-cover transition duration-300 group-hover:scale-[1.02]" /><span aria-hidden="true" class="absolute inset-0 grid place-items-center"><span class="grid size-14 place-items-center rounded-full bg-paper text-xl text-forest shadow-paper">▶</span></span><span class="absolute right-3 bottom-3 rounded-lg bg-ink/85 px-3 py-1 text-sm font-bold text-paper">{video.length}</span></a>}
-  <div class="pt-4"><p class="mb-1 text-xs font-extrabold tracking-wider text-protein uppercase">{large ? 'Начни с этой истории' : video.length}</p><h3 class:list={['font-display font-bold', large ? 'text-3xl' : 'text-2xl']}><a href={href} class="underline-offset-4 hover:underline">{video.title}</a></h3><p class="mt-2 max-w-2xl text-base leading-relaxed text-ink/80">{typo(video.text)}</p></div>
+  {playable
+    ? <div class="rounded-[1.2rem] bg-wood p-[0.55rem] shadow-[0_1rem_2rem_rgb(0_0_0/0.3)] ring-[0.3rem] ring-wood-dark sm:p-[0.8rem]"><video id="video" class="aspect-video w-full rounded-[0.8rem] bg-night" controls playsinline preload="metadata" poster={video.poster} aria-label={video.title}><source src={video.src} type="video/mp4" /><a href={video.src}>Скачать мультфильм</a></video></div>
+    : <><VideoTile video={video} caption={false} class="rounded-[1.4rem] shadow-paper-lg ring-[0.3rem] ring-paper" /><div class="pt-[1rem]"><p class="text-[0.9rem] font-extrabold text-terracotta">{large ? `Начни с этой истории · ${video.length}` : video.length}</p><h2 class:list={['mt-[0.2rem] font-display leading-tight font-black text-forest-deep', large ? 'text-[1.8rem]' : 'text-[1.4rem]']}><a href={href} class="underline-offset-4 hover:underline">{video.title}</a></h2><p class="mt-[0.4rem] text-[1rem] leading-relaxed text-ink/80">{typo(video.text)}</p></div></>}
 </article>

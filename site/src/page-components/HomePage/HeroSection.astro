@@ -5,9 +5,9 @@ import Scene from '@/components/Scene.astro'
 import SpeechBubble from '@/components/SpeechBubble.astro'
 import { phrases } from '@/data/phrases'
 ---
-<Scene background="hero-garden" fill="bg-skyline" position="object-[50%_100%]" eager aria-labelledby="hero-title" class="pb-[2.2rem] sm:pb-[2.6rem]">
+<Scene background="hero-garden" mobileBackground="hero-garden-portrait" fill="bg-skyline" position="object-[50%_100%]" eager aria-labelledby="hero-title" class="pb-[2.2rem] sm:pb-[2.6rem]">
   <div aria-hidden="true" class="stage">
-<KitImage name="sun" eager sizes="8rem" class="absolute top-[1.2rem] right-[1rem] w-[4.2rem] animate-bob sm:top-[1.6rem] sm:right-[3%] sm:w-[6rem]" />
+<KitImage name="sun" eager sizes="8rem" class="hidden sm:block absolute top-[1.2rem] right-[1rem] w-[4.2rem] animate-bob sm:top-[1.6rem] sm:right-[3%] sm:w-[6rem]" />
     </div>
   <div class="shell grid items-center gap-[0.5rem] pt-[2.2rem] sm:min-h-[36rem] sm:grid-cols-2 lg:grid-cols-[0.85fr_1.15fr] sm:gap-[2rem] sm:pt-[2.5rem]">
     <div class="relative z-10">

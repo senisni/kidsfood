@@ -1,12 +1,10 @@
 ---
-import Plate from '@/components/Plate.astro'
+import PageHero from '@/components/PageHero.astro'
 import { dishes, dishHref } from '@/data/dishes'
 import BaseLayout from '@/layouts/BaseLayout.astro'
 import { meals } from '@/page-components/MenuPage/data/prep'
 import MealSection from '@/page-components/MenuPage/MealSection.astro'
 import PrepSection from '@/page-components/MenuPage/PrepSection.astro'
-import { typo } from '@/lib/typo'
-import Breadcrumbs from '@/components/Breadcrumbs.astro'
 import { absoluteUrl, breadcrumbSchema } from '@/lib/seo'
 
 const crumbs = [{ name: 'Главная', href: '/' }, { name: 'Семейное меню', href: '/menu/' }]
@@ -14,18 +12,12 @@ const schema = [breadcrumbSchema(crumbs), { '@type': 'ItemList', name: '45 бл�
 ---
 
 <BaseLayout title="Семейное меню: 45 блюд по формуле трёх друзей" description="15 завтраков, 15 обедов и 15 ужинов для семьи с детьми: что заготовить, что заморозить и как быстро приготовить." image="/menu/B01.webp" schema={schema}>
-  <section class="mx-auto grid max-w-7xl items-center gap-8 px-4 pt-12 pb-6 md:grid-cols-[1.3fr_1fr] md:px-6">
-    <div>
-      <Breadcrumbs items={crumbs} />
-      <h1 class="font-display text-4xl leading-tight font-bold md:text-5xl">45 блюд для семьи</h1>
-      <p class="mt-5 max-w-2xl text-xl leading-relaxed">{typo('15 завтраков, 15 обедов и 15 ужинов. Идеи для семьи с детьми: ищем знакомые продукты внутри блюда и рядом с ним. Рецепты и заготовки помогают меньше времени проводить у плиты.')}</p>
-      <nav aria-label="Разделы меню" class="mt-6 flex flex-wrap gap-3">
-        {meals.map((meal) => <a href={`#${meal.anchor}`} class="rounded-2xl bg-paper px-5 py-2 font-display text-lg font-bold shadow-paper hover:-translate-y-0.5">{meal.title}</a>)}
-        <a href="#prep" class="rounded-2xl bg-veg px-5 py-2 font-display text-lg font-bold text-paper shadow-paper hover:-translate-y-0.5">Заготовки</a>
-      </nav>
-    </div>
-    <Plate veg={['tomato', 'cucumber']} grain={['buckwheat']} protein={['egg']} class="mx-auto w-full max-w-xs" />
-  </section>
+  <PageHero background="page-kitchen" fill="bg-peach" crumbs={crumbs} kicker="Продолжим дома" title="45 блюд для семьи" lead="15 завтраков, 15 обедов и 15 ужинов. Ищем знакомые продукты внутри блюда и рядом с ним. Рецепты и заготовки помогают меньше времени проводить у плиты." image="plate-three-friends" imageAlt="Тарелка трёх друзей: овощи, крупы и хлеб, белок">
+    <nav aria-label="Разделы меню" class="mt-[1.4rem] flex flex-wrap gap-[0.6rem]">
+      {meals.map((meal) => <a href={`#${meal.anchor}`} class="rounded-full bg-paper px-[1.1rem] py-[0.5rem] font-display text-[1.05rem] font-extrabold text-forest-deep shadow-paper hover:-translate-y-0.5">{meal.title}</a>)}
+      <a href="#prep" class="rounded-full bg-forest px-[1.1rem] py-[0.5rem] font-display text-[1.05rem] font-extrabold text-paper shadow-paper hover:-translate-y-0.5">Заготовки</a>
+    </nav>
+  </PageHero>
   {meals.map((meal) => <MealSection anchor={meal.anchor} title={meal.title} text={meal.text} dishes={dishes.filter((dish) => dish.meal === meal.id)} />)}
   <PrepSection />
 </BaseLayout>

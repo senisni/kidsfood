@@ -7,6 +7,8 @@ const root = dirname(fileURLToPath(import.meta.url))
 const require = createRequire(pathToFileURL(join(root, '../../../site/package.json')))
 const sharp = require('sharp')
 const specification = JSON.parse(await readFile(join(root, 'prompts.json'), 'utf8'))
+const remaining = JSON.parse(await readFile(join(root, 'remaining-prompts.json'), 'utf8'))
+specification.jobs.push(...remaining.jobs)
 const output = []
 const failures = []
 const quietBoundary = (projection, expected, radius) => {

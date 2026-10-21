@@ -1,8 +1,7 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro'
-import Breadcrumbs from '@/components/Breadcrumbs.astro'
+import PageHero from '@/components/PageHero.astro'
 import Button from '@/components/Button.astro'
-import KitImage from '@/components/KitImage.astro'
 import TopicCard from '@/page-components/ParentsPage/TopicCard.astro'
 import { summary, talkRules, topics } from '@/page-components/ParentsPage/data/guide'
 import { sources } from '@/data/facts'
@@ -31,15 +30,8 @@ const article = {
 ---
 <BaseLayout title={title} description={description} schema={[article, breadcrumbSchema(crumbs)]}>
   <article id="article">
-    <header class="relative overflow-hidden bg-cream pt-[2rem] pb-[2.4rem]">
-      <div class="shell relative grid items-center gap-[1.5rem] sm:grid-cols-[1.4fr_1fr]">
-        <div>
-          <Breadcrumbs items={crumbs} />
-          <h1 class="font-display text-[2.4rem] leading-[1.02] font-black text-forest-deep sm:text-[3.2rem]">Как кормить ребёнка <span class="whitespace-nowrap">8–12 лет</span> {typo('и объяснить пользу еды')}</h1>
-          <p class="mt-[1rem] max-w-[40rem] text-[1.15rem] leading-relaxed">{typo('Памятка для родителей и учителей. Главное помещается в пять пунктов, а ниже — 11 тем для разговора: что рассказать, о чём спросить и почему это работает.')}</p>
-        </div>
-        <KitImage name="plate-three-friends" eager sizes="(min-width: 640px) 22rem, 60vw" alt="Тарелка: половина — овощи, четверть — крупы и хлеб, четверть — белок" class="mx-auto w-[60%] sm:w-[80%]" />
-      </div>
+    <PageHero background="page-reading" fill="bg-cream" crumbs={crumbs} kicker="Родителям и учителям" title="Как кормить ребёнка 8–12 лет и объяснить пользу еды" lead="Главное помещается в пять пунктов, а ниже — 11 тем для разговора: что рассказать, о чём спросить и почему это работает." image="family-reading" imageAlt="Взрослый с мальчиком и девочкой рассматривают книжку с тарелкой" />
+    <div class="bg-cream pb-[2.4rem]">
       <div class="shell mt-[1.6rem]">
         <section aria-labelledby="summary-title" class="rounded-[1.6rem] bg-sage/45 p-[1.3rem] sm:p-[1.8rem]">
           <h2 id="summary-title" class="font-display text-[1.5rem] font-black text-forest-deep">Коротко</h2>
@@ -47,7 +39,7 @@ const article = {
         </section>
         <nav aria-label="Темы памятки" class="mt-[1.4rem]"><ol class="flex flex-wrap gap-[0.5rem]">{topics.map((topic) => <li><a href={`#${topic.id}`} class="inline-block rounded-full bg-paper px-[0.9rem] py-[0.4rem] text-[0.9rem] font-bold text-forest-deep shadow-paper hover:bg-sage/40">{typo(topic.title)}</a></li>)}</ol></nav>
       </div>
-    </header>
+    </div>
     <div class="shell grid gap-[1.2rem] pb-[2.4rem]">{topics.map((topic, index) => <TopicCard topic={topic} index={index + 1} />)}</div>
     <section aria-labelledby="rules-title" class="bg-peach/60 py-[2.4rem]">
       <div class="shell">

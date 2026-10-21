@@ -13,8 +13,6 @@ const { tone = 'ink', class: className, ...rest } = Astro.props
 ---
 
 <a href="/" aria-label="Три друга на тарелке — главная" class:list={[twMerge('inline-flex shrink-0 items-center gap-[0.6rem] font-display text-[1.6rem] leading-none font-black', tone === 'ink' ? 'text-forest-deep' : 'text-paper', className)]} {...rest}>
-  <span class="grid size-[2.9rem] place-items-center rounded-full bg-paper shadow-paper ring-2 ring-cream-deep">
-    <KitImage name="plate-three-friends" sizes="4rem" eager class="size-[2.4rem]" />
-  </span>
+  <KitImage name="logo-mark" sizes="4rem" eager class="size-[3rem] drop-shadow-[0_0.15rem_0.2rem_rgb(60_40_10/0.2)]" />
   Три друга
 </a>

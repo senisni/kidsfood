@@ -2,10 +2,10 @@
 import { twMerge } from 'tailwind-merge'
 import { typo } from '@/lib/typo'
 interface Props { kicker?: string; title: string; text?: string; align?: 'left' | 'center'; class?: string; [key: string]: unknown }
-const { kicker, title, text, align = 'center', class: className, ...rest } = Astro.props
+const { kicker, title, text, align = 'left', class: className, ...rest } = Astro.props
 ---
-<header class:list={[twMerge('mb-7 max-w-3xl', align === 'center' ? 'mx-auto text-center' : 'text-left', className)]} {...rest}>
-  {kicker && <p class="mb-3 text-xs font-extrabold tracking-[0.14em] text-protein uppercase md:text-sm">{kicker}</p>}
-  <h2 class="font-display text-3xl leading-tight font-bold md:text-4xl">{typo(title)}</h2>
-  {text && <p class="mt-3 max-w-2xl text-lg leading-relaxed text-ink/80">{typo(text)}</p>}
+<header class:list={[twMerge('mb-[1.6rem] max-w-[46rem]', align === 'center' ? 'mx-auto text-center' : 'text-left', className)]} {...rest}>
+  {kicker && <p class="mb-[0.3rem] font-display text-[1.05rem] font-extrabold text-terracotta">{kicker}</p>}
+  <h2 class="font-display text-[2.1rem] leading-[1.05] font-black text-forest-deep sm:text-[2.6rem]">{typo(title)}</h2>
+  {text && <p class="mt-[0.6rem] text-[1.05rem] leading-relaxed text-ink/80">{typo(text)}</p>}
 </header>

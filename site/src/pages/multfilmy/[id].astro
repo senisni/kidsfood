@@ -1,10 +1,11 @@
 ---
 import type { GetStaticPaths } from 'astro'
 import BaseLayout from '@/layouts/BaseLayout.astro'
-import Breadcrumbs from '@/components/Breadcrumbs.astro'
 import Button from '@/components/Button.astro'
+import KitImage from '@/components/KitImage.astro'
+import PageHero from '@/components/PageHero.astro'
 import VideoCard from '@/components/VideoCard.astro'
-import VideoEpisode from '@/components/VideoEpisode.astro'
+import VideoTile from '@/components/VideoTile.astro'
 import { videos, type Video } from '@/data/videos'
 import { breadcrumbSchema, videoSchema } from '@/lib/seo'
 import { typo } from '@/lib/typo'
@@ -14,15 +15,28 @@ const { video } = Astro.props
 const crumbs = [{ name: 'Главная', href: '/' }, { name: 'Мультфильмы', href: '/multfilmy/' }, { name: video.title, href: `/multfilmy/${video.id}/` }]
 ---
 <BaseLayout title={`${video.title} — мультфильм о еде для детей`} description={video.text} image={video.poster} schema={[videoSchema(video), breadcrumbSchema(crumbs)]}>
-  <section class="mx-auto max-w-5xl px-5 py-8 md:px-8 md:py-12">
-    <Breadcrumbs items={crumbs} />
-    <p class="mb-3 text-sm font-bold text-protein">Мультфильм · {video.length} · 8–12 лет</p>
-    <h1 class="mb-6 font-display text-4xl leading-tight font-bold md:text-5xl">{video.title}</h1>
-    <VideoCard video={video} playable />
-    <div class="mt-10 grid gap-8 md:grid-cols-[1.5fr_1fr]">
-      <div><h2 class="font-display text-2xl font-bold">О чём эта история</h2><div class="mt-4 space-y-4 text-lg leading-relaxed">{video.story.map((paragraph) => <p>{typo(paragraph)}</p>)}</div><h2 class="mt-8 font-display text-2xl font-bold">Обсудим после просмотра?</h2><p class="mt-3 text-lg">{typo(video.question)}</p><a href="/o-proekte/#sources" class="mt-5 inline-block text-sm text-water underline underline-offset-4">Пояснения и источники для взрослых</a></div>
-      <aside class="rounded-2xl bg-mint/25 p-6"><p class="text-xs font-extrabold tracking-wider text-forest uppercase">Теперь попробуй сам</p><h2 class="mt-3 font-display text-2xl font-bold">{video.gameTitle}</h2><p class="mt-3 text-base leading-relaxed">Перенеси открытие из мультфильма в игру. Если ошибёшься, герои подскажут.</p><Button href={video.gameHref} variant="green" class="mt-5">Играть →</Button></aside>
+  <PageHero background="page-cinema" fill="bg-night" tone="night" position="object-bottom" crumbs={crumbs} kicker={`Мультфильм · ${video.length} · 8–12 лет`} title={video.title} class="pb-[9rem] sm:pb-[12rem]" />
+  <section class="shell relative z-10 -mt-[7rem] sm:-mt-[10rem]">
+    <VideoCard video={video} playable class="mx-auto max-w-[60rem]" />
+  </section>
+  <section class="shell grid gap-[2rem] py-[2.6rem] sm:grid-cols-[1.5fr_1fr]">
+    <div>
+      <h2 class="font-display text-[1.7rem] font-black text-forest-deep">О чём эта история</h2>
+      <div class="mt-[0.8rem] space-y-[0.8rem] text-[1.1rem] leading-relaxed">{video.story.map((paragraph) => <p>{typo(paragraph)}</p>)}</div>
+      <h2 class="mt-[1.8rem] font-display text-[1.7rem] font-black text-forest-deep">Обсудим после просмотра?</h2>
+      <p class="mt-[0.6rem] text-[1.1rem]">{typo(video.question)}</p>
+      <a href="/roditelyam/" class="mt-[1rem] inline-block text-[0.95rem] font-bold text-water underline underline-offset-4">Памятка для взрослых: как говорить о еде</a>
     </div>
-    <div class="mt-12 border-t border-ink/15 pt-8"><h2 class="mb-5 font-display text-2xl font-bold">Ещё мультфильмы</h2><div class="grid gap-4 md:grid-cols-2">{videos.filter((item) => item.id !== video.id).map((item) => <VideoEpisode video={item} />)}</div></div>
+    <aside class="relative overflow-hidden rounded-[1.6rem] bg-sage/45 p-[1.4rem] pb-[11rem] sm:pb-[12rem]">
+      <p class="font-display text-[1rem] font-extrabold text-terracotta">Теперь попробуй сам</p>
+      <h2 class="mt-[0.3rem] font-display text-[1.6rem] font-black text-forest-deep">{video.gameTitle}</h2>
+      <p class="mt-[0.5rem] leading-relaxed">{typo('Перенеси открытие из мультфильма в игру. Если ошибёшься, герои подскажут.')}</p>
+      <Button href={video.gameHref} variant="green" icon="gamepad" class="mt-[1rem]">Играть</Button>
+      <KitImage name="boy-pointing" sizes="14rem" class="absolute right-0 -bottom-[1rem] w-[11rem] sm:w-[12rem]" />
+    </aside>
+  </section>
+  <section class="shell border-t-2 border-cream-deep pt-[2rem] pb-[3.4rem]">
+    <h2 class="mb-[1.2rem] font-display text-[1.7rem] font-black text-forest-deep">Ещё мультфильмы</h2>
+    <ul class="grid gap-[1.2rem] sm:grid-cols-2">{videos.filter((item) => item.id !== video.id).map((item) => <li><VideoTile video={item} /></li>)}</ul>
   </section>
 </BaseLayout>

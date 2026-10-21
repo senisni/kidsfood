@@ -16,7 +16,9 @@ const Heading = standalone ? 'h1' : 'h2'
     <Heading id="games-title" class="max-w-[70%] font-display text-[2.5rem] leading-[1] font-black text-forest-deep sm:text-[3.3rem]">{standalone ? 'Игры о еде для детей' : 'Пробуем сами'}</Heading>
     <p class="mt-[0.7rem] max-w-[60%] text-[1.1rem] font-extrabold text-forest-deep/85 sm:max-w-[34rem]">{typo('Ошибаться можно — герои подскажут. Семь бесплатных игр без регистрации.')}</p>
     <p class="mt-[0.4rem] max-w-[60%] text-[0.9rem] text-ink/70 sm:max-w-none">{typo('На телефоне удобнее играть, повернув экран горизонтально.')}</p>
-    <ul class="mt-[2.2rem] flex flex-wrap justify-center gap-x-[0.8rem] gap-y-[1.4rem] sm:gap-x-[1.4rem] sm:gap-y-[1.8rem]">
+    <KitImage name="path-dots" sizes="70rem" alt="" class="pointer-events-none absolute inset-x-0 top-[15rem] hidden w-full opacity-90 lg:block" />
+    <KitImage name="path-dots" sizes="70rem" alt="" class="pointer-events-none absolute inset-x-0 top-[33rem] hidden w-full -scale-x-100 opacity-90 lg:block" />
+    <ul class="relative mt-[2.2rem] flex flex-wrap justify-center gap-x-[0.8rem] gap-y-[1.4rem] sm:gap-x-[1.4rem] sm:gap-y-[1.8rem]">
       {games.map((game, index) => <li class="flex w-[calc(50%-0.4rem)] sm:w-[13.5rem] lg:w-[15.5rem]"><GameCard game={game} number={index + 1} class="w-full" /></li>)}
     </ul>
   </div>

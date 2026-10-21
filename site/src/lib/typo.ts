@@ -2,4 +2,5 @@
 const SHORT = 'в|во|к|с|со|о|об|у|а|и|по|на|не|за|из|от|до|под|над|но|да|же|бы|ли|то|для|без|при|про|чем|тем'
 const pattern = new RegExp(`(^|[\\s(«—])(${SHORT}) (?=\\S)`, 'giu')
 
-export const typo = (text: string) => text.replace(pattern, (_match, before: string, word: string) => `${before}${word} `).replace(/ —/g, ' —')
+// Диапазон «8–12 лет» не рвётся: соединитель слов (U+2060) вокруг тире и неразрывный пробел после числа.
+export const typo = (text: string) => text.replace(pattern, (_match, before: string, word: string) => `${before}${word} `).replace(/ —/g, ' —').replace(/(\d)–(\d+) /g, '$1⁠–⁠$2 ')

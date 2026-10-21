@@ -1,7 +1,7 @@
 ---
 // Ярлык группы еды: иконка-вырезка, название, зачем нужна
 import { twMerge } from 'tailwind-merge'
-import Food from '@/components/Food.astro'
+import KitImage from '@/components/KitImage.astro'
 import { friendTone, type Friend } from '@/data/friends'
 import { typo } from '@/lib/typo'
 
@@ -15,7 +15,7 @@ const { friend, class: className, ...rest } = Astro.props
 ---
 
 <div class:list={[twMerge('flex items-center gap-[0.7rem] rounded-[1.2rem] bg-paper py-[0.55rem] pr-[1.1rem] pl-[0.6rem] shadow-paper ring-2 ring-cream-deep', className)]} {...rest}>
-  <span class:list={['grid size-[2.6rem] shrink-0 place-items-center rounded-full', friendTone[friend.id].soft]}><Food id={friend.foods[0]} class="size-[2rem]" /></span>
+  <KitImage name={`friend-${friend.id}`} sizes="4rem" class="size-[3rem] shrink-0 scale-125" />
   <span class="min-w-0">
     <span class:list={['block font-display text-[1.1rem] leading-tight font-black', friendTone[friend.id].text]}>{friend.name}</span>
     <span class="block text-[0.85rem] leading-snug text-ink/70">{typo(friend.why)} · {friend.share}</span>

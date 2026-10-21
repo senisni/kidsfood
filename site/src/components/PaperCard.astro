@@ -16,8 +16,8 @@ const { backing = 'bg-sand', as: Tag = 'div', class: className, wrapperClass, fl
 ---
 
 <Tag class:list={[twMerge('group/card relative block', wrapperClass)]} {...rest}>
-  {!flat && <span aria-hidden="true" class:list={['absolute inset-0 -translate-x-1 translate-y-1 -rotate-[0.3deg] rounded-2xl', backing]}></span>}
-  <div class:list={[twMerge('relative h-full rounded-2xl bg-paper shadow-paper', className)]}>
+  {!flat && <span aria-hidden="true" class:list={['absolute inset-0 -translate-x-[0.3rem] translate-y-[0.3rem] -rotate-[0.3deg] rounded-[1.4rem]', backing]}></span>}
+  <div class:list={[twMerge('relative h-full rounded-[1.4rem] bg-paper shadow-paper ring-2 ring-cream-deep/70', className)]}>
     <slot />
   </div>
 </Tag>

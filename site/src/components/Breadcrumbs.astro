@@ -1,6 +1,7 @@
 ---
+// Хлебные крошки; цвет наследуют от секции
 import { twMerge } from 'tailwind-merge'
 interface Props { items: { name: string; href: string }[]; class?: string; [key: string]: unknown }
 const { items, class: className, ...rest } = Astro.props
 ---
-<nav aria-label="Хлебные крошки" class={twMerge('mb-6', className)} {...rest}><ol class="flex flex-wrap gap-x-2 gap-y-1 text-sm text-ink/70">{items.map((item, index) => <li class="flex gap-2">{index > 0 && <span aria-hidden="true">/</span>}{index === items.length - 1 ? <span aria-current="page">{item.name}</span> : <a href={item.href} class="underline underline-offset-4 hover:text-forest">{item.name}</a>}</li>)}</ol></nav>
+<nav aria-label="Хлебные крошки" class={twMerge('mb-[1rem]', className)} {...rest}><ol class="flex flex-wrap gap-x-[0.5rem] gap-y-[0.2rem] text-[0.9rem] font-bold opacity-80">{items.map((item, index) => <li class="flex gap-[0.5rem]">{index > 0 && <span aria-hidden="true">/</span>}{index === items.length - 1 ? <span aria-current="page">{item.name}</span> : <a href={item.href} class="underline underline-offset-4 hover:opacity-100">{item.name}</a>}</li>)}</ol></nav>
