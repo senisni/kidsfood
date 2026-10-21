@@ -10,12 +10,12 @@ import { absoluteUrl, breadcrumbSchema, siteName } from '@/lib/seo'
 import { typo } from '@/lib/typo'
 
 const crumbs = [{ name: 'Главная', href: '/' }, { name: 'Родителям', href: '/roditelyam/' }]
-const title = 'Как кормить ребёнка 8–12 лет и объяснить пользу еды — памятка'
-const description = 'Чем кормить детей на завтрак, в школу и на ужин, как объяснить пользу разной еды и клетчатки, нужно ли доедать. 11 тем для разговора с ребёнком и источники.'
+const title = 'Как кормить ребёнка 8–12 лет и объяснить пользу еды — памятка'
+const description = 'Чем кормить детей на завтрак, в школу и на ужин, как объяснить пользу разной еды и клетчатки, нужно ли доедать. 11 тем для разговора с ребёнком и источники.'
 const article = {
   '@type': 'Article',
   '@id': absoluteUrl('/roditelyam/#article'),
-  headline: 'Как кормить ребёнка 8–12 лет и объяснить пользу еды',
+  headline: 'Как кормить ребёнка 8–12 лет и объяснить пользу еды',
   description,
   inLanguage: 'ru',
   datePublished: '2026-10-21',
@@ -23,15 +23,15 @@ const article = {
   image: absoluteUrl('/img/social.jpg'),
   author: { '@type': 'Organization', name: siteName, url: absoluteUrl('/') },
   publisher: { '@type': 'Organization', name: siteName, url: absoluteUrl('/') },
-  about: ['детское питание', 'тарелка здорового питания', 'клетчатка', 'голод и сытость'],
-  audience: { '@type': 'PeopleAudience', audienceType: 'Родители и учителя детей 8–12 лет' },
+  about: ['детское питание', 'тарелка здорового питания', 'клетчатка', 'голод и сытость'],
+  audience: { '@type': 'PeopleAudience', audienceType: 'Родители и учителя детей 8–12 лет' },
   citation: sources.map((source) => source.href),
   hasPart: topics.map((topic) => ({ '@type': 'WebPageElement', name: topic.title, url: absoluteUrl(`/roditelyam/#${topic.id}`) })),
 }
 ---
 <BaseLayout title={title} description={description} schema={[article, breadcrumbSchema(crumbs)]}>
   <article id="article">
-    <PageHero background="page-reading" fill="bg-cream" crumbs={crumbs} kicker="Родителям и учителям" title="Как кормить ребёнка 8–12 лет и объяснить пользу еды" lead="Главное помещается в пять пунктов, а ниже — 11 тем для разговора: что рассказать, о чём спросить и почему это работает." image="family-reading" imageAlt="Взрослый с мальчиком и девочкой рассматривают книжку с тарелкой" />
+    <PageHero background="page-reading" fill="bg-cream" crumbs={crumbs} kicker="Родителям и учителям" title="Как кормить ребёнка 8–12 лет и объяснить пользу еды" lead="Главное помещается в пять пунктов, а ниже — 11 тем для разговора: что рассказать, о чём спросить и почему это работает." image="family-reading" imageAlt="Взрослый с мальчиком и девочкой рассматривают книжку с тарелкой" />
     <div class="bg-cream pb-[2.4rem]">
       <div class="shell mt-[1.6rem]">
         <section aria-labelledby="summary-title" class="rounded-[1.6rem] bg-sage/45 p-[1.3rem] sm:p-[1.8rem]">
@@ -46,14 +46,14 @@ const article = {
     </div>
     <section aria-labelledby="rules-title" class="bg-peach/60 py-[2.4rem]">
       <div class="shell">
-        <h2 id="rules-title" class="leading-[1em] font-display text-[2rem] font-black text-forest-deep sm:text-[2.4rem]">Как говорить о еде</h2>
+        <h2 id="rules-title" class="leading-[1em] font-display text-[2rem] font-black text-forest-deep sm:text-[2.4rem]">Как говорить о еде</h2>
         <ul class="mt-[1.2rem] grid gap-[1rem] sm:grid-cols-2 lg:grid-cols-4">{talkRules.map((rule) => <li class="rounded-[1.3rem] bg-paper p-[1.2rem] shadow-paper"><h3 class="leading-[1em] font-display text-[1.15rem] font-black">{typo(rule.title)}</h3><p class="mt-[0.4rem] text-ink/80">{typo(rule.text)}</p></li>)}</ul>
         <div class="mt-[1.6rem] flex flex-wrap gap-[0.8rem]"><Button href="/multfilmy/film/" icon="play">Посмотреть вместе</Button><Button href="/igry/" variant="green" icon="gamepad">Выбрать игру</Button><Button href="/menu/" variant="paper" arrow>Семейное меню</Button></div>
       </div>
     </section>
     <section id="sources" aria-labelledby="sources-title" class="shell scroll-mt-[5rem] py-[2.4rem] pb-[3.4rem]">
-      <h2 id="sources-title" class="leading-[1em] font-display text-[1.6rem] font-black text-forest-deep">На что опирается памятка</h2>
-      <p class="mt-[0.6rem] max-w-[46rem] text-ink/80">{typo('Методические рекомендации Роспотребнадзора по питанию школьников (МР 2.4.0179-20) и проект «Здоровое питание», схема тарелки Canada’s Food Guide и Гарвардской школы общественного здравоохранения, рекомендации ВОЗ о сахаре, материалы Американской академии педиатрии и подход Эллин Саттер к кормлению без давления. Памятка знакомит с едой и не заменяет консультацию врача; особые потребности и аллергии обсуждают со специалистом.')}</p>
+      <h2 id="sources-title" class="leading-[1em] font-display text-[1.6rem] font-black text-forest-deep">На что опирается памятка</h2>
+      <p class="mt-[0.6rem] max-w-[46rem] text-ink/80">{typo('Методические рекомендации Роспотребнадзора по питанию школьников (МР 2.4.0179-20) и проект «Здоровое питание», схема тарелки Canada’s Food Guide и Гарвардской школы общественного здравоохранения, рекомендации ВОЗ о сахаре, материалы Американской академии педиатрии и подход Эллин Саттер к кормлению без давления. Памятка знакомит с едой и не заменяет консультацию врача; особые потребности и аллергии обсуждают со специалистом.')}</p>
       <ul class="mt-[1rem] grid gap-[0.5rem]">{sources.map((source) => <li><a href={source.href} target="_blank" rel="noopener noreferrer" class="font-bold text-water underline underline-offset-4">{source.name} ↗</a></li>)}</ul>
     </section>
   </article>

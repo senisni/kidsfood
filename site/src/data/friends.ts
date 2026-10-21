@@ -13,9 +13,9 @@ export interface Friend {
 }
 
 export const friends: Friend[] = [
-  { id: 'veg', name: 'Овощи и фрукты', why: 'витамины и клетчатка', share: 'половина тарелки', examples: 'огурец, морковь, капуста, брокколи, яблоко, ягоды', foods: ['cucumber', 'carrot', 'apple'] },
-  { id: 'grain', name: 'Крупы и хлеб', why: 'энергия: бегать и думать', share: 'четверть тарелки', examples: 'рис, гречка, овсянка, макароны, хлеб, картошка', foods: ['bread', 'buckwheat', 'potato'] },
-  { id: 'protein', name: 'Белок', why: 'чтобы расти и крепнуть', share: 'четверть тарелки', examples: 'яйцо, творог, сыр, йогурт, рыба, мясо, фасоль', foods: ['egg', 'tvorog', 'fish'] },
+  { id: 'veg', name: 'Овощи и фрукты', why: 'витамины и клетчатка', share: 'половина тарелки', examples: 'огурец, морковь, капуста, брокколи, яблоко, ягоды', foods: ['cucumber', 'carrot', 'apple'] },
+  { id: 'grain', name: 'Крупы и хлеб', why: 'энергия: бегать и думать', share: 'четверть тарелки', examples: 'рис, гречка, овсянка, макароны, хлеб, картошка', foods: ['bread', 'buckwheat', 'potato'] },
+  { id: 'protein', name: 'Белок', why: 'чтобы расти и крепнуть', share: 'четверть тарелки', examples: 'яйцо, творог, сыр, йогурт, рыба, мясо, фасоль', foods: ['egg', 'tvorog', 'fish'] },
 ]
 
 export const friendById = (id: FriendId) => friends.find((friend) => friend.id === id) as Friend

@@ -12,7 +12,7 @@ import { absoluteUrl, faqSchema, videoSchema } from '@/lib/seo'
 
 const schema = [
   faqSchema(homeFacts),
-  { '@type': 'ItemList', name: 'Мультфильмы о еде для детей', itemListElement: videos.map((video, index) => ({ '@type': 'ListItem', position: index + 1, url: absoluteUrl(`/multfilmy/${video.id}/`), item: videoSchema(video) })) },
+  { '@type': 'ItemList', name: 'Мультфильмы о еде для детей', itemListElement: videos.map((video, index) => ({ '@type': 'ListItem', position: index + 1, url: absoluteUrl(`/multfilmy/${video.id}/`), item: videoSchema(video) })) },
 ]
 ---
 

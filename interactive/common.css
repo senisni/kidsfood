@@ -38,16 +38,19 @@ button:focus-visible { outline: 4px solid rgba(201,96,63,.5); outline-offset: 3p
 .top .task .num { flex: none; width: 46px; height: 46px; border-radius: 50%; background: var(--prot); color: var(--paper); display: grid; place-items: center; font-family: Balsamiq; font-size: 26px; }
 .top .round { flex: none; font-family: Balsamiq; font-size: 22px; background: var(--paper); padding: 8px 14px; border-radius: 12px; box-shadow: var(--shadow); }
 
-/* полоса подсказок: здесь говорят герои, всегда в одном месте над полкой */
-.say { position: absolute; left: 24px; right: 24px; top: 598px; height: 66px; display: flex; align-items: center; gap: 14px; z-index: 25; pointer-events: none; }
+/* полоса подсказок: здесь говорят герои, всегда в одном месте над полкой; длинная реплика растёт вверх */
+.say { position: absolute; left: 24px; right: 24px; bottom: 236px; min-height: 66px; display: flex; align-items: center; gap: 14px; z-index: 25; pointer-events: none; }
 .say .face { flex: none; width: 66px; height: 66px; border-radius: 50%; background: var(--paper) center 12% / 210% no-repeat; box-shadow: var(--shadow); border: 4px solid var(--back, #74b998); }
 .say .face.head { background-position: center 35%; background-size: 118%; }
-/* облачко по образцу new-2026-10/speech-bubbles-08.png: кремовый лист на чуть большей цветной подложке, хвостик к лицу */
-.say .txt { position: relative; margin-left: 12px; background: var(--paper); border-radius: 30px; padding: 10px 26px; font-size: 25px; font-weight: 800; max-width: 1400px;
-  box-shadow: 0 2px 0 7px var(--back, #74b998), 2px 3px 3px 8px rgba(40,30,15,.12), 5px 12px 16px 6px rgba(40,30,15,.24); }
-.say .txt::before, .say .txt::after { content: ""; position: absolute; top: 50%; clip-path: polygon(100% 0, 0 55%, 100% 100%); }
-.say .txt::before { left: -27px; width: 30px; height: 34px; margin-top: -15px; background: var(--back, #74b998); }
-.say .txt::after { left: -15px; width: 20px; height: 20px; margin-top: -9px; background: var(--paper); }
+/* облачко: кремовый лист с цветной обводкой и хвостиком к лицу. Хвостик — два треугольника
+   (обводка и лист), оба по центру облачка, поэтому он ровный при одной и при нескольких строках */
+.say .txt { position: relative; margin-left: 18px; max-width: 1300px; padding: 9px 24px 10px;
+  background: var(--paper); border: 5px solid var(--back, #74b998); border-radius: 26px;
+  font-size: 21px; line-height: 1.25; font-weight: 800; text-wrap: pretty;
+  box-shadow: 0 3px 0 rgba(40,30,15,.08), 4px 10px 16px rgba(40,30,15,.2); }
+.say .txt::before, .say .txt::after { content: ""; position: absolute; top: 50%; width: 0; height: 0; border-style: solid; border-color: transparent; transform: translateY(-50%); }
+.say .txt::before { left: -21px; border-width: 12px 16px 12px 0; border-right-color: var(--back, #74b998); }
+.say .txt::after { left: -12px; border-width: 8px 11px 8px 0; border-right-color: var(--paper); }
 .say.pop .txt { animation: pop .3s cubic-bezier(.3,1.8,.6,1); }
 .say.bad .txt { --back: var(--prot); }
 .say.good .txt { --back: var(--veg); }

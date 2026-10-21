@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 <title>Найди клетчатку</title>
-<link rel="stylesheet" href="common.css?v=3">
+<link rel="stylesheet" href="common.css?v=4">
 <style>
   .zone { top: 120px; height: 464px; overflow: hidden; }
   #basket { left: 34px; width: 520px; --back: #e6d3a6; }
@@ -42,20 +42,20 @@
 <div id="stage">
   <div class="top">
     <a class="btn ghost" href="index.html">← Меню</a>
-    <div class="card task" style="--back:#8fb08a"><div class="num" style="background:var(--veg)">?</div><div>Есть ли в еде клетчатка? Есть — <b>в садик</b>, нет — <b>в корзинку</b>.</div></div>
+    <div class="card task" style="--back:#8fb08a"><div class="num" style="background:var(--veg)">?</div><div>Есть ли в еде клетчатка? Есть — <b>в садик</b>, нет — <b>в корзинку</b>.</div></div>
     <button class="btn ghost" id="lupaBtn"><span class="ring"></span><span id="lupaTxt">Лупа: 3</span></button>
     <button class="btn ghost" id="reset">Заново</button>
   </div>
-  <div class="card zone" id="basket"><div class="zlabel">Без клетчатки<small>но тоже нужна: это белок</small></div><div class="kept" id="kept"></div><img class="art" src="../video/sprites/el40-2.png"></div>
-  <div class="card zone" id="garden"><img class="bg" src="../video/sprites/belly-garden.jpg"><div class="zlabel">Садик в животе<small>сюда — еду с клетчаткой</small></div></div>
-  <div class="progress" id="prog">Разложено 0 из 12</div>
+  <div class="card zone" id="basket"><div class="zlabel">Без клетчатки<small>но тоже нужна: это белок</small></div><div class="kept" id="kept"></div><img class="art" src="../video/sprites/el40-2.png"></div>
+  <div class="card zone" id="garden"><img class="bg" src="../video/sprites/belly-garden.jpg"><div class="zlabel">Садик в животе<small>сюда — еду с клетчаткой</small></div></div>
+  <div class="progress" id="prog">Разложено 0 из 12</div>
   <div class="say"><div class="face"></div><div class="txt"></div></div>
-  <div class="shelf"><div class="lbl">полка с едой</div></div>
+  <div class="shelf"><div class="lbl">полка с едой</div></div>
   <div class="win intro on"><div class="card" style="--back:#8fb08a">
     <h2>Что такое клетчатка?</h2>
     <div class="pics"><img src="../video/sprites/pfood-2.png"><img src="../video/sprites/el50-8.png"><img src="../video/sprites/pfood-3.png"><img src="../video/sprites/mic-2.png"><img src="../video/sprites/mic-5.png"></div>
-    <p>Клетчатка — часть растений. Она как <b>паровозик</b>: помогает еде ехать по животу. А ещё ей <b>питаются маленькие помощники</b> — полезные микробы в животе.</p>
-    <p>Разложи еду: где клетчатка есть, а где нет. Не уверен — нажми «Лупа» и потом на еду.</p>
+    <p>Клетчатка — часть растений. Она как <b>паровозик</b>: помогает еде ехать по животу. А ещё ей <b>питаются маленькие помощники</b> — полезные микробы в животе.</p>
+    <p>Разложи еду: где клетчатка есть, а где нет. Не уверен — нажми «Лупа» и потом на еду.</p>
     <p style="text-align:center"><button class="btn green" id="go">Начать</button></p>
   </div></div>
   <div class="win" id="end"><div class="card" style="--back:#8fb08a"></div></div>
@@ -63,18 +63,18 @@
 <script src="common.js?v=3"></script>
 <script>
 const ITEMS = [
-  { img: "pfood-2", name: "яблоко", fiber: true, why: "яблоко — растение, клетчатка есть, особенно в кожуре" },
-  { img: "el50-8", name: "фасоль", fiber: true, why: "в фасоли много клетчатки" },
-  { img: "pfood-4", name: "яйцо", fiber: false, why: "яйцо — не растение, клетчатки в нём нет. Зато это белок" },
-  { img: "pfood-3", name: "хлеб", fiber: true, why: "хлеб с зёрнышками — из растений, в нём есть клетчатка" },
-  { img: "el50-6", name: "молоко", fiber: false, why: "молоко — не растение, клетчатки нет" },
+  { img: "pfood-2", name: "яблоко", fiber: true, why: "яблоко — растение, клетчатка есть, особенно в кожуре" },
+  { img: "el50-8", name: "фасоль", fiber: true, why: "в фасоли много клетчатки" },
+  { img: "pfood-4", name: "яйцо", fiber: false, why: "яйцо — не растение, клетчатки в нём нет. Зато это белок" },
+  { img: "pfood-3", name: "хлеб", fiber: true, why: "хлеб с зёрнышками — из растений, в нём есть клетчатка" },
+  { img: "el50-6", name: "молоко", fiber: false, why: "молоко — не растение, клетчатки нет" },
   { img: "pfood-10", name: "морковь", fiber: true, why: "морковь — овощ, клетчатка есть" },
   { img: "el50-3", name: "курица", fiber: false, why: "курица — мясо, клетчатки нет. Зато это белок" },
-  { img: "pfood-6", name: "гречка", fiber: true, why: "гречка — крупа, в ней есть клетчатка" },
-  { img: "el20-10", name: "сыр", fiber: false, why: "сыр делают из молока — клетчатки нет" },
+  { img: "pfood-6", name: "гречка", fiber: true, why: "гречка — крупа, в ней есть клетчатка" },
+  { img: "el20-10", name: "сыр", fiber: false, why: "сыр делают из молока — клетчатки нет" },
   { img: "pfood-9", name: "брокколи", fiber: true, why: "брокколи — овощ, клетчатки много" },
-  { img: "el50-9", name: "орехи", fiber: true, why: "орехи растут на деревьях — клетчатка есть" },
-  { img: "el50-2", name: "котлета", fiber: false, why: "котлета из мяса — клетчатки нет" },
+  { img: "el50-9", name: "орехи", fiber: true, why: "орехи растут на деревьях — клетчатка есть" },
+  { img: "el50-2", name: "котлета", fiber: false, why: "котлета из мяса — клетчатки нет" },
 ];
 const MICS = ["mic-1", "mic-2", "mic-3", "mic-4", "mic-5"];
 let st;
@@ -97,13 +97,13 @@ function start() {
       onDrop: (el, p) => drop(el, it, p),
     });
   });
-  say("Тащи еду с полки: в садик или в корзинку.", "girl");
+  say("Тащи еду с полки: в садик или в корзинку.", "girl");
 }
 function hideWinEnd() { $("#end").classList.remove("on"); }
 function placeBadge(el) { if (!el._badge) return; el._badge.style.left = (parseFloat(el.style.left) + 59) + "px"; el._badge.style.top = (parseFloat(el.style.top) - 4) + "px"; }
 function updateLupa() { $("#lupaTxt").textContent = `Лупа: ${st.lupa}`; $("#lupaBtn").disabled = st.lupa === 0; $("#lupaBtn").classList.toggle("on", st.hinting); document.body.classList.toggle("hinting", st.hinting); }
 function updateProg() { $("#prog").textContent = `Разложено ${st.done} из ${ITEMS.length}`; }
-$("#lupaBtn").onclick = () => { audio(); if (st.lupa === 0) return; st.hinting = !st.hinting; updateLupa(); if (st.hinting) say("Теперь нажми на еду — лупа покажет, есть ли клетчатка.", "girl"); };
+$("#lupaBtn").onclick = () => { audio(); if (st.lupa === 0) return; st.hinting = !st.hinting; updateLupa(); if (st.hinting) say("Теперь нажми на еду — лупа покажет, есть ли клетчатка.", "girl"); };
 function useLupa(el) {
   if (!el._badge || el._badge.classList.contains("show")) return;
   el._badge.classList.add("show"); sfx.ding();
@@ -118,8 +118,8 @@ function drop(el, it, p) {
   if (!ok) {
     st.wrong[key] = (st.wrong[key] || 0) + 1;
     bounceBack(el); setTimeout(() => placeBadge(el), 480);
-    if (g) say(`Ой! ${cap(it.why)}. Положи в корзинку.`, "girl", "bad");
-    else say(`Подожди! ${cap(it.why)}. Неси в садик!`, "girl", "bad");
+    if (g) say(`Ой! ${cap(it.why)}. Положи в корзинку.`, "girl", "bad");
+    else say(`Подожди! ${cap(it.why)}. Неси в садик!`, "girl", "bad");
     return true;
   }
   if (!st.wrong[key]) st.first++;
@@ -145,9 +145,9 @@ function end() {
   sfx.win(); store.set("fiber", true);
   $("#end").querySelector(".card").innerHTML = `
     <h2>Всё разложено!</h2><div class="row">${MICS.map(m => `<img src="${S(m)}">`).join("")}</div>
-    <p class="stars">С первой попытки: ${st.first} из ${ITEMS.length}</p>
-    <p>Клетчатка бывает только в растениях: в овощах, фруктах, крупах, хлебе, фасоли и орехах. Она помогает еде ехать по животу и кормит полезных микробов. И не забывай пить воду!</p>
-    <button class="btn green" onclick="start()">Сыграть ещё</button> <a class="btn ghost" href="index.html">В меню</a>`;
+    <p class="stars">С первой попытки: ${st.first} из ${ITEMS.length}</p>
+    <p>Клетчатка бывает только в растениях: в овощах, фруктах, крупах, хлебе, фасоли и орехах. Она помогает еде ехать по животу и кормит полезных микробов. И не забывай пить воду!</p>
+    <button class="btn green" onclick="start()">Сыграть ещё</button> <a class="btn ghost" href="index.html">В меню</a>`;
   $("#end").classList.add("on");
 }
 $("#go").onclick = () => { audio(); document.querySelector(".intro").classList.remove("on"); };

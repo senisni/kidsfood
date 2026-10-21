@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 <title>Собери перекус</title>
-<link rel="stylesheet" href="common.css?v=3">
+<link rel="stylesheet" href="common.css?v=4">
 <style>
   .sit { left: 30px; top: 120px; width: 420px; height: 464px; padding: 20px 24px; --back: #e8b8cc; }
   .sit .when { font-family: Balsamiq; font-size: 26px; color: var(--prot); }
@@ -29,12 +29,12 @@
 <div id="stage">
   <div class="top">
     <a class="btn ghost" href="index.html">← Меню</a>
-    <div class="card task" style="--back:#e8b8cc"><div class="num">?</div><div>Собери перекус: <b>фрукт или овощ + ещё один друг</b>. И попить.</div></div>
-    <div class="round" id="round">1 из 4</div>
+    <div class="card task" style="--back:#e8b8cc"><div class="num">?</div><div>Собери перекус: <b>фрукт или овощ + ещё один друг</b>. И попить.</div></div>
+    <div class="round" id="round">1 из 4</div>
     <button class="btn ghost" id="reset">Заново</button>
   </div>
   <div class="card sit"><div class="when" id="when"></div><div class="txt2" id="sit"></div>
-    <div class="rule"><b>Перекус</b> — маленькая тарелка, чтобы дожить до обеда или ужина.</div><img id="hero"></div>
+    <div class="rule"><b>Перекус</b> — маленькая тарелка, чтобы дожить до обеда или ужина.</div><img id="hero"></div>
   <div class="zone" id="plateZ"><div class="zl">Тарелочка</div><img class="pl" src="../video/sprites/plate3-1.png">
     <div class="slots"><div id="sF" style="--c:var(--veg)">фрукт или овощ</div><div id="sP" style="--c:var(--prot)">ещё один друг</div></div></div>
   <div class="zone" id="drinkZ"><div class="zl">Попить</div><div class="slots"><div id="sD" style="--c:var(--water)">напиток</div></div></div>
@@ -54,10 +54,10 @@ const ITEMS = {
   water: { img: "el10-6", name: "вода", kind: "d", good: true }, juice: { img: "snack-9", name: "сок", kind: "d" }, soda: { img: "snack-10", name: "газировка", kind: "d" },
 };
 const SIT = [
-  { when: "После школы", hero: "boyact-5", who: "boy", sit: "Уроки кончились, до обеда дома ещё час. Живот урчит." },
-  { when: "На прогулку", hero: "girlact-1", who: "girl", sit: "Идём в парк на два часа. Что взять с собой?" },
-  { when: "Перед тренировкой", hero: "boyact-3", who: "boy", sit: "Через час футбол. Нужно немного сил, но не тяжело." },
-  { when: "Вечером", hero: "girlact-3", who: "girl", sit: "До ужина полтора часа, а есть хочется уже сейчас.", noNuts: false },
+  { when: "После школы", hero: "boyact-5", who: "boy", sit: "Уроки кончились, до обеда дома ещё час. Живот урчит." },
+  { when: "На прогулку", hero: "girlact-1", who: "girl", sit: "Идём в парк на два часа. Что взять с собой?" },
+  { when: "Перед тренировкой", hero: "boyact-3", who: "boy", sit: "Через час футбол. Нужно немного сил, но не тяжело." },
+  { when: "Вечером", hero: "girlact-3", who: "girl", sit: "До ужина полтора часа, а есть хочется уже сейчас.", noNuts: false },
 ];
 const PZ = { x: 490, y: 140, w: 640, h: 420 }, DZ = { x: 1170, y: 140, w: 396, h: 420 };
 const inZ = (p, z) => p.x > z.x && p.x < z.x + z.w && p.y > z.y && p.y < z.y + z.h;
@@ -82,7 +82,7 @@ function drop(el, it, p) {
   if (!onP && !onD) return false;
   const bad = msg => { st.wrong++; bounceBack(el); say(msg, who, "bad"); return true; };
   if (onD) {
-    if (it.kind !== "d") return bad(`${cap(it.name)} — это еда. Ей место на тарелочке.`);
+    if (it.kind !== "d") return bad(`${cap(it.name)} — это еда. Ей место на тарелочке.`);
     if (!it.good) return bad(`${cap(it.name)} — сладкий напиток, это иногда. Когда хочется пить, лучше вода.`);
     if (st.d) return bad("Попить уже есть.");
     st.d = it; put(el, DZ.x + DZ.w / 2 - 59, DZ.y + 130); $("#sD").classList.add("on");
@@ -90,12 +90,12 @@ function drop(el, it, p) {
   }
   // тарелочка
   if (it.kind === "d") return bad(`${cap(it.name)} — это напиток. Поставь справа.`);
-  if (it.kind === "s") return bad(`${cap(it.name)} — сладкое, иногда можно. Но перекус из него быстро кончится. Нужен фрукт или овощ и ещё один друг.`);
+  if (it.kind === "s") return bad(`${cap(it.name)} — сладкое, иногда можно. Но перекус из него быстро кончится. Нужен фрукт или овощ и ещё один друг.`);
   if (it.kind === "f") {
     if (st.f) return bad("Фрукт или овощ уже есть. Теперь нужен ещё один друг: йогурт или бутерброд.");
     st.f = it; put(el, PZ.x + 205, PZ.y + 150); $("#sF").classList.add("on");
   } else {
-    if (st.p) return bad("Второй друг уже есть. А фрукт или овощ?");
+    if (st.p) return bad("Второй друг уже есть. А фрукт или овощ?");
     st.p = it; put(el, PZ.x + 330, PZ.y + 120); $("#sP").classList.add("on");
   }
   sfx.plop(); sfx.check(); say(`Да: ${it.name}!`, who, "good");
@@ -107,9 +107,9 @@ function check() {
     const last = R === SIT.length - 1;
     setTimeout(() => showWin(`<h2>Перекус готов!</h2>
       <div class="row">${[st.f, st.p, st.d].map(i => `<img src="${S(i.img)}">`).join("")}</div>
-      <p>${cap(st.f.name)} + ${st.p.name} и вода: маленькая тарелка из друзей. Сил хватит до следующей еды.</p>
-      <p class="stars">${st.wrong ? `Подсказок: ${st.wrong}` : "Без единой подсказки!"}</p>
-      ${last ? `<a class="btn green" href="index.html">В меню</a>` : `<button class="btn green" onclick="start(${R + 1})">Следующая ситуация →</button>`}`), 700);
+      <p>${cap(st.f.name)} + ${st.p.name} и вода: маленькая тарелка из друзей. Сил хватит до следующей еды.</p>
+      <p class="stars">${st.wrong ? `Подсказок: ${st.wrong}` : "Без единой подсказки!"}</p>
+      ${last ? `<a class="btn green" href="index.html">В меню</a>` : `<button class="btn green" onclick="start(${R + 1})">Следующая ситуация →</button>`}`), 700);
   }
   return true;
 }

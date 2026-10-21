@@ -14,7 +14,7 @@ interface Props { dish: Dish }
 const { dish } = Astro.props
 const meal = mealNames[dish.meal]
 const crumbs = [{ name: 'Главная', href: '/' }, { name: 'Семейное меню', href: '/menu/' }, { name: dish.title, href: dishHref(dish) }]
-const description = `${dish.title}: рецепт для семьи. ${dish.veg}; ${dish.grain}; ${dish.protein}. Приготовление${dish.tags.includes('ice') ? ' и заготовка для заморозки' : ''}.`
+const description = `${dish.title}: рецепт для семьи. ${dish.veg}; ${dish.grain}; ${dish.protein}. Приготовление${dish.tags.includes('ice') ? ' и заготовка для заморозки' : ''}.`
 const recipe = { '@type': 'Recipe', '@id': absoluteUrl(`/menu/${dish.id.toLowerCase()}/#recipe`), name: dish.title, description, image: absoluteUrl(dish.sprite ?? dish.img), recipeCategory: meal, inLanguage: 'ru', recipeIngredient: [dish.veg, dish.grain, dish.protein], recipeInstructions: dish.how.map((step) => ({ '@type': 'HowToStep', text: step.replace(/<[^>]+>/g, '') })), isAccessibleForFree: true }
 const related = dishes.filter((item) => item.meal === dish.meal && item.id !== dish.id).slice(0, 3)
 ---
@@ -23,11 +23,11 @@ const related = dishes.filter((item) => item.meal === dish.meal && item.id !== d
   <article id="recipe" class="shell py-[2.4rem] pb-[3.4rem]">
     <div class="grid items-center gap-[1.6rem] rounded-[1.8rem] bg-paper p-[1.4rem] shadow-paper ring-2 ring-cream-deep/70 sm:grid-cols-2 sm:p-[2rem]">
       {dish.sprite && <img src={dish.sprite} alt={dish.title} width="640" height="480" class="mx-auto aspect-[4/3] w-full max-w-[28rem] object-contain" fetchpriority="high" />}
-      <div><h2 class="leading-[1em] mb-[1rem] font-display text-[1.6rem] font-black text-forest-deep">Три друга в этом блюде</h2><DishParts dish={dish} />{dish.tags.includes('ice') && <p class="mt-[1rem] rounded-[0.8rem] bg-sky/50 px-[1rem] py-[0.7rem] text-[0.95rem] font-bold">Подходит для заготовки и заморозки — способ указан в рецепте.</p>}</div>
+      <div><h2 class="leading-[1em] mb-[1rem] font-display text-[1.6rem] font-black text-forest-deep">Три друга в этом блюде</h2><DishParts dish={dish} />{dish.tags.includes('ice') && <p class="mt-[1rem] rounded-[0.8rem] bg-sky/50 px-[1rem] py-[0.7rem] text-[0.95rem] font-bold">Подходит для заготовки и заморозки — способ указан в рецепте.</p>}</div>
     </div>
     <div class="mt-[2.4rem] grid gap-[2rem] sm:grid-cols-[1.6fr_1fr]">
       <section><h2 class="leading-[1em] mb-[1rem] font-display text-[1.8rem] font-black text-forest-deep">Как приготовить</h2><DishSteps steps={dish.how} class="text-[1.05rem]" /></section>
-      <aside class="rounded-[1.6rem] bg-sage/40 p-[1.4rem]"><h2 class="leading-[1em] font-display text-[1.5rem] font-black text-forest-deep">Готовим вместе</h2><p class="mt-[0.6rem] ">{typo('Предложите ребёнку найти овощи или фрукты, крупу или хлеб и белковые продукты. Часть еды может быть внутри блюда, часть — рядом на столе.')}</p><p class="mt-[0.8rem] text-[0.95rem] text-ink/75">{typo('Количество продуктов и способ приготовления — в шагах рецепта. Если указан вариант из заготовки, её готовят заранее.')}</p><Button href="/menu/#prep" variant="paper" arrow class="mt-[1rem]">План заготовок</Button></aside>
+      <aside class="rounded-[1.6rem] bg-sage/40 p-[1.4rem]"><h2 class="leading-[1em] font-display text-[1.5rem] font-black text-forest-deep">Готовим вместе</h2><p class="mt-[0.6rem] ">{typo('Предложите ребёнку найти овощи или фрукты, крупу или хлеб и белковые продукты. Часть еды может быть внутри блюда, часть — рядом на столе.')}</p><p class="mt-[0.8rem] text-[0.95rem] text-ink/75">{typo('Количество продуктов и способ приготовления — в шагах рецепта. Если указан вариант из заготовки, её готовят заранее.')}</p><Button href="/menu/#prep" variant="paper" arrow class="mt-[1rem]">План заготовок</Button></aside>
     </div>
     <section class="mt-[2.8rem] border-t-2 border-cream-deep pt-[2rem]"><h2 class="leading-[1em] mb-[1.2rem] font-display text-[1.8rem] font-black text-forest-deep">Ещё идеи: {meal.toLowerCase()}</h2><div class="grid gap-[1.4rem] sm:grid-cols-3">{related.map((item) => <DishCard dish={item} compact />)}</div></section>
   </article>

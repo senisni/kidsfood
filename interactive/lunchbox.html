@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-<title>Ланч-бокс для друга</title>
-<link rel="stylesheet" href="common.css?v=3">
+<title>Ланч-бокс для друга</title>
+<link rel="stylesheet" href="common.css?v=4">
 <style>
   .order { left: 34px; top: 120px; width: 400px; height: 464px; padding: 18px 22px; --back: #f0b9b0; }
   .order .who { display: flex; gap: 14px; align-items: flex-end; }
@@ -31,28 +31,28 @@
 <div id="stage">
   <div class="top">
     <a class="btn ghost" href="index.html">← Меню</a>
-    <div class="card task" style="--back:#f0b9b0"><div class="num">?</div><div>Собери ланч-бокс <b>по заказу</b>: три друга в свои отделения и попить.</div></div>
+    <div class="card task" style="--back:#f0b9b0"><div class="num">?</div><div>Собери ланч-бокс <b>по заказу</b>: три друга в свои отделения и попить.</div></div>
     <button class="btn ghost guideBtn" id="gBtn">Кто есть кто?</button>
-    <div class="round" id="round">Заказ 1 из 3</div>
+    <div class="round" id="round">Заказ 1 из 3</div>
     <button class="btn ghost" id="reset">Заново</button>
   </div>
   <div class="card order" id="order">
     <div class="who"><img id="kid" src=""><div><h3 id="kidName"></h3><div class="req" id="req"></div></div></div>
     <div class="list">
-      <div class="row" data-k="0" style="--c:var(--veg)"><div class="box"></div>Овощи и фрукты</div>
-      <div class="row" data-k="1" style="--c:var(--grain)"><div class="box"></div>Крупы и хлеб</div>
+      <div class="row" data-k="0" style="--c:var(--veg)"><div class="box"></div>Овощи и фрукты</div>
+      <div class="row" data-k="1" style="--c:var(--grain)"><div class="box"></div>Крупы и хлеб</div>
       <div class="row" data-k="2" style="--c:var(--prot)"><div class="box"></div>Белок</div>
       <div class="row" data-k="3" style="--c:var(--water)"><div class="box"></div>Попить</div>
     </div>
   </div>
   <div id="box"><img src="../video/sprites/lbox-1.png">
-    <div class="cell" data-c="0" style="left:27px; top:21px; width:290px; height:340px"><div class="cl" style="color:var(--veg)">Овощи<br>и фрукты</div></div>
-    <div class="cell" data-c="1" style="left:331px; top:21px; width:277px; height:156px"><div class="cl" style="color:var(--grain)">Крупы и хлеб</div></div>
+    <div class="cell" data-c="0" style="left:27px; top:21px; width:290px; height:340px"><div class="cl" style="color:var(--veg)">Овощи<br>и фрукты</div></div>
+    <div class="cell" data-c="1" style="left:331px; top:21px; width:277px; height:156px"><div class="cl" style="color:var(--grain)">Крупы и хлеб</div></div>
     <div class="cell" data-c="2" style="left:332px; top:192px; width:281px; height:169px"><div class="cl" style="color:var(--prot)">Белок</div></div>
   </div>
   <div class="card drink" id="drink"><h3>Попить</h3><div class="slot"></div></div>
   <div class="say"><div class="face"></div><div class="txt"></div></div>
-  <div class="shelf"><div class="lbl">холодильник и полка</div></div>
+  <div class="shelf"><div class="lbl">холодильник и полка</div></div>
   <div class="win"><div class="card" style="--back:#f0b9b0"></div></div>
 </div>
 <script src="common.js?v=3"></script>
@@ -66,14 +66,14 @@ const F = {
   water: { img: "el10-6", name: "вода", team: 3 }, milk: { img: "el50-6", name: "молоко", team: 3 },
 };
 const ORDERS = [
-  { name: "Для себя", kid: "boy-5", face: "boy", req: "Мне нужны силы на уроки и футбол!", rule: null },
-  { name: "Для Даши", kid: "classgirl-4", face: "dasha", req: "Я не ем мясо.", rule: f => f.meat ? "Даша не ест мясо. Какой белок без мяса? Яйцо, сыр или орехи." : null },
-  { name: "Для Миши", kid: "classboy-1", face: "misha", req: "У меня аллергия на орехи.", rule: f => f.nuts ? "Мише нельзя орехи — это опасно. Найди другой белок." : null },
+  { name: "Для себя", kid: "boy-5", face: "boy", req: "Мне нужны силы на уроки и футбол!", rule: null },
+  { name: "Для Даши", kid: "classgirl-4", face: "dasha", req: "Я не ем мясо.", rule: f => f.meat ? "Даша не ест мясо. Какой белок без мяса? Яйцо, сыр или орехи." : null },
+  { name: "Для Миши", kid: "classboy-1", face: "misha", req: "У меня аллергия на орехи.", rule: f => f.nuts ? "Мише нельзя орехи — это опасно. Найди другой белок." : null },
 ];
 const CELLS = [0, 1, 2].map(i => document.querySelector(`.cell[data-c="${i}"]`));
 const BOX = { x: 503, y: 140 };
-const NAMES = ["Овощи и фрукты", "Крупы и хлеб", "Белок"];
-const KIND = { 0: "овощ или фрукт", 1: "из зерна — «Крупы и хлеб»", 2: "белок", 3: "напиток" };
+const NAMES = ["Овощи и фрукты", "Крупы и хлеб", "Белок"];
+const KIND = { 0: "овощ или фрукт", 1: "из зерна — «Крупы и хлеб»", 2: "белок", 3: "напиток" };
 let O = 0, st;
 
 function cellAt(p) {
@@ -88,7 +88,7 @@ function start(o) {
   O = o; const od = ORDERS[o];
   stage.querySelectorAll(".item").forEach(e => e.remove()); hideWin();
   st = { count: [0, 0, 0, 0], wrong: {}, first: 0 };
-  $("#round").textContent = `Заказ ${o + 1} из 3`;
+  $("#round").textContent = `Заказ ${o + 1} из 3`;
   $("#kid").src = S(od.kid); $("#kidName").textContent = od.name; $("#req").textContent = od.req;
   const keys = ["cucumber", "bread", "chicken", "apple", "nuts", "pasta", "egg", "water", "carrot", "cutlet", "buckwheat", "cheese", "milk"];
   fillShelf(stage, keys.map(k => ({ ...F[k], key: k })), (el, it) => draggable(el, {
@@ -104,8 +104,8 @@ function drop(el, f, key, p) {
   const fail = msg => { st.wrong[key] = (st.wrong[key] || 0) + 1; bounceBack(el); say(msg, who, "bad");
     if (c < 3) { CELLS[c].classList.add("wrong"); setTimeout(() => CELLS[c].classList.remove("wrong"), 600); } return true; };
   if (f.team !== c) {
-    if (c === 3) return fail(`${cap(f.name)} — это еда, а не напиток. Положи в ланч-бокс.`);
-    if (f.team === 3) return fail(`${cap(f.name)} — попить. Для него место справа.`);
+    if (c === 3) return fail(`${cap(f.name)} — это еда, а не напиток. Положи в ланч-бокс.`);
+    if (f.team === 3) return fail(`${cap(f.name)} — попить. Для него место справа.`);
     return fail(st.wrong[key] ? `Подсказка: ${f.name} — ${KIND[f.team]}.` : `Хм, ${f.name} — не «${NAMES[c]}». Какой это друг?`);
   }
   const ruleMsg = od.rule && od.rule(f);
@@ -131,9 +131,9 @@ function update() {
     const last = O === ORDERS.length - 1;
     setTimeout(() => showWin(`<h2>${ORDERS[O].name}: готово!</h2>
       <div class="row"><img src="${S(ORDERS[O].kid)}"></div>
-      <p>Три друга и вода — обед с собой в школу.${O > 0 ? " И заказ учтён: формула та же, а еда — своя для каждого." : ""}</p>
-      <p class="stars">Без ошибок: ${st.first} из ${st.count.reduce((a, b) => a + b, 0)}</p>
-      ${last ? `<a class="btn green" href="index.html">В меню</a>` : `<button class="btn green" onclick="start(${O + 1})">Следующий заказ →</button>`}`), 700);
+      <p>Три друга и вода — обед с собой в школу.${O > 0 ? " И заказ учтён: формула та же, а еда — своя для каждого." : ""}</p>
+      <p class="stars">Без ошибок: ${st.first} из ${st.count.reduce((a, b) => a + b, 0)}</p>
+      ${last ? `<a class="btn green" href="index.html">В меню</a>` : `<button class="btn green" onclick="start(${O + 1})">Следующий заказ →</button>`}`), 700);
   }
 }
 $("#reset").onclick = () => start(O);

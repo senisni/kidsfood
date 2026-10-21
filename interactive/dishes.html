@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-<title>Что в блюде?</title>
-<link rel="stylesheet" href="common.css?v=3">
+<title>Что в блюде?</title>
+<link rel="stylesheet" href="common.css?v=4">
 <style>
   .dish { left: 34px; top: 116px; width: 840px; height: 420px; --back: #e6c27a; }
   .dish h2 { position: absolute; left: 24px; top: 14px; margin: 0; font-size: 36px; }
@@ -17,7 +17,7 @@
   .dish .parts span { font-size: 21px; font-weight: 800; background: var(--paper); padding: 4px 12px; border-radius: 10px; box-shadow: var(--shadow); border-left: 8px solid var(--c); animation: pop .3s cubic-bezier(.3,1.8,.6,1) backwards; }
   .ask { left: 910px; top: 116px; width: 656px; height: 420px; padding: 18px 24px; --back: #9cc9b4; }
   .ask h3 { margin: 0 0 8px; font-size: 28px; }
-  .say { top: 560px; }
+  .say { bottom: 274px; }
   .chip small { display: block; font-family: Nunito; font-weight: 800; font-size: 16px; opacity: .7; margin-top: 2px; }
   .chip { display: flex; align-items: center; gap: 14px; width: 100%; margin: 8px 0; padding: 8px 16px; border-radius: 16px; border: 5px solid var(--c); background: var(--paper); cursor: pointer; font-family: Balsamiq; font-size: 28px; color: var(--ink); text-align: left; transition: transform .1s; }
   .chip img { height: 46px; }
@@ -38,15 +38,15 @@
 <div id="stage">
   <div class="top">
     <a class="btn ghost" href="index.html">← Меню</a>
-    <div class="card task"><div class="num">?</div><div id="task">Какие друзья <b>спрятались в блюде</b>? Отметь и нажми «Проверить».</div></div>
+    <div class="card task"><div class="num">?</div><div id="task">Какие друзья <b>спрятались в блюде</b>? Отметь и нажми «Проверить».</div></div>
     <button class="btn ghost guideBtn" id="gBtn">Кто есть кто?</button>
-    <div class="round" id="round">Блюдо 1 из 8</div>
+    <div class="round" id="round">Блюдо 1 из 8</div>
   </div>
   <div class="card dish"><h2 id="dname"></h2><img class="main" id="dimg"><div class="parts" id="parts"></div><div class="side" id="side"><div class="lbl">добавь сюда</div></div></div>
   <div class="card ask">
     <h3>Кто здесь есть?</h3>
-    <button class="chip" data-f="0" style="--c:var(--veg)"><img src="../video/sprites/pfood-1.png"><div>Овощи и фрукты<small>огурец, морковь, яблоко, ягоды…</small></div><span class="mark"></span></button>
-    <button class="chip" data-f="1" style="--c:var(--grain)"><img src="../video/sprites/pfood-3.png"><div>Крупы и хлеб<small>рис, гречка, макароны, картошка, хлеб…</small></div><span class="mark"></span></button>
+    <button class="chip" data-f="0" style="--c:var(--veg)"><img src="../video/sprites/pfood-1.png"><div>Овощи и фрукты<small>огурец, морковь, яблоко, ягоды…</small></div><span class="mark"></span></button>
+    <button class="chip" data-f="1" style="--c:var(--grain)"><img src="../video/sprites/pfood-3.png"><div>Крупы и хлеб<small>рис, гречка, макароны, картошка, хлеб…</small></div><span class="mark"></span></button>
     <button class="chip" data-f="2" style="--c:var(--prot)"><img src="../video/sprites/pfood-4.png"><div>Белок<small>яйцо, творог, мясо, рыба, фасоль…</small></div><span class="mark"></span></button>
     <button class="btn green" id="check">Проверить</button>
   </div>
@@ -59,15 +59,15 @@
 // parts: [что, друг]; soft: [друг, пояснение] — спорная часть, засчитываем любой ответ и объясняем
 const DISHES = [
   { name: "Плов", img: "el60-8", parts: [["рис", 1], ["мясо", 2], ["морковь", 0]] },
-  { name: "Гречка с сосиской", img: "el60-2", parts: [["гречка", 1], ["сосиска", 2]] },
-  { name: "Сырники с ягодами", img: "menuB-1", parts: [["творог", 2], ["мука", 1], ["ягоды", 0]] },
-  { name: "Рыба с картошкой", img: "el10-8", parts: [["рыба", 2], ["картошка", 1], ["брокколи и морковь", 0]],
-    soft: [0, "Картошку мы считаем гарниром, как кашу. А овощи здесь — брокколи и морковь."] },
-  { name: "Овощной суп с лапшой", img: "el60-9", parts: [["лапша", 1], ["морковь и зелень", 0]] },
+  { name: "Гречка с сосиской", img: "el60-2", parts: [["гречка", 1], ["сосиска", 2]] },
+  { name: "Сырники с ягодами", img: "menuB-1", parts: [["творог", 2], ["мука", 1], ["ягоды", 0]] },
+  { name: "Рыба с картошкой", img: "el10-8", parts: [["рыба", 2], ["картошка", 1], ["брокколи и морковь", 0]],
+    soft: [0, "Картошку мы считаем гарниром, как кашу. А овощи здесь — брокколи и морковь."] },
+  { name: "Овощной суп с лапшой", img: "el60-9", parts: [["лапша", 1], ["морковь и зелень", 0]] },
   { name: "Блинчики", img: "el60-6", parts: [["мука", 1]],
-    soft: [2, "В тесте есть яйцо и молоко, но белка там совсем немного. Лучше добавить творог или сыр."] },
-  { name: "Фасоль с овощами", img: "menuL-9", parts: [["фасоль", 2], ["перец, кукуруза, томаты", 0], ["сыр сверху", 2]] },
-  { name: "Обед в школе", img: "el10-7", parts: [["рис", 1], ["курица", 2], ["брокколи и морковь", 0]] },
+    soft: [2, "В тесте есть яйцо и молоко, но белка там совсем немного. Лучше добавить творог или сыр."] },
+  { name: "Фасоль с овощами", img: "menuL-9", parts: [["фасоль", 2], ["перец, кукуруза, томаты", 0], ["сыр сверху", 2]] },
+  { name: "Обед в школе", img: "el10-7", parts: [["рис", 1], ["курица", 2], ["брокколи и морковь", 0]] },
 ];
 const ADDONS = [
   { img: "pfood-1", name: "огурец", team: 0 }, { img: "el20-5", name: "помидор", team: 0 }, { img: "pfood-10", name: "морковь", team: 0 },
@@ -75,7 +75,7 @@ const ADDONS = [
   { img: "pfood-3", name: "хлеб", team: 1 }, { img: "pfood-6", name: "гречка", team: 1 }, { img: "pfood-8", name: "картошка", team: 1 },
   { img: "pfood-4", name: "яйцо", team: 2 }, { img: "pfood-5", name: "творог", team: 2 }, { img: "el20-10", name: "сыр", team: 2 },
 ];
-const NAMES = ["Овощи и фрукты", "Крупы и хлеб", "Белок"];
+const NAMES = ["Овощи и фрукты", "Крупы и хлеб", "Белок"];
 let D = 0, st, score = 0;
 const chips = [...document.querySelectorAll(".chip")];
 chips.forEach(c => c.onclick = () => { if (st.checked) return; audio(); sfx.pick(); c.classList.toggle("on"); });
@@ -89,12 +89,12 @@ function start(d) {
   $("#side").classList.remove("on"); $("#shelf").classList.add("dim");
   chips.forEach(c => { c.className = "chip"; c.disabled = false; });
   $("#check").disabled = false; $("#check").textContent = "Проверить";
-  $("#task").innerHTML = "Какие друзья <b>спрятались в блюде</b>? Отметь и нажми «Проверить».";
+  $("#task").innerHTML = "Какие друзья <b>спрятались в блюде</b>? Отметь и нажми «Проверить».";
   fillShelf(stage, ADDONS, (el, it) => draggable(el, {
     onMove: (el, p) => $("#side").classList.toggle("hot", inSide(p)),
     onDrop: (el, p) => addOn(el, it, p),
   }));
-  say(`${ds.name}. Из чего оно сделано?`, "girl");
+  say(`${ds.name}. Из чего оно сделано?`, "girl");
 }
 const inSide = p => p.x > 34 + 840 - 22 - 190 && p.x < 34 + 840 - 22 && p.y > 116 + 420 - 212 && p.y < 116 + 420 - 22;
 $("#check").onclick = () => {
@@ -116,11 +116,11 @@ $("#check").onclick = () => {
   const missTxt = st.need.map(i => `«${NAMES[i]}»`).join(" и ");
   const note = ds.soft ? " " + ds.soft[1] : "";
   if (st.need.length) {
-    say(`${allRight ? "Верно!" : "Почти."}${note} Не хватает: ${missTxt}. Добавь с полки на тарелочку!`, "girl", allRight ? "good" : "bad");
-    $("#task").innerHTML = `Чего не хватает? <b>Перетащи добавку</b> на тарелочку справа внизу.`;
+    say(`${allRight ? "Верно!" : "Почти."}${note} Не хватает: ${missTxt}. Добавь с полки на тарелочку!`, "girl", allRight ? "good" : "bad");
+    $("#task").innerHTML = `Чего не хватает? <b>Перетащи добавку</b> на тарелочку справа внизу.`;
     $("#side").classList.add("on"); $("#shelf").classList.remove("dim");
   } else {
-    say((allRight ? "Верно! Все три друга уже в блюде." : "Смотри: в блюде все три друга — вот они слева.") + note, "girl", allRight ? "good" : "bad");
+    say((allRight ? "Верно! Все три друга уже в блюде." : "Смотри: в блюде все три друга — вот они слева.") + note, "girl", allRight ? "good" : "bad");
     next();
   }
 };
@@ -129,14 +129,14 @@ function addOn(el, it, p) {
   if (!inSide(p)) return false;
   if (!st.need.includes(it.team)) {
     bounceBack(el);
-    say(`${cap(it.name)} — это «${NAMES[it.team]}», а он в блюде уже есть. Кого не хватает?`, "girl", "bad"); return true;
+    say(`${cap(it.name)} — это «${NAMES[it.team]}», а он в блюде уже есть. Кого не хватает?`, "girl", "bad"); return true;
   }
   el.classList.add("back", "placed"); el.dataset.lock = 1;
   el.style.left = (34 + 840 - 22 - 190 - 10 + st.added * 62) + "px"; el.style.top = (116 + 420 - 212 + 46) + "px";
   st.added++; st.need = st.need.filter(t => t !== it.team);
   sfx.plop(); sfx.check();
-  if (st.need.length) say(`Да, ${it.name}! А ещё кого не хватает?`, "girl", "good");
-  else { say(`Отлично: теперь все три друга на тарелке!`, "girl", "good"); next(); }
+  if (st.need.length) say(`Да, ${it.name}! А ещё кого не хватает?`, "girl", "good");
+  else { say(`Отлично: теперь все три друга на тарелке!`, "girl", "good"); next(); }
   return true;
 }
 function next() {
@@ -149,8 +149,8 @@ function finish() {
   sfx.win(); store.set("dishes", true);
   showWin(`<h2>Ты разгадал все блюда!</h2><div class="row">${DISHES.map(d => `<img src="${S(d.img)}">`).join("")}</div>
     <p class="stars">Угадано сразу: ${score} из ${DISHES.length}</p>
-    <p>Даже в одном блюде прячутся разные друзья. Если кого-то нет — его легко добавить рядом: огурец к гречке, яйцо к супу.</p>
-    <button class="btn green" onclick="score=0; start(0)">Ещё раз</button> <a class="btn ghost" href="index.html">В меню</a>`);
+    <p>Даже в одном блюде прячутся разные друзья. Если кого‑то нет — его легко добавить рядом: огурец к гречке, яйцо к супу.</p>
+    <button class="btn green" onclick="score=0; start(0)">Ещё раз</button> <a class="btn ghost" href="index.html">В меню</a>`);
 }
 $("#gBtn").onclick = () => friendsGuide();
 start(0);

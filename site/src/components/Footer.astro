@@ -3,15 +3,15 @@ import Logo from '@/components/Logo.astro'
 import { nav } from '@/data/nav'
 const extra = [
   { href: '/roditelyam/', label: 'Как кормить ребёнка: памятка' },
-  { href: '/o-proekte/', label: 'О проекте и источники' },
+  { href: '/o-proekte/', label: 'О проекте и источники' },
   { href: '/menu/#prep', label: 'План заготовок' },
 ]
 ---
 <footer class="bg-pine text-paper">
   <div class="shell grid gap-[1.6rem] py-[2.4rem] sm:grid-cols-[auto_1fr] sm:items-center sm:gap-x-[3rem]">
     <Logo tone="paper" />
-    <nav aria-label="Навигация в подвале" class="flex flex-wrap gap-x-[1.6rem] gap-y-[0.6rem] sm:justify-end">{nav.map((item) => <a href={item.href} class="font-display text-[1.05rem] font-extrabold hover:underline underline-offset-4">{item.label}</a>)}</nav>
-    <p class="max-w-[34rem] text-[0.95rem] text-paper/75">Мультфильмы и игры о еде для детей 8–12 лет. Идеи для семейного стола и разговоров без «доешь». Бесплатно и без регистрации.</p>
+    <nav aria-label="Навигация в подвале" class="flex flex-wrap gap-x-[1.6rem] gap-y-[0.6rem] sm:justify-end">{nav.map((item) => <a href={item.href} class="font-display text-[1.05rem] font-extrabold hover:underline underline-offset-4">{item.label}</a>)}</nav>
+    <p class="max-w-[34rem] text-[0.95rem] text-paper/75">Мультфильмы и игры о еде для детей 8–12 лет. Идеи для семейного стола и разговоров без «доешь». Бесплатно и без регистрации.</p>
     <div class="flex flex-wrap gap-x-[1.4rem] gap-y-[0.5rem] text-[0.9rem] sm:justify-end">{extra.map((item) => <a href={item.href} class="text-paper/85 underline underline-offset-4 hover:text-paper">{item.label}</a>)}</div>
   </div>
   <div class="border-t border-paper/10">

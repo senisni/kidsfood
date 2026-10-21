@@ -17,13 +17,13 @@ const [main, ...episodes] = videos
     </div>
   <div class="shell relative">
     <h2 id="videos-title" class="leading-[1em] font-display text-[2.5rem] font-black text-paper sm:text-[3.3rem]">Смотрим истории</h2>
-    <p class="mt-[0.7rem] max-w-[36rem] text-[1.05rem] text-paper/80">{typo('Три коротких мультфильма: о тарелке, клетчатке и сытости. После каждого — вопрос для разговора и игра по теме.')}</p>
+    <p class="mt-[0.7rem] max-w-[36rem] text-[1.05rem] text-paper/80">{typo('Три коротких мультфильма: о тарелке, клетчатке и сытости. После каждого — вопрос для разговора и игра по теме.')}</p>
     <div class="mt-[1.8rem] grid items-center gap-[1.2rem] sm:grid-cols-[1.75fr_1fr] sm:gap-[1.6rem]">
       <div class="rounded-[1.2rem] bg-wood p-[0.55rem] shadow-[0_1.2rem_2rem_rgb(0_0_0/0.4)] ring-[0.3rem] ring-wood-dark sm:p-[0.8rem]">
         <VideoTile video={main} size="screen" />
       </div>
       <ul class="grid gap-[1rem] sm:gap-[1.2rem]">{episodes.map((video) => <li><VideoTile video={video} /></li>)}</ul>
     </div>
-    <a href="/multfilmy/" class="relative mt-[1.6rem] inline-block rounded-full bg-night/70 px-[1rem] py-[0.4rem] font-bold text-paper underline underline-offset-4 hover:text-sand">{typo('Все мультфильмы и вопросы для обсуждения →')}</a>
+    <a href="/multfilmy/" class="relative mt-[1.6rem] inline-block rounded-full bg-night/70 px-[1rem] py-[0.4rem] font-bold text-paper underline underline-offset-4 hover:text-sand">{typo('Все мультфильмы и вопросы для обсуждения →')}</a>
   </div>
 </Scene>

@@ -7,7 +7,7 @@ import { absoluteUrl, breadcrumbSchema, videoSchema } from '@/lib/seo'
 const crumbs = [{ name: 'Главная', href: '/' }, { name: 'Мультфильмы', href: '/multfilmy/' }]
 ---
 <BaseLayout title="Мультфильмы о еде для детей 8–12 лет — Три друга на тарелке" description="Три коротких мультфильма о разнообразной еде, клетчатке и сытости. Смотреть бесплатно: 68, 27 и 26 секунд. После каждого — игра по теме." schema={[breadcrumbSchema(crumbs), { '@type': 'ItemList', itemListElement: videos.map((video, index) => ({ '@type': 'ListItem', position: index + 1, url: absoluteUrl(`/multfilmy/${video.id}/`), item: videoSchema(video) })) }]}>
-  <PageHero background="page-cinema" fill="bg-night" tone="night" position="object-bottom" crumbs={crumbs} kicker="Смотрим истории" title="Мультфильмы о еде для детей" lead="Короткие бумажные истории для детей 8–12 лет. Начни с трёх друзей, а потом загляни в сад в животе и на семейный ужин." class="pb-[4rem] sm:pb-[5rem]" />
+  <PageHero background="page-cinema" fill="bg-night" tone="night" position="object-bottom" crumbs={crumbs} kicker="Смотрим истории" title="Мультфильмы о еде для детей" lead="Короткие бумажные истории для детей 8–12 лет. Начни с трёх друзей, а потом загляни в сад в животе и на семейный ужин." class="pb-[4rem] sm:pb-[5rem]" />
   <section aria-label="Все мультфильмы" class="shell py-[2.6rem] pb-[3.6rem]">
     <div class="grid items-start gap-[2rem] sm:grid-cols-2 lg:grid-cols-3">{videos.map((video, index) => <VideoCard video={video} large={index === 0} />)}</div>
   </section>

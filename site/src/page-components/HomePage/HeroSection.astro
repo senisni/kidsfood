@@ -31,14 +31,14 @@ const floaters = [
         <span class="inline-block -rotate-[2deg] text-forest-deep">Три друга</span><br />
         <span class="whitespace-nowrap"><span class="inline-block rotate-[1deg] text-forest-deep">на</span> <span class="inline-block -rotate-[1.5deg] text-terracotta">тарелке</span></span>
       </h1>
-      <p class="mt-[1.1rem] inline-block -rotate-[1.5deg] rounded-[0.3rem] bg-sand/90 px-[1rem] py-[0.4rem] text-[0.95rem] font-extrabold text-forest-deep shadow-paper sm:text-[1.25rem]">Мультфильмы и игры о еде · <span class="whitespace-nowrap">8–12 лет</span></p>
+      <p class="mt-[1.1rem] inline-block -rotate-[1.5deg] rounded-[0.3rem] bg-sand/90 px-[1rem] py-[0.4rem] text-[0.95rem] font-extrabold text-forest-deep shadow-paper sm:text-[1.25rem]">Мультфильмы и игры о еде · <span class="whitespace-nowrap">8–12 лет</span></p>
       <div class="mt-[1.6rem] flex flex-wrap items-center gap-[0.8rem]">
         <Button href="/multfilmy/film/" icon="play" iconCircle>Смотреть мультфильм</Button>
         <Button href="#games" variant="green" icon="gamepad" iconCircle>Выбрать игру</Button>
       </div>
     </div>
     <div class="relative pt-[2rem] sm:pt-[3rem]">
-      <div><KitImage name="hero-family" eager sizes="(min-width: 640px) 55vw, 100vw" alt="Мальчик и девочка за столом. На тарелке овощи, крупа, хлеб и рыба, рядом яблоко и вода" class="relative w-full" /></div>
+      <div><KitImage name="hero-family" eager sizes="(min-width: 640px) 55vw, 100vw" alt="Мальчик и девочка за столом. На тарелке овощи, крупа, хлеб и рыба, рядом яблоко и вода" class="relative w-full" /></div>
       {floaters.map((item) => <div aria-hidden="true" class:list={['absolute hidden lg:block', item.place]}><KitImage name={`friend-${item.id}`} sizes="6rem" class={`pointer-events-auto w-full animate-bob drop-shadow-[0_0.4rem_0.4rem_rgb(60_40_10/0.25)] transition duration-300 hover:scale-125 hover:rotate-12 ${item.delay}`} /></div>)}
     </div>
   </div>

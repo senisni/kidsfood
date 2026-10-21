@@ -8,11 +8,11 @@ import PrepSection from '@/page-components/MenuPage/PrepSection.astro'
 import { absoluteUrl, breadcrumbSchema } from '@/lib/seo'
 
 const crumbs = [{ name: 'Главная', href: '/' }, { name: 'Семейное меню', href: '/menu/' }]
-const schema = [breadcrumbSchema(crumbs), { '@type': 'ItemList', name: '45 блюд для семьи', numberOfItems: dishes.length, itemListElement: dishes.map((dish, index) => ({ '@type': 'ListItem', position: index + 1, name: dish.title, url: absoluteUrl(dishHref(dish)) })) }]
+const schema = [breadcrumbSchema(crumbs), { '@type': 'ItemList', name: '45 блюд для семьи', numberOfItems: dishes.length, itemListElement: dishes.map((dish, index) => ({ '@type': 'ListItem', position: index + 1, name: dish.title, url: absoluteUrl(dishHref(dish)) })) }]
 ---
 
 <BaseLayout title="Семейное меню: 45 блюд по формуле трёх друзей" description="15 завтраков, 15 обедов и 15 ужинов для семьи с детьми: что заготовить, что заморозить и как быстро приготовить." image="/menu/B01.webp" schema={schema}>
-  <PageHero background="page-kitchen" fill="bg-peach" crumbs={crumbs} kicker="Продолжим дома" title="45 блюд для семьи" lead="15 завтраков, 15 обедов и 15 ужинов. Ищем знакомые продукты внутри блюда и рядом с ним. Рецепты и заготовки помогают меньше времени проводить у плиты." image="plate-three-friends" imageAlt="Тарелка трёх друзей: овощи, крупы и хлеб, белок">
+  <PageHero background="page-kitchen" fill="bg-peach" crumbs={crumbs} kicker="Продолжим дома" title="45 блюд для семьи" lead="15 завтраков, 15 обедов и 15 ужинов. Ищем знакомые продукты внутри блюда и рядом с ним. Рецепты и заготовки помогают меньше времени проводить у плиты." image="plate-three-friends" imageAlt="Тарелка трёх друзей: овощи, крупы и хлеб, белок">
     <nav aria-label="Разделы меню" class="mt-[1.4rem] flex flex-wrap gap-[0.6rem]">
       {meals.map((meal) => <a href={`#${meal.anchor}`} class="rounded-full bg-paper px-[1.1rem] py-[0.5rem] font-display text-[1.05rem] font-extrabold text-forest-deep shadow-paper hover:-translate-y-0.5">{meal.title}</a>)}
       <a href="#prep" class="rounded-full bg-forest px-[1.1rem] py-[0.5rem] font-display text-[1.05rem] font-extrabold text-paper shadow-paper hover:-translate-y-0.5">Заготовки</a>
