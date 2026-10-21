@@ -37,4 +37,5 @@ const night = tone === 'night'
     </div>
     {image && <KitImage name={image} alt={imageAlt} eager sizes="(min-width: 640px) 30vw, 70vw" class="mx-auto w-[70%] drop-shadow-[0_0.4rem_0.5rem_rgb(60_40_10/0.2)] sm:w-full sm:max-w-[24rem]" />}
   </div>
+  {Astro.slots.has('after') && <div class="shell relative z-10 mt-[1.6rem]"><slot name="after" /></div>}
 </Scene>

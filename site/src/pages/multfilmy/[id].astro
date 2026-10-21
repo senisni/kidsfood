@@ -15,10 +15,9 @@ const { video } = Astro.props
 const crumbs = [{ name: 'Главная', href: '/' }, { name: 'Мультфильмы', href: '/multfilmy/' }, { name: video.title, href: `/multfilmy/${video.id}/` }]
 ---
 <BaseLayout title={`${video.title} — мультфильм о еде для детей`} description={video.text} image={video.poster} schema={[videoSchema(video), breadcrumbSchema(crumbs)]}>
-  <PageHero background="page-cinema" fill="bg-night" tone="night" position="object-bottom" crumbs={crumbs} kicker={`Мультфильм · ${video.length} · 8–12 лет`} title={video.title} class="pb-[9rem] sm:pb-[12rem]" />
-  <section class="shell relative z-10 -mt-[7rem] sm:-mt-[10rem]">
-    <VideoCard video={video} playable class="mx-auto max-w-[60rem]" />
-  </section>
+  <PageHero background="page-cinema" fill="bg-night" tone="night" position="object-bottom" crumbs={crumbs} kicker={`Мультфильм · ${video.length} · 8–12 лет`} title={video.title} class="pb-[2.4rem] sm:pb-[3.2rem]">
+    <VideoCard slot="after" video={video} playable class="mx-auto max-w-[60rem]" />
+  </PageHero>
   <section class="shell grid gap-[2rem] py-[2.6rem] sm:grid-cols-[1.5fr_1fr]">
     <div>
       <h2 class="font-display text-[1.7rem] font-black text-forest-deep">О чём эта история</h2>
