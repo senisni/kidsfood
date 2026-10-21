@@ -1,0 +1,41 @@
+---
+// Тарелка трёх друзей: левая половина — овощи и фрукты, справа сверху — крупы и хлеб, снизу — белок
+import { twMerge } from 'tailwind-merge'
+
+import Food from '@/components/Food.astro'
+import Sprite from '@/components/Sprite.astro'
+import type { FoodId } from '@/data/foods'
+
+interface Props {
+  veg?: FoodId[]
+  grain?: FoodId[]
+  protein?: FoodId[]
+  tint?: boolean
+  class?: string
+  [key: string]: unknown
+}
+
+const { veg = [], grain = [], protein = [], tint = true, class: className, ...rest } = Astro.props
+// места в процентах от размера тарелки: до двух продуктов на часть
+const spots = {
+  veg: ['left-[14%] top-[20%]', 'left-[14%] top-[54%]'],
+  grain: ['left-[56%] top-[14%]', 'left-[68%] top-[26%]'],
+  protein: ['left-[56%] top-[56%]', 'left-[68%] top-[46%]'],
+}
+---
+
+<div class:list={[twMerge('relative aspect-square', className)]} {...rest}>
+  <Sprite name="plate3-1" alt="Тарелка из трёх частей" class="absolute inset-0 size-full" eager />
+  {
+    tint && (
+      <div aria-hidden="true" class="absolute inset-[7%] overflow-hidden rounded-full opacity-35">
+        <span class="absolute inset-y-0 left-0 w-1/2 bg-veg" />
+        <span class="absolute top-0 right-0 h-1/2 w-1/2 bg-grain" />
+        <span class="absolute right-0 bottom-0 h-1/2 w-1/2 bg-protein" />
+      </div>
+    )
+  }
+  {veg.slice(0, 2).map((id, index) => <Food id={id} class:list={['absolute w-[30%]', spots.veg[index]]} imgClass="size-full" />)}
+  {grain.slice(0, 2).map((id, index) => <Food id={id} class:list={['absolute w-[26%]', spots.grain[index]]} imgClass="size-full" />)}
+  {protein.slice(0, 2).map((id, index) => <Food id={id} class:list={['absolute w-[26%]', spots.protein[index]]} imgClass="size-full" />)}
+</div>

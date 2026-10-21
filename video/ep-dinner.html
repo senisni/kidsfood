@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Ужин: слушай живот</title>
+<link rel="stylesheet" href="lib/fonts.css">
+<style>
+  html, body { margin: 0; background: #1d2a24; height: 100%; }
+  body { display: grid; place-items: center; }
+  canvas { width: min(100vw, 177.78vh); height: auto; display: block; }
+  #ui { position: fixed; left: 12px; bottom: 10px; color: #f4ecd8; font: 14px system-ui; opacity: .8; }
+</style>
+</head>
+<body>
+<canvas id="c" width="1920" height="1080"></canvas>
+<div id="ui"></div>
+<script src="lib/paper.js"></script>
+<script>
+"use strict";
+// Эпизод «Ужин: слушай живот» ≈26 с. Мысль: вечером та же тарелка из трёх друзей;
+// сколько съесть — подсказывает живот: наелся — можно остановиться, голоден — можно добавки.
+const TT = { table: 0, dadLine: .9, plate: 4.2, q: 4.8, girl: 10.8, girlLine: 11.4, cap1: 13.8, boy: 16.2, boyLine: 16.8, dadAns: 18.6, cap2: 20.4, final: 22.8, end: 26.4 };
+TT.sections = [[0, TT.final, 1], [TT.final, TT.end, 2]];
+const KB = 1920 / 1672;
+
+function table(g, t, cam, kids) {
+  g.save(); camImage(g, cam[0], cam[1], cam[2], KB);
+  g.drawImage(SPR["evening-kitchen"], 0, 0, 1672, 941);
+  kids(g);
+  g.drawImage(SPR["evening-table-fg"], 0, 0, 1672, 941);
+  // тарелки на столе (сплюснутые: вид сбоку)
+  [[560, 760], [1180, 760]].forEach(([x, y]) => { g.save(); g.translate(x, y); g.scale(1, .42); sprite(g, SPR["el10-8"], 0, 0, .7, 0, { sd: .5 }); g.restore(); });
+  g.restore();
+}
+// 1. Папа зовёт ужинать
+function sTable(g, t) {
+  table(g, t, [836 + t * 10, 470, 1.06], g => {
+    hero(g, SPR["boy-6"], 520, 880, 470, breathe(1, t));
+    hero(g, SPR["girlact-6"], 1150, 880, 470, breathe(2, t));
+    const dx = lerp(1900, 1520, easeOut(prog(t, 0, 1.2)));
+    hero(g, SPR["dad-4"], dx, 940, 700, breathe(3, t));
+  });
+  chapterTag(g, t, .3, "Вечер", "sunmoon-2");
+  bubble(g, 1250, 230, "Ужин готов!", prog(t, TT.dadLine, TT.dadLine + .3), "", [200, 130], t, { words: wordsAt(t, TT.dadLine + .1) });
+}
+// 2. Тарелка сверху: зритель сам находит трёх друзей
+function sPlate(g, t) {
+  const lt = t - TT.plate;
+  g.save(); g.translate(W / 2, H / 2 + 40); g.scale(1.0 - lt * .008, 1.0 - lt * .008);
+  g.drawImage(NIGHT, -W * .75, -H * .75, W * 1.5, H * 1.5);
+  sprite(g, SPR["el10-8"], 0, 0, 1.75, 0, { sd: 1.4 });
+  g.restore();
+  paperLine(g, "Все три друга здесь?", W / 2, 140, 96, TT.q, .05, t);
+  // пауза — затем подсказки по одной
+  friendTag(g, 1500, 780, 0, prog(t, TT.q + 2.2, TT.q + 2.5), { noSub: true, scale: .9 });
+  friendTag(g, 380, 780, 1, prog(t, TT.q + 3.0, TT.q + 3.3), { noSub: true, scale: .9 });
+  friendTag(g, 1480, 300, 2, prog(t, TT.q + 3.8, TT.q + 4.1), { noSub: true, scale: .9 });
+}
+// 3. Девочка наелась
+function sGirl(g, t) {
+  table(g, t, [1100, 470, 1.4 + (t - TT.girl) * .01], g => hero(g, SPR["girlact-4"], 1150, 880, 520, breathe(4, t)));
+  bubble(g, 1200, 230, "Я наелась. Спасибо!", prog(t, TT.girlLine, TT.girlLine + .3), "girl", [-160, 140], t, { words: wordsAt(t, TT.girlLine + .1) });
+  caption(g, W / 2, 930, "Наелся — можно остановиться", prog(t, TT.cap1, TT.cap1 + .3), { back: "#f0b9b0" });
+}
+// 4. Мальчик ещё голоден
+function sBoy(g, t) {
+  table(g, t, [600, 470, 1.4 + (t - TT.boy) * .01], g => {
+    hero(g, SPR["boyact-2"], 560, 900, 560, breathe(5, t));
+    hero(g, SPR["dad-4"], 1060, 960, 720, breathe(6, t));
+  });
+  bubble(g, 560, 220, "А можно ещё салата?", prog(t, TT.boyLine, TT.boyLine + .3), "boy", [-60, 150], t, { words: wordsAt(t, TT.boyLine + .1), out: prog(t, TT.dadAns - .2, TT.dadAns) });
+  bubble(g, 1260, 250, "Конечно! Бери.", prog(t, TT.dadAns, TT.dadAns + .3), "", [-140, 140], t, { words: wordsAt(t, TT.dadAns + .1) });
+  caption(g, W / 2, 930, "Голоден — можно добавки", prog(t, TT.cap2, TT.cap2 + .3), { back: "#9cc9b4" });
+}
+// 5. Итог: живот подскажет
+function sFinal(g, t) {
+  const lt = t - TT.final;
+  g.save(); g.translate(W / 2, H / 2); g.scale(1.03 - lt * .01, 1.03 - lt * .01);
+  g.drawImage(NIGHT, -W * .75, -H * .75, W * 1.5, H * 1.5);
+  const k = easeOut(prog(t, TT.final, TT.final + .8));
+  g.save(); g.translate(0, 80); g.scale(k, k);
+  plate(g, t, 560, 0, { fill: [1, 1, 1], items: [
+    { n: "pfood-9", u: .26, v: .35, s: 0.279, r: -.1 }, { n: "pfood-10", u: .3, v: .68, s: 0.301, r: -.5 },
+    { n: "pfood-6", u: .72, v: .30, s: 0.283, r: .05 }, { n: "pfood-7", u: .70, v: .70, s: 0.289, r: .1 }] });
+  g.restore();
+  sprite(g, SPR["sunmoon-2"], 420, -300, .55 * 292 / SPR["sunmoon-2"].height, 0, { sd: .6 });
+  g.restore();
+  paperLine(g, "Слушай свой живот —", W / 2, 140, 96, TT.final + .6, .05, t);
+  paperLine(g, "он подскажет", W / 2, 970, 96, TT.final + 1.5, .06, t);
+}
+
+boot({
+  T: TT, end: TT.end, audio: "build/ep-dinner-audio.wav",
+  segments: [
+    { a: TT.table, b: TT.plate, draw: sTable },
+    { a: TT.plate, b: TT.girl, draw: sPlate },
+    { a: TT.girl, b: TT.boy, draw: sGirl, slide: .7 },
+    { a: TT.boy, b: TT.final, draw: sBoy, slide: .7 },
+    { a: TT.final, b: TT.end + .01, draw: sFinal },
+  ],
+  buildSfx() {
+    for (let k = 0; k < 3; k++) sfx(.2 + k * .4, "step", .5, .6);
+    sfx(.3, "pop", 0, -.7); sfx(TT.dadLine, "pop", 0, .4);
+    sfx(TT.plate, "snap", 0, 0);
+    for (let i = 0; i < 16; i++) sfx(TT.q + i * .05 + .15, "tap", 1, -.5 + i / 16);
+    for (let i = 0; i < 3; i++) sfx(TT.q + 2.25 + i * .8, "chime", [0, 4, 7][i], 0);
+    sfx(TT.girl, "slide", 0, .4); sfx(TT.girlLine, "pop", 0, .2); sfx(TT.cap1, "chime", 7, 0);
+    sfx(TT.boy, "slide", 0, .4); sfx(TT.boyLine, "pop", 0, -.3); sfx(TT.dadAns, "pop", 0, .3); sfx(TT.cap2, "chime", 4, 0);
+    sfx(TT.final, "snap", 0, 0); sfx(TT.final + .3, "plop", 420, 0);
+    for (let i = 0; i < 17; i++) sfx(TT.final + .6 + i * .05 + .15, "tap", 1, -.5 + i / 17);
+    for (let i = 0; i < 11; i++) sfx(TT.final + 1.5 + i * .06 + .15, "tap", 1, -.5 + i / 11);
+  },
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+---
+// Бумажная карточка: кремовый лист на смещённой цветной подложке.
+// class — для содержимого листа (отступы, flex), wrapperClass — для внешней обёртки (сетка, ширина).
+import { twMerge } from 'tailwind-merge'
+
+interface Props {
+  backing?: string
+  as?: 'div' | 'article' | 'a' | 'li'
+  class?: string
+  wrapperClass?: string
+  [key: string]: unknown
+}
+
+const { backing = 'bg-sand', as: Tag = 'div', class: className, wrapperClass, ...rest } = Astro.props
+---
+
+<Tag class:list={[twMerge('group/card relative block', wrapperClass)]} {...rest}>
+  <span aria-hidden="true" class:list={['absolute inset-0 -translate-x-2 translate-y-2 -rotate-[0.6deg] rounded-2xl', backing]}></span>
+  <div class:list={[twMerge('relative h-full rounded-2xl bg-paper shadow-paper', className)]}>
+    <slot />
+  </div>
+</Tag>

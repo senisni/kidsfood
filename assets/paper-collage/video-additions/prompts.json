@@ -1,0 +1,108 @@
+{
+  "tool": "built-in image_gen",
+  "date": "2026-10-19",
+  "jobs": [
+    {
+      "name": "world-03-canteen",
+      "refs": [
+        "world-01-garden.png",
+        "world-02-kitchen.png",
+        "boy-summer-poses.png",
+        "girl-summer-pink-poses.png",
+        "scenes-v2/scene-02-school-v2.png"
+      ],
+      "alpha": false,
+      "prompt": "Use case: illustration-story. Educational animated story for ages 10–11. Handmade European picture-book PAPER COLLAGE: matte fibrous colored paper, flat hand-cut layers, slightly irregular scissor-cut edges, shallow soft shadows BETWEEN layers. Match the selected references closely. No anime, black outlines, watercolor, glossy 3D, photoreal skin, lettering, labels, logos or watermarks. High resolution. EDIT TARGET is the LAST reference, school canteen. First four references are material/world and identity support only. Create the SAME empty background by removing both children, their trays, forks, glasses and backpacks. Preserve school canteen composition, blue/coral palette, windows with birch trees and basketball court, service counter and furniture. Reconstruct empty chairs and table where children were. Completely clear foreground table, no place settings. No people anywhere, including outdoors. Keep generous usable foreground table and floor for separately composited character sprites. Output landscape 16:9 opaque background."
+    },
+    {
+      "name": "world-04-evening-path",
+      "refs": [
+        "world-01-garden.png",
+        "world-02-kitchen.png",
+        "boy-summer-poses.png",
+        "girl-summer-pink-poses.png",
+        "scenes-v2/scene-03-evening-v2.png"
+      ],
+      "alpha": false,
+      "prompt": "Use case: illustration-story. Educational animated story for ages 10–11. Handmade European picture-book PAPER COLLAGE: matte fibrous colored paper, flat hand-cut layers, slightly irregular scissor-cut edges, shallow soft shadows BETWEEN layers. Match the selected references closely. No anime, black outlines, watercolor, glossy 3D, photoreal skin, lettering, labels, logos or watermarks. High resolution. EDIT TARGET is LAST reference, park bridge sunset. First four references are material/world and identity support only. Remove both children completely and reconstruct the bridge planks and railings behind them. Preserve composition, paper texture, lilac/plum/pink sunset palette, peach sun, river, bridge, bench and lantern. Empty bridge and path for animation. No people or character silhouettes. Output landscape 16:9 opaque background."
+    },
+    {
+      "name": "world-05-kitchen-evening",
+      "refs": [
+        "world-01-garden.png",
+        "world-02-kitchen.png",
+        "boy-summer-poses.png",
+        "girl-summer-pink-poses.png",
+        "scenes-v2/scene-04-home-table-v2.png"
+      ],
+      "alpha": false,
+      "prompt": "Use case: illustration-story. Educational animated story for ages 10–11. Handmade European picture-book PAPER COLLAGE: matte fibrous colored paper, flat hand-cut layers, slightly irregular scissor-cut edges, shallow soft shadows BETWEEN layers. Match the selected references closely. No anime, black outlines, watercolor, glossy 3D, photoreal skin, lettering, labels, logos or watermarks. High resolution. EDIT TARGET is LAST reference, evening home dinner. First four references are material/world and identity support only. Remove both children, all plates, food, cutlery, drinking glasses, salad bowl, coasters and folded napkins from the table. Reconstruct room and chairs behind children. Preserve framing, deep blue walls, warm glowing pendant lamp, plant and sideboard, framed geometric artwork, window with neighboring terracotta rooftops at night and moon. Keep the empty wooden foreground table with plain cream runner. No people. This is a home kitchen/dining corner, same setting as target. Output landscape 16:9 opaque background."
+    },
+    {
+      "name": "boy-actions-06",
+      "refs": [
+        "world-01-garden.png",
+        "world-02-kitchen.png",
+        "boy-summer-poses.png",
+        "girl-summer-pink-poses.png",
+        "elements-20-food.png"
+      ],
+      "alpha": true,
+      "prompt": "Use case: illustration-story. Educational animated story for ages 10–11. Handmade European picture-book PAPER COLLAGE: matte fibrous colored paper, flat hand-cut layers, slightly irregular scissor-cut edges, shallow soft shadows BETWEEN layers. Match the selected references closely. No anime, black outlines, watercolor, glossy 3D, photoreal skin, lettering, labels, logos or watermarks. High resolution. Asset: isolated CHARACTER ACTION SHEET, exactly SIX full-body cutouts of the SAME boy from reference 3, arranged 3 columns by 2 rows, large transparent gaps. Reference 4 girl is identity context only, do not draw girl. Preserve boy's 10-year-old proportions, chestnut paper hair, friendly small dark eyes, cream T-shirt with yellow sun and mint collar, sage green shorts, cream sneakers and socks. Each cutout complete including feet. Reading order: (1) leaning forward and reaching out to put a small plate of food on an imaginary table, no table; (2) holding fork near open mouth, ready to eat, standing three-quarter; (3) running energetically with bent arms and lifted knee as during football break, no ball needed; (4) carrying a lunch tray with both hands, standing; (5) one hand resting on belly, comfortably satisfied gentle smile, no pain; (6) thinking, one finger at chin. Same relative head size and body scale across all six. No ground plane, no furniture, no frames, no text. Genuine transparent alpha background, no colored halo, no checkerboard."
+    },
+    {
+      "name": "girl-actions-06",
+      "refs": [
+        "world-01-garden.png",
+        "world-02-kitchen.png",
+        "boy-summer-poses.png",
+        "girl-summer-pink-poses.png",
+        "elements-20-food.png"
+      ],
+      "alpha": true,
+      "prompt": "Use case: illustration-story. Educational animated story for ages 10–11. Handmade European picture-book PAPER COLLAGE: matte fibrous colored paper, flat hand-cut layers, slightly irregular scissor-cut edges, shallow soft shadows BETWEEN layers. Match the selected references closely. No anime, black outlines, watercolor, glossy 3D, photoreal skin, lettering, labels, logos or watermarks. High resolution. Asset: isolated CHARACTER ACTION SHEET, exactly SIX complete cutouts of SAME girl from reference 4, 3 columns by 2 rows, wide transparent gaps. Reference 3 boy identity context only, do not draw boy. Preserve 11-year-old proportions, soft pink bob, daisy hair clip, small friendly dark eyes, pale yellow sleeveless dress with cream patch pocket, green sandals. Reading order: (1) standing pointing index finger diagonally upward to side; (2) standing holding open lunchbox in both hands with readable simple food inside; (3) holding apple near mouth and taking a bite; (4) gently lowering a fork, other hand a relaxed small open-palm enough gesture, satisfied smile indicating she has eaten enough, no plate or table; (5) leaning slightly to examine through magnifying glass; (6) seated facing front, complete body with bent knees and feet, forearms extended forward and hands resting at imaginary tabletop level, NO table and NO chair drawn so furniture can be composited separately. Keep same head size and scale all six. No ground, frames or text. Genuine transparent alpha background, no colored halo, no checkerboard."
+    },
+    {
+      "name": "scene-05-belly-garden",
+      "refs": [
+        "world-01-garden.png",
+        "world-02-kitchen.png",
+        "boy-summer-poses.png",
+        "girl-summer-pink-poses.png",
+        "elements-20-food.png"
+      ],
+      "alpha": false,
+      "prompt": "Use case: illustration-story. Educational animated story for ages 10–11. Handmade European picture-book PAPER COLLAGE: matte fibrous colored paper, flat hand-cut layers, slightly irregular scissor-cut edges, shallow soft shadows BETWEEN layers. Match the selected references closely. No anime, black outlines, watercolor, glossy 3D, photoreal skin, lettering, labels, logos or watermarks. High resolution. Create wide 16:9 visual metaphor 'garden in the belly'. First two refs paper material/world; refs 3 and 4 character identities supporting continuity, no full children in this image; last ref food paper texture. Center a large simple cream paper torso/belly silhouette, no head or limbs needed, with a circular imaginative garden window inside the belly. Clearly a story metaphor, NOT an anatomical diagram: no organs, intestines, cutaway flesh, veins or medical details. Inside the circular garden, friendly tiny round paper microbe gardeners water seedlings in orderly beds. Long colored PAPER STRIPS representing dietary fiber weave gently into a supportive lattice among the garden beds. Five small kind gardeners in sage, teal, lavender, terracotta and mustard with tiny watering cans or seedling tools. Fresh green sprouts. Calm cream and sage setting with terracotta soil and teal accents, very readable uncluttered wide composition. No words, no arrows, no human faces on torso. Opaque paper background."
+    },
+    {
+      "name": "microbe-gardeners-05",
+      "refs": [
+        "world-01-garden.png",
+        "world-02-kitchen.png",
+        "boy-summer-poses.png",
+        "girl-summer-pink-poses.png",
+        "elements-20-food.png"
+      ],
+      "alpha": true,
+      "prompt": "Use case: illustration-story. Educational animated story for ages 10–11. Handmade European picture-book PAPER COLLAGE: matte fibrous colored paper, flat hand-cut layers, slightly irregular scissor-cut edges, shallow soft shadows BETWEEN layers. Match the selected references closely. No anime, black outlines, watercolor, glossy 3D, photoreal skin, lettering, labels, logos or watermarks. High resolution. Asset: exactly FIVE isolated friendly fantasy microbe-gardener paper cutouts for a belly-garden metaphor, clean generous spacing in one horizontal row. First two refs paper material/world; human character refs style context only, DO NOT draw humans. Distinct simple round or bean silhouettes, tiny arms and feet, small dot eyes, kind smiles, no teeth or slime, no scary spikes. In left-to-right order: sage green oval gardener with watering can; teal round gardener holding seedling; lavender bean gardener with tiny rake; terracotta rounded gardener carrying basket of seeds; mustard round gardener with tiny spade. Match world matte cut-paper material, shallow interlayer shadows. Complete shapes and tools, no overlap between five groups. No garden or soil ground or background. Genuine transparent alpha, no checkerboard or halos. No text."
+    },
+    {
+      "name": "elements-50-our-table",
+      "refs": [
+        "world-01-garden.png",
+        "world-02-kitchen.png",
+        "boy-summer-poses.png",
+        "girl-summer-pink-poses.png",
+        "elements-20-food.png"
+      ],
+      "alpha": true,
+      "prompt": "Use case: illustration-story. Educational animated story for ages 10–11. Handmade European picture-book PAPER COLLAGE: matte fibrous colored paper, flat hand-cut layers, slightly irregular scissor-cut edges, shallow soft shadows BETWEEN layers. Match the selected references closely. No anime, black outlines, watercolor, glossy 3D, photoreal skin, lettering, labels, logos or watermarks. High resolution. Asset: isolated food PROP SHEET matching LAST reference's food rendering. First two refs material/world; both character refs are style/scale context only, do not draw humans. Exactly TEN food objects/groups in grid 5 columns x 2 rows, no grid lines, wide transparent gutters, consistent three-quarter slightly top-down view. Reading order: top row (1) bowl of vegetable soup (2) one browned oval meat patty/cutlet on small plate (3) chicken fillet on small plate (4) small plate of white grainy cottage cheese/tvorog (5) three golden round syrniki cottage-cheese pancakes on small plate; bottom row (6) clear tumbler of milk (7) glass of thicker creamy kefir, slightly off-white, without packaging or text (8) bowl of cooked red and white beans (9) small handful of walnuts and hazelnuts, one isolated group (10) whole green cucumber with two cut slices as one group. ONLY these ten groups, no utensils, decoration, loose extra props, labels, faces or text. Genuine transparent alpha background; no drawn checkerboard, no colored halo. All dishes and food complete with margins, not cropped."
+    }
+  ],
+  "corrections": [
+    {
+      "asset": "girl-actions-06",
+      "prompt": "Use case: identity-preserve. Edit this six-pose paper-collage girl action sheet. Change ONLY the lower-left (fourth) pose: keep her satisfied closed-eye smile and open-palm 'I've had enough' gesture, but lower the OTHER arm holding the fork to hip level, with fork pointing diagonally downward as she is putting it down. Keep fork visible and separate from dress silhouette, no table. Preserve all other five poses exactly, layout, body proportions, faces, pink bob, daisy clip, yellow dress, green sandals, paper textures. Same six full-body complete cutouts on genuine transparent alpha. Remove background only; no glow, no colored edge halos, no checkerboard, no text. Do not crop any figure."
+    }
+  ]
+}

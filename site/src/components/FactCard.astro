@@ -1,0 +1,21 @@
+---
+import { twMerge } from 'tailwind-merge'
+
+import PaperCard from '@/components/PaperCard.astro'
+import type { Fact } from '@/data/facts'
+import { typo } from '@/lib/typo'
+
+interface Props {
+  fact: Fact
+  backing?: string
+  class?: string
+  [key: string]: unknown
+}
+
+const { fact, backing = 'bg-sand', class: className, ...rest } = Astro.props
+---
+
+<PaperCard as="article" backing={backing} class={twMerge('p-6', className)} {...rest}>
+  <h3 class="font-display text-2xl leading-tight font-bold">{typo(fact.title)}</h3>
+  <p class="mt-2 text-lg leading-relaxed">{typo(fact.text)}</p>
+</PaperCard>

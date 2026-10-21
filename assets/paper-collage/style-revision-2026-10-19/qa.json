@@ -1,0 +1,206 @@
+[
+  {
+    "file": "elements-50-our-table.png",
+    "size": [
+      1944,
+      809
+    ],
+    "mode": "RGBA",
+    "previous_exists": true,
+    "alpha_range": [
+      0,
+      255
+    ],
+    "fully_transparent_fraction": 0.44
+  },
+  {
+    "file": "elements-60-extra-food.png",
+    "size": [
+      1254,
+      1254
+    ],
+    "mode": "RGBA",
+    "previous_exists": true,
+    "alpha_range": [
+      0,
+      255
+    ],
+    "fully_transparent_fraction": 0.436
+  },
+  {
+    "file": "elements-20-food.png",
+    "size": [
+      1679,
+      937
+    ],
+    "mode": "RGBA",
+    "previous_exists": true,
+    "alpha_range": [
+      0,
+      255
+    ],
+    "fully_transparent_fraction": 0.535
+  },
+  {
+    "file": "classmate-boy-04.png",
+    "size": [
+      1263,
+      1246
+    ],
+    "mode": "RGBA",
+    "previous_exists": true,
+    "alpha_range": [
+      0,
+      255
+    ],
+    "fully_transparent_fraction": 0.715
+  },
+  {
+    "file": "classmate-girl-04.png",
+    "size": [
+      1301,
+      1209
+    ],
+    "mode": "RGBA",
+    "previous_exists": true,
+    "alpha_range": [
+      0,
+      255
+    ],
+    "fully_transparent_fraction": 0.695
+  },
+  {
+    "file": "canteen-cook-04.png",
+    "size": [
+      1312,
+      1199
+    ],
+    "mode": "RGBA",
+    "previous_exists": true,
+    "alpha_range": [
+      0,
+      255
+    ],
+    "fully_transparent_fraction": 0.658
+  },
+  {
+    "file": "home-adult-dad-04.png",
+    "size": [
+      1226,
+      1283
+    ],
+    "mode": "RGBA",
+    "previous_exists": true,
+    "alpha_range": [
+      0,
+      255
+    ],
+    "fully_transparent_fraction": 0.696
+  },
+  {
+    "file": "boy-actions-06.png",
+    "size": [
+      1536,
+      1024
+    ],
+    "mode": "RGBA",
+    "previous_exists": true,
+    "alpha_range": [
+      0,
+      254
+    ],
+    "fully_transparent_fraction": 0.677
+  },
+  {
+    "file": "girl-actions-06.png",
+    "size": [
+      1536,
+      1024
+    ],
+    "mode": "RGBA",
+    "previous_exists": true,
+    "alpha_range": [
+      0,
+      254
+    ],
+    "fully_transparent_fraction": 0.616
+  },
+  {
+    "file": "microbe-gardeners-05.png",
+    "size": [
+      2163,
+      727
+    ],
+    "mode": "RGBA",
+    "previous_exists": true,
+    "alpha_range": [
+      0,
+      255
+    ],
+    "fully_transparent_fraction": 0.499
+  },
+  {
+    "file": "scene-05-belly-garden.png",
+    "size": [
+      1672,
+      941
+    ],
+    "mode": "RGB",
+    "previous_exists": true
+  },
+  {
+    "file": "world-03-canteen.png",
+    "size": [
+      1672,
+      941
+    ],
+    "mode": "RGB",
+    "previous_exists": true
+  },
+  {
+    "file": "world-04-evening-path.png",
+    "size": [
+      1672,
+      941
+    ],
+    "mode": "RGB",
+    "previous_exists": true
+  },
+  {
+    "file": "world-05-kitchen-evening.png",
+    "size": [
+      1672,
+      941
+    ],
+    "mode": "RGB",
+    "previous_exists": true
+  },
+  {
+    "file": "boy-walk-8.png",
+    "size": [
+      1774,
+      887
+    ],
+    "mode": "RGBA",
+    "previous_exists": true,
+    "alpha_range": [
+      0,
+      255
+    ],
+    "fully_transparent_fraction": 0.654
+  },
+  {
+    "file": "girl-walk-8.png",
+    "size": [
+      1774,
+      887
+    ],
+    "mode": "RGBA",
+    "previous_exists": true,
+    "alpha_range": [
+      0,
+      255
+    ],
+    "fully_transparent_fraction": 0.62
+  }
+]

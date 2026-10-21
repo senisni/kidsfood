@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Сад в животе</title>
+<link rel="stylesheet" href="lib/fonts.css">
+<style>
+  html, body { margin: 0; background: #1d2a24; height: 100%; }
+  body { display: grid; place-items: center; }
+  canvas { width: min(100vw, 177.78vh); height: auto; display: block; }
+  #ui { position: fixed; left: 12px; bottom: 10px; color: #f4ecd8; font: 14px system-ui; opacity: .8; }
+</style>
+</head>
+<body>
+<canvas id="c" width="1920" height="1080"></canvas>
+<div id="ui"></div>
+<script src="lib/paper.js"></script>
+<script>
+"use strict";
+// Эпизод «Сад в животе» ≈27 с: клетчатка — еда для помощников в животе, есть только в растениях.
+// Сетка 100 BPM (доля 0,6 с).
+const TT = {
+  path: 0, girlLine: 1.8, boyLine: 3.6, dive: 5.4,
+  garden: 6.0, cap1: 6.6, cap2: 9.6, quiz: 13.2, final: 23.4, end: 27.0,
+};
+// по 1,8 с на продукт: прилетает, висит с «?», затем ответ
+const QUIZ = [
+  { n: "pfood-2", ok: true, name: "яблоко" },
+  { n: "pfood-4", ok: false, name: "яйцо" },
+  { n: "el50-8", ok: true, name: "фасоль" },
+  { n: "el20-10", ok: false, name: "сыр" },
+  { n: "pfood-3", ok: true, name: "хлеб" },
+];
+const cap = w => w[0].toUpperCase() + w.slice(1);
+TT.sections = [[0, TT.quiz, 1], [TT.quiz, TT.final, 2], [TT.final, TT.end, 2]];
+
+// 1. Дорога: девочка хрустит яблоком
+function sPath(g, t) {
+  const KB = 1920 / 1672;
+  const dive = easeIn(prog(t, TT.dive, TT.garden));
+  // наезд на живот девочки перед переходом в «сад»
+  const cx = lerp(760 + t * 18, 900, dive), cy = lerp(480, 760, dive), z = lerp(1.08, 4.2, dive);
+  g.save(); camImage(g, cx, cy, z, KB);
+  g.save(); if (dive > .2) g.filter = `blur(${(dive - .2) * 8}px)`;
+  g.drawImage(SPR["evening-path"], 0, 0, 1672, 941); g.restore();
+  const walking = t < 1.4, gx = 480 + Math.min(t, 1.4) * 300;
+  if (walking) walker(g, "girl", t, gx, 900, 560, 8); else hero(g, SPR["girlact-3"], gx, 900, 560, breathe(1, t));
+  if (walking) walker(g, "boy", t + .3, gx - 280, 905, 520, 8); else hero(g, SPR["boyact-6"], gx - 280, 905, 520, breathe(2, t));
+  g.restore();
+  // переход: бумажный круг-«окошко» в сад раскрывается из живота
+  if (dive > 0) {
+    const r = easeIn(dive) * 1300;
+    g.save(); g.beginPath(); g.arc(W / 2, H / 2, r, 0, Math.PI * 2); g.clip();
+    g.drawImage(SPR["belly-garden"], 0, 0, W, H); g.restore();
+    g.save(); g.lineWidth = 18; g.strokeStyle = C.paper; g.beginPath(); g.arc(W / 2, H / 2, r, 0, Math.PI * 2); g.stroke(); g.restore();
+  }
+  const out = prog(t, TT.dive - .2, TT.dive + .1);
+  bubble(g, 1180, 230, "Я кормлю своих помощников!", prog(t, TT.girlLine, TT.girlLine + .3), "girl", [-180, 150], t, { out, words: wordsAt(t, TT.girlLine + .1) });
+  bubble(g, 420, 300, "Каких ещё помощников?", prog(t, TT.boyLine, TT.boyLine + .3), "boy", [40, 160], t, { out, words: wordsAt(t, TT.boyLine + .1) });
+}
+
+// 2–4. Сад в животе: кто там живёт и что они едят, затем викторина
+function sGarden(g, t) {
+  const KB = 1920 / 1672;
+  const z = lerp(1.0, 1.06, prog(t, TT.garden, TT.end));
+  g.save(); camImage(g, 836, 470, z, KB);
+  g.drawImage(SPR["belly-garden"], 0, 0, 1672, 941);
+  g.restore();
+  // садовники-вырезки впереди: подпрыгивают на долю
+  ["mic-1", "mic-2", "mic-3", "mic-4", "mic-5"].forEach((m, i) => {
+    const k = easeOut(prog(t, TT.cap1 + .3 + i * .25, TT.cap1 + .8 + i * .25));
+    if (k <= 0) return;
+    const cheer = QUIZ.some((q, qi) => q.ok && prog(t, TT.quiz + qi * 1.8 + 1.2, TT.quiz + qi * 1.8 + 1.8) > 0 && prog(t, TT.quiz + qi * 1.8 + 1.2, TT.quiz + qi * 1.8 + 1.8) < 1);
+    const hop = Math.abs(Math.sin((t - TT.garden) * Math.PI / .6 + i)) * (cheer ? 34 : 12);
+    sprite(g, SPR[m], 300 + i * 330, H + 140 - k * 380 - hop, .52, (i - 2) * .05, { sd: 1.2 });
+  });
+  caption(g, W / 2, 140, "Тут живут микробы-помощники", prog(t, TT.cap1, TT.cap1 + .3), { back: "#e6c27a", out: prog(t, TT.cap2 - .3, TT.cap2) });
+  caption(g, W / 2, 140, "Их любимая еда — клетчатка", prog(t, TT.cap2, TT.cap2 + .3), { back: "#8fb08a", out: prog(t, TT.cap2 + 1.5, TT.cap2 + 1.8) });
+  caption(g, W / 2, 140, "А ещё клетчатка — паровозик: помогает еде ехать по животу", prog(t, TT.cap2 + 1.8, TT.cap2 + 2.1), { back: "#e6c27a", maxW: 1500, out: prog(t, TT.quiz - .3, TT.quiz) });
+  paperTrain(g, t, TT.cap2 + 1.6, TT.quiz);
+  // клетчатка — бумажные ленточки — сыплется, пока о ней говорят
+  for (let i = 0; i < 10; i++) {
+    const tt = TT.cap2 + .4 + i * .25, d = prog(t, tt, tt + 1.4);
+    if (d <= 0 || d >= 1) continue;
+    g.save(); g.translate(560 + hash(i) * 800, lerp(240, 640 + hash(i + 4) * 100, easeIn(d))); g.rotate(d * 3 + i); g.globalAlpha = 1 - d * .4;
+    g.fillStyle = ["#e9c46a", "#8fb08a", "#e9965a"][i % 3]; g.beginPath(); g.roundRect(-38, -8, 76, 16, 8); g.fill(); g.restore();
+  }
+  // викторина: где есть клетчатка?
+  if (t >= TT.quiz && t < TT.final) {
+    caption(g, W / 2, 140, "Где есть клетчатка?", prog(t, TT.quiz, TT.quiz + .3), { back: "#f0b9b0" });
+    QUIZ.forEach((q, i) => {
+      const t0 = TT.quiz + .3 + i * 1.8, inK = easeOut(prog(t, t0, t0 + .5)), verdict = prog(t, t0 + 1.1, t0 + 1.3);
+      if (inK <= 0 || t > t0 + 1.8) return;
+      const im = SPR[q.n], s = 250 / Math.max(im.width, im.height);
+      let x = lerp(-200, W / 2, inK), y = 520, sc = s, rot = Math.sin(t * 3) * .05;
+      const after = prog(t, t0 + 1.3, t0 + 1.8);
+      if (q.ok) { y += easeIn(after) * 140; sc *= 1 - easeIn(after) * .8; }       // садик «съел»
+      else { x += easeIn(after) * 1300; rot += after * 2; }                         // отскочил: не растение
+      sprite(g, im, x, y, sc, rot, { sd: 1.4 });
+      if (inK >= 1 && verdict === 0) caption(g, x + 190, y - 150, "?", 1, { size: 80, back: "#e6c27a" });
+      if (verdict > 0) caption(g, W / 2, 900, q.ok ? `${cap(q.name)}: есть клетчатка!` : `${cap(q.name)}: нет — не растение`, verdict,
+        { back: q.ok ? "#8fb08a" : "#e6d3a6", out: prog(t, t0 + 1.6, t0 + 1.8) });
+    });
+  }
+  // итог
+  if (t >= TT.final) {
+    caption(g, W / 2, 150, "Клетчатка — только в растениях", prog(t, TT.final, TT.final + .3), { back: "#8fb08a" });
+    ["pfood-2", "el50-8", "pfood-3", "pfood-10", "pfood-9", "el50-9"].forEach((n, i) => {
+      const k = prog(t, TT.final + .4 + i * .2, TT.final + .7 + i * .2);
+      if (k > 0) sprite(g, SPR[n], 360 + i * 240, 560, backOut(k, 2) * 190 / Math.max(SPR[n].width, SPR[n].height), (i - 2.5) * .05, { sd: 1 });
+    });
+    dropItem(g, SPR["el10-6"], 1700, 900, .7, -.1, t, TT.final + 2.0, 77);
+    caption(g, 1380, 920, "И пей воду!", prog(t, TT.final + 2.2, TT.final + 2.5), { back: "#9fd3cf", size: 56 });
+  }
+}
+
+boot({
+  T: TT, end: TT.end, audio: "build/ep-fiber-audio.wav",
+  segments: [{ a: TT.path, b: TT.garden, draw: sPath }, { a: TT.garden, b: TT.end + .01, draw: sGarden }],
+  buildSfx() {
+    for (let k = 0; k < 3; k++) sfx(.25 + k * .5, "step", .45, -.3);
+    sfx(1.5, "crunch", 0, .2); sfx(TT.girlLine, "pop", 0, .3); sfx(TT.boyLine, "pop", 0, -.3);
+    sfx(TT.dive, "whoosh", 1.4, 0);
+    sfx(TT.cap1, "chime", 0, 0); for (let i = 0; i < 5; i++) sfx(TT.cap1 + .55 + i * .25, "plop", 500 + i * 60, -.6 + i * .3);
+    sfx(TT.cap2, "chime", 4, 0); for (let i = 0; i < 10; i++) sfx(TT.cap2 + 1.5 + i * .25, "tap", .6, -.4 + i * .08);
+    sfx(TT.quiz, "chime", 7, 0);
+    QUIZ.forEach((q, i) => {
+      const t0 = TT.quiz + .3 + i * 1.8;
+      sfx(t0, "whoosh", .3, -.5);
+      if (q.ok) { sfx(t0 + 1.15, "chord", 0, 0); sfx(t0 + 1.6, "plop", 380, 0); }
+      else { sfx(t0 + 1.15, "wood", 1, 0); sfx(t0 + 1.4, "whoosh", .4, .6); }
+    });
+    sfx(TT.final, "chime", 0, 0); for (let i = 0; i < 6; i++) sfx(TT.final + .55 + i * .2, "plop", 520 + i * 50, -.6 + i * .24);
+    sfx(TT.final + 2.0, "plop", 260, .6); sfx(TT.final + 2.2, "pop", 0, .5);
+  },
+});
+</script>
+</body>
+</html>

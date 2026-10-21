@@ -1,0 +1,20 @@
+---
+import FactCard from '@/components/FactCard.astro'
+import SectionHeading from '@/components/SectionHeading.astro'
+import { facts, sources } from '@/data/facts'
+
+const backings = ['bg-mint', 'bg-pink', 'bg-veg/50', 'bg-rose', 'bg-sky', 'bg-sand']
+---
+
+<section id="parents" class="mx-auto max-w-7xl scroll-mt-20 px-4 py-20 md:px-6">
+  <SectionHeading kicker="Родителям и учителям" title="Что мы говорим детям — и почему" text="Каждая мысль сверена с рекомендациями. Без деления еды на хорошую и плохую, без калорий и «доешь»." />
+  <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+    {facts.map((fact, index) => <FactCard fact={fact} backing={backings[index % backings.length]} />)}
+  </div>
+  <div class="mt-12 text-center">
+    <p class="font-display text-xl font-bold">Источники</p>
+    <ul class="mt-3 flex flex-wrap justify-center gap-x-5 gap-y-2 text-base">
+      {sources.map((source) => <li><a href={source.href} target="_blank" rel="noopener" class="text-water underline underline-offset-4">{source.name}</a></li>)}
+    </ul>
+  </div>
+</section>

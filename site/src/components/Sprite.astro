@@ -1,0 +1,24 @@
+---
+// Бумажная вырезка из video/sprites (через scripts/sync-assets.mjs)
+import { twMerge } from 'tailwind-merge'
+
+interface Props {
+  name: string
+  alt?: string
+  eager?: boolean
+  class?: string
+  [key: string]: unknown
+}
+
+const { name, alt = '', eager = false, class: className, ...rest } = Astro.props
+---
+
+<img
+  src={`/video/sprites/${name}.png`}
+  alt={alt}
+  loading={eager ? 'eager' : 'lazy'}
+  decoding="async"
+  draggable="false"
+  class:list={[twMerge('pointer-events-none select-none object-contain drop-shadow-[0.35rem_0.55rem_0.4rem_rgb(60_40_10/0.28)]', className)]}
+  {...rest}
+/>

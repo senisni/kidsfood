@@ -1,0 +1,84 @@
+@import 'tailwindcss';
+
+/* Шрифты — из shared/fonts (копирует scripts/sync-assets.mjs) */
+@font-face { font-family: 'Balsamiq'; font-weight: 400; font-display: swap; src: url(/shared/fonts/balsamiq-400-cyrillic.woff2) format('woff2'); unicode-range: U+0400-045F, U+2116; }
+@font-face { font-family: 'Balsamiq'; font-weight: 400; font-display: swap; src: url(/shared/fonts/balsamiq-400-latin.woff2) format('woff2'); }
+@font-face { font-family: 'Balsamiq'; font-weight: 700; font-display: swap; src: url(/shared/fonts/balsamiq-700-cyrillic.woff2) format('woff2'); unicode-range: U+0400-045F, U+2116; }
+@font-face { font-family: 'Balsamiq'; font-weight: 700; font-display: swap; src: url(/shared/fonts/balsamiq-700-latin.woff2) format('woff2'); }
+@font-face { font-family: 'Nunito'; font-weight: 600; font-display: swap; src: url(/shared/fonts/nunito-600-cyrillic.woff2) format('woff2'); unicode-range: U+0400-045F, U+2116; }
+@font-face { font-family: 'Nunito'; font-weight: 600; font-display: swap; src: url(/shared/fonts/nunito-600-latin.woff2) format('woff2'); }
+@font-face { font-family: 'Nunito'; font-weight: 800; font-display: swap; src: url(/shared/fonts/nunito-800-cyrillic.woff2) format('woff2'); unicode-range: U+0400-045F, U+2116; }
+@font-face { font-family: 'Nunito'; font-weight: 800; font-display: swap; src: url(/shared/fonts/nunito-800-latin.woff2) format('woff2'); }
+@font-face { font-family: 'Nunito'; font-weight: 900; font-display: swap; src: url(/shared/fonts/nunito-900-cyrillic.woff2) format('woff2'); unicode-range: U+0400-045F, U+2116; }
+@font-face { font-family: 'Nunito'; font-weight: 900; font-display: swap; src: url(/shared/fonts/nunito-900-latin.woff2) format('woff2'); }
+
+@theme {
+  --font-sans: 'Nunito', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Balsamiq', 'Nunito', ui-sans-serif, sans-serif;
+
+  /* палитра бумажного коллажа */
+  --color-cream: #f3ead3;
+  --color-cream-deep: #e9dcbc;
+  --color-paper: #fbf6e8;
+  --color-ink: #2c3a33;
+  --color-forest: #2f6b4a;
+  --color-mint: #9fd3cf;
+  --color-sky: #cfe7ee;
+  --color-pink: #f0b9b0;
+  --color-rose: #e8b8cc;
+  --color-sand: #e6c27a;
+
+  /* три друга */
+  --color-veg: #4f8f4f;
+  --color-grain: #c98f1f;
+  --color-protein: #c9603f;
+  --color-water: #3f8f86;
+
+  --shadow-paper: 0 0.3rem 0 rgb(60 40 10 / 0.1), 0 0.6rem 1.4rem rgb(60 40 10 / 0.2);
+  --shadow-paper-lg: 0 0.4rem 0 rgb(60 40 10 / 0.1), 0 1rem 2.4rem rgb(60 40 10 / 0.22);
+
+  /* слои поверх страницы */
+  --z-index-sticky: 3000;
+  --z-index-overlay: 3300;
+  --z-index-modal: 3400;
+
+  --animate-bob: bob 3.2s ease-in-out infinite;
+  --animate-drop: drop 0.7s cubic-bezier(0.3, 1.6, 0.6, 1) backwards;
+
+  @keyframes bob {
+    0%, 100% { transform: translateY(0) rotate(var(--tw-rotate, 0)); }
+    50% { transform: translateY(-0.6rem) rotate(var(--tw-rotate, 0)); }
+  }
+  @keyframes drop {
+    from { transform: translateY(-6rem) rotate(-14deg); opacity: 0; }
+  }
+}
+
+@utility z-sticky { z-index: var(--z-index-sticky); }
+@utility z-overlay { z-index: var(--z-index-overlay); }
+@utility z-modal { z-index: var(--z-index-modal); }
+
+/* бумажное зерно поверх карточек */
+@utility paper-grain {
+  position: relative;
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0.45;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' seed='4'/><feColorMatrix values='0 0 0 0 .55  0 0 0 0 .48  0 0 0 0 .36  0 0 0 .18 0'/></filter><rect width='240' height='240' filter='url(%23n)'/></svg>");
+  }
+}
+
+@layer base {
+  html { scroll-behavior: smooth; }
+  body { @apply bg-cream font-sans font-semibold text-ink antialiased; }
+  :focus-visible { @apply outline-4 outline-offset-2 outline-protein/60; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; scroll-behavior: auto !important; }
+}

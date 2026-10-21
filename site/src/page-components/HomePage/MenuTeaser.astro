@@ -1,0 +1,25 @@
+---
+import Button from '@/components/Button.astro'
+import DishCard, { type Dish } from '@/components/DishCard.astro'
+import SectionHeading from '@/components/SectionHeading.astro'
+import SpeechBubble from '@/components/SpeechBubble.astro'
+import menu from '@/data/menu.json'
+import { phrases } from '@/data/phrases'
+
+// по два блюда на завтрак, обед и ужин — витрина, полный список на /menu
+const picks = ['B01', 'B04', 'L05', 'L12', 'D01', 'D06']
+const dishes = (menu as Dish[]).filter((dish) => picks.includes(dish.id))
+---
+
+<section id="menu" class="scroll-mt-20 bg-cream-deep/60 py-20">
+  <div class="mx-auto max-w-7xl px-4 md:px-6">
+    <SectionHeading kicker="Для родителей" title="Меню на 45 блюд" text="15 завтраков, 15 обедов и 15 ужинов по формуле трёх друзей. С заготовками и заморозкой — вкусно и практично." />
+    <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+      {dishes.map((dish) => <DishCard dish={dish} compact />)}
+    </div>
+    <div class="mt-10 flex flex-col items-center gap-5">
+      <SpeechBubble phrase={phrases.menu} face tail="left" />
+      <Button href="/menu/" variant="green">Всё меню и план заготовок →</Button>
+    </div>
+  </div>
+</section>

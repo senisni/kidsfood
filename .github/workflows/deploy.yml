@@ -1,0 +1,136 @@
+name: Deploy site
+
+# Сайт собирается из site/ (Astro + Tailwind). Ассеты (игры, спрайты, видео,
+# карточки меню) берутся из папок проекта скриптом site/scripts/sync-assets.mjs.
+# Публикация атомарная, как у artvstrechi: web/current — относительный симлинк
+# на web/releases/{дата}-{sha}, подменяется одним переименованием.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-site
+  cancel-in-progress: false
+
+env:
+  REMOTE_HOST: 178.171.122.207
+  REMOTE_PORT: '1991'
+  REMOTE_USER: insines
+  REMOTE_ROOT: /home/insines/kidsfood
+  SITE_URL: https://kidsfood.insines.ru
+
+jobs:
+  build-and-deploy:
+    name: Сборка и деплой
+    # Включается переменной репозитория DEPLOY_ENABLED=true, когда домен и Caddy готовы.
+    if: vars.DEPLOY_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: site/package-lock.json
+
+      - name: Install dependencies
+        working-directory: site
+        run: npm ci
+
+      - name: Types
+        working-directory: site
+        run: npx astro check
+
+      - name: Build
+        working-directory: site
+        run: npm run build
+
+      - name: Verify build output
+        working-directory: site
+        run: |
+          set -euo pipefail
+          for file in index.html menu/index.html 404.html games/index.html media/three-friends.mp4 robots.txt; do
+            test -s "dist/$file" || { echo "Нет dist/$file"; exit 1; }
+          done
+
+      - name: Prepare release directories
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ env.REMOTE_HOST }}
+          port: ${{ env.REMOTE_PORT }}
+          username: ${{ env.REMOTE_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          envs: REMOTE_ROOT
+          script: mkdir -p "$REMOTE_ROOT/web/releases" "$REMOTE_ROOT/web/staging"
+
+      - name: Upload build to staging
+        uses: burnett01/rsync-deployments@7.0.1
+        with:
+          switches: -avz --delete
+          path: site/dist/
+          remote_path: /home/insines/kidsfood/web/staging/
+          remote_host: ${{ env.REMOTE_HOST }}
+          remote_port: ${{ env.REMOTE_PORT }}
+          remote_user: ${{ env.REMOTE_USER }}
+          remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Activate release
+        uses: appleboy/ssh-action@v1
+        env:
+          COMMIT_SHA: ${{ github.sha }}
+        with:
+          host: ${{ env.REMOTE_HOST }}
+          port: ${{ env.REMOTE_PORT }}
+          username: ${{ env.REMOTE_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          envs: REMOTE_ROOT,COMMIT_SHA
+          script: |
+            set -euo pipefail
+            WEB="$REMOTE_ROOT/web"
+            RELEASES="$WEB/releases"
+            STAGING="$WEB/staging"
+
+            # Не публиковать пустую или оборванную загрузку.
+            test -s "$STAGING/index.html"
+            test -s "$STAGING/404.html"
+
+            HASH=$(cd "$STAGING" && find . -type f -exec sha256sum {} + | LC_ALL=C sort | sha256sum | cut -c1-64)
+            if [ "$HASH" = "$(cat "$WEB/current/.release-hash" 2>/dev/null || true)" ]; then
+              echo "Сборка совпадает с текущим релизом — публикация не нужна."
+              exit 0
+            fi
+
+            ID="$(date -u +%Y%m%d-%H%M%S)-$(printf '%.7s' "$COMMIT_SHA")"
+            # Жёсткие ссылки: копия релиза почти не занимает места.
+            rm -rf "$RELEASES/$ID"
+            cp -al "$STAGING" "$RELEASES/$ID"
+            echo "$HASH" > "$RELEASES/$ID/.release-hash"
+
+            # Относительный симлинк: Caddy читает его внутри контейнера, где смонтирована только $WEB.
+            ln -sfn "releases/$ID" "$WEB/current.tmp"
+            mv -Tf "$WEB/current.tmp" "$WEB/current"
+
+            # Держим три последних релиза: видео тяжёлые.
+            CURRENT=$(readlink -f "$WEB/current")
+            ls -1dt "$RELEASES"/*/ 2>/dev/null | tail -n +4 | while read -r dir; do
+              if [ "$(readlink -f "$dir")" != "$CURRENT" ]; then rm -rf "$dir"; fi
+            done
+
+            echo "Опубликован релиз $ID"
+
+      - name: Smoke check
+        run: |
+          set -euo pipefail
+          code=000
+          for attempt in 1 2 3; do
+            code=$(curl -sS -o /dev/null -w '%{http_code}' --max-time 20 "$SITE_URL/" || echo 000)
+            if [ "$code" = "200" ]; then break; fi
+            sleep 10
+          done
+          echo "GET $SITE_URL/ -> $code"
+          test "$code" = "200"

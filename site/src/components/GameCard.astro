@@ -1,0 +1,29 @@
+---
+import { twMerge } from 'tailwind-merge'
+
+import PaperCard from '@/components/PaperCard.astro'
+import Sprite from '@/components/Sprite.astro'
+import type { Game } from '@/data/games'
+import { typo } from '@/lib/typo'
+
+interface Props {
+  game: Game
+  number: number
+  class?: string
+  [key: string]: unknown
+}
+
+const { game, number, class: className, ...rest } = Astro.props
+---
+
+<PaperCard as="a" href={game.href} backing={game.tone} class={twMerge('flex min-h-72 flex-col p-5 transition group-hover/card:-translate-y-1 group-hover/card:-rotate-1', className)} {...rest}>
+  <h3 class="font-display text-2xl font-bold">{game.title}</h3>
+  <p class="mt-1 max-w-[16rem] text-base">{typo(game.text)}</p>
+  <div class="mt-auto flex items-end justify-between">
+    <span class:list={['grid size-11 place-items-center rounded-full font-display text-xl font-bold text-paper', game.tone]}>{number}</span>
+    <span class="flex items-end gap-1">
+      {game.sprites.map((name, index) => <Sprite name={name} alt="" class:list={[index === game.sprites.length - 1 ? 'h-36' : 'h-24', 'transition group-hover/card:-translate-y-1']} />)}
+    </span>
+  </div>
+  <span class="absolute top-4 right-4 rounded-full bg-veg px-3 py-1 font-display text-sm font-bold text-paper opacity-0 transition group-hover/card:opacity-100">Играть →</span>
+</PaperCard>

@@ -1,0 +1,20 @@
+---
+import DishCard, { type Dish } from '@/components/DishCard.astro'
+import SectionHeading from '@/components/SectionHeading.astro'
+
+interface Props {
+  anchor: string
+  title: string
+  text: string
+  dishes: Dish[]
+}
+
+const { anchor, title, text, dishes } = Astro.props
+---
+
+<section id={anchor} class="mx-auto max-w-7xl scroll-mt-24 px-4 py-14 md:px-6">
+  <SectionHeading title={title} text={text} class="mb-8" />
+  <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+    {dishes.map((dish) => <DishCard dish={dish} />)}
+  </div>
+</section>

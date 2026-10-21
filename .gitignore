@@ -1,0 +1,17 @@
+# зависимости и сборки
+node_modules/
+site/dist/
+site/public/
+site/.astro/
+site/src/data/menu.json
+video/build/
+
+# прежние версии роликов — локально (финальные лежат в video/out/)
+video/out/old/
+
+# локальное
+.DS_Store
+.claude/
+__pycache__/
+*.pyc
+venv/

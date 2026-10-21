@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<title>Ланч-бокс для друга</title>
+<link rel="stylesheet" href="common.css?v=3">
+<style>
+  .order { left: 34px; top: 120px; width: 400px; height: 464px; padding: 18px 22px; --back: #f0b9b0; }
+  .order .who { display: flex; gap: 14px; align-items: flex-end; }
+  .order .who img { height: 190px; }
+  .order h3 { margin: 0; font-size: 30px; }
+  .order .req { font-size: 25px; font-weight: 800; margin-top: 6px; line-height: 1.15; }
+  .order .list { margin-top: 14px; }
+  .order .row { display: flex; align-items: center; gap: 10px; font-size: 22px; font-weight: 800; margin: 8px 0; }
+  .order .row .box { flex: none; width: 34px; height: 34px; border-radius: 9px; border: 4px solid var(--c); display: grid; place-items: center; color: var(--paper); font-family: Balsamiq; font-size: 24px; }
+  .order .row.ok .box { background: var(--c); animation: pop .35s cubic-bezier(.3,1.8,.6,1); }
+  #box { position: absolute; left: 503px; top: 140px; width: 640px; height: 420px; }
+  #box > img { position: absolute; left: 0; top: 0; width: 640px; filter: drop-shadow(6px 10px 8px rgba(60,40,10,.25)); } /* lbox-1: пустой ланч-бокс сверху */
+  .cell { position: absolute; border-radius: 18px; transition: background .2s; }
+  .cell.hot { background: rgba(255,255,255,.45); }
+  .cell.wrong { background: rgba(201,96,63,.35); }
+  .cell .cl { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); font-family: Balsamiq; font-size: 24px; opacity: .8; background: rgba(251,246,232,.85); padding: 6px 12px; border-radius: 12px; text-align: center; line-height: 1.05; pointer-events: none; white-space: nowrap; }
+  .drink { left: 1206px; top: 140px; width: 360px; height: 420px; padding: 16px; text-align: center; --back: #9fd3cf; }
+  .drink h3 { margin: 0; font-size: 28px; }
+  .drink .slot { margin: 18px auto 0; width: 170px; height: 250px; border: 5px dashed rgba(63,143,134,.6); border-radius: 26px; }
+  .drink.hot { box-shadow: 0 0 0 8px rgba(63,143,134,.6), var(--shadow); }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div class="top">
+    <a class="btn ghost" href="index.html">← Меню</a>
+    <div class="card task" style="--back:#f0b9b0"><div class="num">?</div><div>Собери ланч-бокс <b>по заказу</b>: три друга в свои отделения и попить.</div></div>
+    <button class="btn ghost guideBtn" id="gBtn">Кто есть кто?</button>
+    <div class="round" id="round">Заказ 1 из 3</div>
+    <button class="btn ghost" id="reset">Заново</button>
+  </div>
+  <div class="card order" id="order">
+    <div class="who"><img id="kid" src=""><div><h3 id="kidName"></h3><div class="req" id="req"></div></div></div>
+    <div class="list">
+      <div class="row" data-k="0" style="--c:var(--veg)"><div class="box"></div>Овощи и фрукты</div>
+      <div class="row" data-k="1" style="--c:var(--grain)"><div class="box"></div>Крупы и хлеб</div>
+      <div class="row" data-k="2" style="--c:var(--prot)"><div class="box"></div>Белок</div>
+      <div class="row" data-k="3" style="--c:var(--water)"><div class="box"></div>Попить</div>
+    </div>
+  </div>
+  <div id="box"><img src="../video/sprites/lbox-1.png">
+    <div class="cell" data-c="0" style="left:27px; top:21px; width:290px; height:340px"><div class="cl" style="color:var(--veg)">Овощи<br>и фрукты</div></div>
+    <div class="cell" data-c="1" style="left:331px; top:21px; width:277px; height:156px"><div class="cl" style="color:var(--grain)">Крупы и хлеб</div></div>
+    <div class="cell" data-c="2" style="left:332px; top:192px; width:281px; height:169px"><div class="cl" style="color:var(--prot)">Белок</div></div>
+  </div>
+  <div class="card drink" id="drink"><h3>Попить</h3><div class="slot"></div></div>
+  <div class="say"><div class="face"></div><div class="txt"></div></div>
+  <div class="shelf"><div class="lbl">холодильник и полка</div></div>
+  <div class="win"><div class="card" style="--back:#f0b9b0"></div></div>
+</div>
+<script src="common.js?v=3"></script>
+<script>
+const F = {
+  cucumber: { img: "pfood-1", name: "огурец", team: 0 }, carrot: { img: "pfood-10", name: "морковь", team: 0 },
+  apple: { img: "pfood-2", name: "яблоко", team: 0 }, pear: { img: "el20-3", name: "груша", team: 0 },
+  bread: { img: "pfood-3", name: "хлеб", team: 1 }, buckwheat: { img: "pfood-6", name: "гречка", team: 1 }, pasta: { img: "el20-9", name: "макароны", team: 1 },
+  chicken: { img: "el50-3", name: "курица", team: 2, meat: true }, cutlet: { img: "el50-2", name: "котлета", team: 2, meat: true },
+  egg: { img: "pfood-4", name: "яйцо", team: 2 }, cheese: { img: "el20-10", name: "сыр", team: 2 }, nuts: { img: "el50-9", name: "орехи", team: 2, nuts: true },
+  water: { img: "el10-6", name: "вода", team: 3 }, milk: { img: "el50-6", name: "молоко", team: 3 },
+};
+const ORDERS = [
+  { name: "Для себя", kid: "boy-5", face: "boy", req: "Мне нужны силы на уроки и футбол!", rule: null },
+  { name: "Для Даши", kid: "classgirl-4", face: "dasha", req: "Я не ем мясо.", rule: f => f.meat ? "Даша не ест мясо. Какой белок без мяса? Яйцо, сыр или орехи." : null },
+  { name: "Для Миши", kid: "classboy-1", face: "misha", req: "У меня аллергия на орехи.", rule: f => f.nuts ? "Мише нельзя орехи — это опасно. Найди другой белок." : null },
+];
+const CELLS = [0, 1, 2].map(i => document.querySelector(`.cell[data-c="${i}"]`));
+const BOX = { x: 503, y: 140 };
+const NAMES = ["Овощи и фрукты", "Крупы и хлеб", "Белок"];
+const KIND = { 0: "овощ или фрукт", 1: "из зерна — «Крупы и хлеб»", 2: "белок", 3: "напиток" };
+let O = 0, st;
+
+function cellAt(p) {
+  for (let i = 0; i < 3; i++) {
+    const c = CELLS[i], x = BOX.x + c.offsetLeft, y = BOX.y + c.offsetTop;
+    if (p.x > x && p.x < x + c.offsetWidth && p.y > y && p.y < y + c.offsetHeight) return i;
+  }
+  return null;
+}
+const inDrink = p => p.x > 1206 && p.x < 1566 && p.y > 140 && p.y < 560;
+function start(o) {
+  O = o; const od = ORDERS[o];
+  stage.querySelectorAll(".item").forEach(e => e.remove()); hideWin();
+  st = { count: [0, 0, 0, 0], wrong: {}, first: 0 };
+  $("#round").textContent = `Заказ ${o + 1} из 3`;
+  $("#kid").src = S(od.kid); $("#kidName").textContent = od.name; $("#req").textContent = od.req;
+  const keys = ["cucumber", "bread", "chicken", "apple", "nuts", "pasta", "egg", "water", "carrot", "cutlet", "buckwheat", "cheese", "milk"];
+  fillShelf(stage, keys.map(k => ({ ...F[k], key: k })), (el, it) => draggable(el, {
+    onMove: (el, p) => { const c = cellAt(p); CELLS.forEach((x, i) => x.classList.toggle("hot", i === c)); $("#drink").classList.toggle("hot", inDrink(p)); },
+    onDrop: (el, p) => drop(el, F[it.key], it.key, p),
+  }));
+  update(); say(od.req + " Собери мне обед!", od.face);
+}
+function drop(el, f, key, p) {
+  CELLS.forEach(x => x.classList.remove("hot")); $("#drink").classList.remove("hot");
+  const od = ORDERS[O], who = od.face, c = inDrink(p) ? 3 : cellAt(p);
+  if (c === null) return false;
+  const fail = msg => { st.wrong[key] = (st.wrong[key] || 0) + 1; bounceBack(el); say(msg, who, "bad");
+    if (c < 3) { CELLS[c].classList.add("wrong"); setTimeout(() => CELLS[c].classList.remove("wrong"), 600); } return true; };
+  if (f.team !== c) {
+    if (c === 3) return fail(`${cap(f.name)} — это еда, а не напиток. Положи в ланч-бокс.`);
+    if (f.team === 3) return fail(`${cap(f.name)} — попить. Для него место справа.`);
+    return fail(st.wrong[key] ? `Подсказка: ${f.name} — ${KIND[f.team]}.` : `Хм, ${f.name} — не «${NAMES[c]}». Какой это друг?`);
+  }
+  const ruleMsg = od.rule && od.rule(f);
+  if (ruleMsg) return fail(ruleMsg);
+  const cap2 = c === 0 ? 3 : c === 3 ? 1 : 2;
+  if (st.count[c] >= cap2) { bounceBack(el); say(c === 3 ? "Попить уже есть." : "Здесь уже тесно.", who); return true; }
+  // кладём в отделение
+  el.classList.add("back", "placed"); el.dataset.lock = 1;
+  if (c === 3) { el.style.left = "1338px"; el.style.top = "290px"; }
+  else {
+    const cell = CELLS[c], n = st.count[c];
+    const x = BOX.x + cell.offsetLeft + (c === 0 ? 40 + (n % 2) * 140 : 30 + n * 120), y = BOX.y + cell.offsetTop + (c === 0 ? 20 + Math.floor(n / 2) * 150 + (n === 2 ? 0 : 0) : 2);
+    el.style.left = x + "px"; el.style.top = y + "px";
+  }
+  st.count[c]++; if (!st.wrong[key]) st.first++;
+  sfx.plop(1 + c * .1); sfx.check(); say(`Отлично: ${f.name}!`, who, "good"); update();
+  return true;
+}
+function update() {
+  document.querySelectorAll(".order .row").forEach(r => { const k = +r.dataset.k, on = st.count[k] > 0; r.classList.toggle("ok", on); r.querySelector(".box").textContent = on ? "✓" : ""; });
+  if (st.count.every(c => c > 0)) {
+    sfx.win(); store.set("lunch-" + O, true);
+    const last = O === ORDERS.length - 1;
+    setTimeout(() => showWin(`<h2>${ORDERS[O].name}: готово!</h2>
+      <div class="row"><img src="${S(ORDERS[O].kid)}"></div>
+      <p>Три друга и вода — обед с собой в школу.${O > 0 ? " И заказ учтён: формула та же, а еда — своя для каждого." : ""}</p>
+      <p class="stars">Без ошибок: ${st.first} из ${st.count.reduce((a, b) => a + b, 0)}</p>
+      ${last ? `<a class="btn green" href="index.html">В меню</a>` : `<button class="btn green" onclick="start(${O + 1})">Следующий заказ →</button>`}`), 700);
+  }
+}
+$("#reset").onclick = () => start(O);
+start(0);
+$("#gBtn").onclick = () => friendsGuide();
+</script>
+</body>
+</html>

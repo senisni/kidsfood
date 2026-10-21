@@ -1,0 +1,265 @@
+{
+  "tool": "built-in image_gen",
+  "source": "docs/PROMPTS-ALL.md",
+  "jobs": [
+    {
+      "name": "menu-breakfasts-15.png",
+      "prompt": "Create an isolated prop sheet for a children's family food guide.\nStyle: handmade European picture-book PAPER COLLAGE. Matte fibrous colored paper, simple flat hand-cut shapes, subtly irregular scissor-cut edges, shallow soft shadows between overlapping paper layers. Restrained mint, forest green, sage, cream, mustard and terracotta palette. Food is built from flat paper pieces, calm texture, no realistic surfaces.\nReferences: image 1 = paper material; image 2 = how food dishes are presented. Match their material and plate style.\nSubject: exactly 15 different breakfast dishes, each on its own simple cream paper plate, bowl, jar or board, seen from a 3/4 top-down view, in this order:\n1 cottage cheese pancakes (syrniki) with berries; 2 overnight oats in a glass jar with apple and berries; 3 three egg muffins with peppers and spinach; 4 thin crepes folded into envelopes with cottage cheese; 5 buckwheat with milk and grated apple in a bowl; 6 wholegrain toast with a soft egg and cucumber slices; 7 cottage cheese with banana slices and granola in a bowl; 8 small banana pancakes in a stack with yogurt; 9 two squares of cottage cheese casserole with raisins; 10 a board with open sandwiches: cheese, chicken, cucumber, tomato; 11 millet porridge with pumpkin cubes in a bowl; 12 a breakfast burrito cut in half showing scrambled egg and pepper; 13 a glass of yogurt parfait with granola and berries; 14 a toasted sandwich with turkey and cheese cut diagonally; 15 a glass of banana-berry smoothie next to a boiled egg.\nLayout: grid 5 columns × 3 rows, large even gaps, every dish fully separated, no lines, no labels, no text.\nConstraints: no realistic food photography, no glossy 3D, no black outlines, no lettering, no logos, no watermarks.\nOutput: PNG with real transparent alpha background.\nMaterial quality check: quiet mostly smooth matte paper, no all-over noise, wrinkles, crumpled embossing or photorealistic food. Clearly separable flat hand-cut layers and short soft shadows at overlaps. Preserve exact requested item order. High-resolution landscape sheet, aim 3000 × 1800 or larger. Each grid cell depicts a fully prepared recognisable dish, NOT a generic divided ingredient plate.",
+      "refs": [
+        "elements-10.png",
+        "style-revision-2026-10-19/elements-50-our-table.png"
+      ],
+      "alpha": true,
+      "status": "reviewed",
+      "generatedPath": "/Users/nikitakargasin/.codex/generated_images/01a155ac-5a6d-7450-a38b-d5d3c50c3588/exec-ee269b98-135d-49fd-86c6-0a6e7126ec68.png",
+      "qa": "15 prepared dishes, 5x3; material rebuilt in two additional passes.",
+      "reviewed": true,
+      "selectedPath": "/Users/nikitakargasin/.codex/generated_images/01a155ac-5a6d-7450-a38b-d5d3c50c3588/exec-13b104b1-7642-466a-ab1d-11aa63454f2c.png"
+    },
+    {
+      "name": "menu-lunches-15.png",
+      "prompt": "Create an isolated prop sheet for a children's family food guide.\nStyle: handmade European picture-book PAPER COLLAGE. Matte fibrous colored paper, simple flat hand-cut shapes, subtly irregular scissor-cut edges, shallow soft shadows between overlapping paper layers. Restrained mint, forest green, sage, cream, mustard and terracotta palette. Food is built from flat paper pieces, calm texture, no realistic surfaces.\nReferences: image 1 = paper material; image 2 = how food dishes are presented. Match their material and plate style.\nSubject: exactly 15 different lunch dishes, each on its own simple cream paper plate or bowl, seen from a 3/4 top-down view, in this order:\n1 chicken noodle soup with carrot slices; 2 smooth orange red-lentil soup with croutons; 3 a bowl of borscht with a spoon of sour cream and dill; 4 buckwheat stewed with minced meat, carrot and onion; 5 chicken pilaf with carrot strips; 6 meatballs in tomato sauce over pasta; 7 a baking tray with roasted chicken thighs, pumpkin, carrot and peppers; 8 two lavash wraps cut in half showing chicken, cucumber and carrot; 9 Mexican-style beans with corn and peppers topped with cheese; 10 a bowl of fresh cabbage soup (shchi); 11 two fish cutlets with mashed potato and green peas; 12 spaghetti bolognese; 13 cabbage-and-meat patties (lazy cabbage rolls) in tomato-sour cream sauce with rice; 14 creamy pumpkin soup with chickpeas and a swirl of yogurt; 15 vegetable stew with chicken, zucchini, peppers and potato.\nLayout: grid 5 columns × 3 rows, large even gaps, every dish fully separated, no lines, no labels, no text.\nConstraints: no realistic food photography, no glossy 3D, no black outlines, no lettering, no logos, no watermarks.\nOutput: PNG with real transparent alpha background.\nMaterial quality check: quiet mostly smooth matte paper, no all-over noise, wrinkles, crumpled embossing or photorealistic food. Clearly separable flat hand-cut layers and short soft shadows at overlaps. Preserve exact requested item order. High-resolution landscape sheet, aim 3000 × 1800 or larger. Each grid cell depicts a fully prepared recognisable dish, NOT a generic divided ingredient plate.",
+      "refs": [
+        "elements-10.png",
+        "style-revision-2026-10-19/elements-50-our-table.png"
+      ],
+      "alpha": true,
+      "status": "reviewed",
+      "generatedPath": "/Users/nikitakargasin/.codex/generated_images/01a155ac-5a6d-7450-a38b-d5d3c50c3588/exec-4c5eecf1-d192-45cf-8fad-4afdc2167beb.png",
+      "qa": "15 prepared dishes, 5x3; material rebuilt in two additional passes.",
+      "reviewed": true,
+      "selectedPath": "/Users/nikitakargasin/.codex/generated_images/01a155ac-5a6d-7450-a38b-d5d3c50c3588/exec-7b1b2c32-44e2-4638-9ee9-bf98e49f1945.png"
+    },
+    {
+      "name": "menu-dinners-15.png",
+      "prompt": "Create an isolated prop sheet for a children's family food guide.\nStyle: handmade European picture-book PAPER COLLAGE. Matte fibrous colored paper, simple flat hand-cut shapes, subtly irregular scissor-cut edges, shallow soft shadows between overlapping paper layers. Restrained mint, forest green, sage, cream, mustard and terracotta palette. Food is built from flat paper pieces, calm texture, no realistic surfaces.\nReferences: image 1 = paper material; image 2 = how food dishes are presented. Match their material and plate style.\nSubject: exactly 15 different dinner dishes, each on its own simple cream paper plate, bowl or small pan, seen from a 3/4 top-down view, in this order:\n1 baked fish fillet with potato wedges and broccoli; 2 two meat cutlets with buckwheat and a cucumber-tomato salad; 3 teriyaki chicken pieces with rice and stir-fried vegetables; 4 meatballs in creamy tomato sauce with mashed potato; 5 a vegetable frittata in a small pan; 6 a lavash pizza with tomato, peppers, corn and mozzarella, cut into slices; 7 pasta bolognese with a small green salad; 8 roasted chicken leg with bulgur and stewed carrots; 9 cottage cheese pancakes with carrot sticks and apple slices; 10 beans in tomato sauce with rice and a halved boiled egg; 11 turkey pieces in cream sauce with pasta and green peas; 12 homemade breaded fish sticks with potato wedges and coleslaw; 13 lazy cottage-cheese dumplings with sour cream and berries; 14 a bowl of vegetable soup next to cheese sandwiches; 15 chicken skewers with grilled vegetables, flatbread and a small bowl of hummus.\nLayout: grid 5 columns × 3 rows, large even gaps, every dish fully separated, no lines, no labels, no text.\nConstraints: no realistic food photography, no glossy 3D, no black outlines, no lettering, no logos, no watermarks.\nOutput: PNG with real transparent alpha background.\nMaterial quality check: quiet mostly smooth matte paper, no all-over noise, wrinkles, crumpled embossing or photorealistic food. Clearly separable flat hand-cut layers and short soft shadows at overlaps. Preserve exact requested item order. High-resolution landscape sheet, aim 3000 × 1800 or larger. Each grid cell depicts a fully prepared recognisable dish, NOT a generic divided ingredient plate.",
+      "refs": [
+        "elements-10.png",
+        "style-revision-2026-10-19/elements-50-our-table.png"
+      ],
+      "alpha": true,
+      "status": "reviewed",
+      "generatedPath": "/Users/nikitakargasin/.codex/generated_images/01a155ac-5a6d-7450-a38b-d5d3c50c3588/exec-6638d311-9ac7-4613-bdad-8d949e327c03.png",
+      "qa": "15 prepared dishes, 5x3; material rebuilt in two additional passes.",
+      "reviewed": true,
+      "selectedPath": "/Users/nikitakargasin/.codex/generated_images/01a155ac-5a6d-7450-a38b-d5d3c50c3588/exec-cd780e70-e156-4365-b84b-c2c75996aeca.png"
+    },
+    {
+      "name": "speech-bubbles-08.png",
+      "prompt": "Create an isolated sheet of speech bubbles for a children's paper-collage cartoon.\nStyle: handmade PAPER COLLAGE, matte fibrous cream paper bubble cut by scissors with subtly irregular edges, laid on a slightly larger offset backing sheet of colored paper (mint for one set, soft pink for another), shallow soft shadow between layers.\nSubject: exactly 8 empty speech bubbles: 2 wide horizontal (tail down-left), 2 wide horizontal (tail down-right), 1 tall rounded (tail down), 1 thought bubble made of paper circles, 1 small round exclamation bubble, 1 long caption ribbon without tail. Bubbles must be EMPTY — no text inside.\nLayout: grid 4 × 2, large gaps, no lines.\nConstraints: no lettering, no black outlines, no glossy effects, no watermarks.\nOutput: PNG with real transparent alpha background.\nMaterial quality check: quiet mostly smooth matte paper, no all-over noise, wrinkles, crumpled embossing or photorealistic food. Clearly separable flat hand-cut layers and short soft shadows at overlaps. Preserve exact requested item order. ",
+      "refs": [
+        "world-01-garden.png",
+        "elements-10.png"
+      ],
+      "alpha": true,
+      "status": "reviewed",
+      "generatedPath": "/Users/nikitakargasin/.codex/generated_images/01a155ac-5a6d-7450-a38b-d5d3c50c3588/exec-88c68bda-2798-4825-bbc3-2fb05a7dc769.png",
+      "qa": "Eight fully empty bubbles after removal of forbidden exclamation mark.",
+      "reviewed": true,
+      "selectedPath": "/Users/nikitakargasin/.codex/generated_images/01a155ac-5a6d-7450-a38b-d5d3c50c3588/exec-5f69d3e0-ee4b-415e-8ef0-1face88c3a66.png"
+    },
+    {
+      "name": "plate-three-parts-large.png",
+      "prompt": "Create one isolated object: a large divided children's plate seen exactly from above.\nStyle: handmade PAPER COLLAGE, matte fibrous cream paper with a sage-green rim, simple hand-cut shapes, shallow soft shadows between paper layers.\nShape: perfectly round plate; a raised paper divider splits it into the LEFT HALF and two RIGHT QUARTERS (top-right and bottom-right). Same design as the plate in the reference, but clean and high resolution.\nEmpty plate, no food, centered, square canvas 2048 × 2048, plate fills about 90 %.\nConstraints: no text, no black outlines, no glossy 3D, no watermarks.\nOutput: PNG with real transparent alpha background.\nMaterial quality check: quiet mostly smooth matte paper, no all-over noise, wrinkles, crumpled embossing or photorealistic food. Clearly separable flat hand-cut layers and short soft shadows at overlaps. Preserve exact requested item order. ",
+      "refs": [
+        "elements-40-routine.png"
+      ],
+      "alpha": true,
+      "status": "reviewed_resolution_below_request",
+      "generatedPath": "/Users/nikitakargasin/.codex/generated_images/01a155ac-5a6d-7450-a38b-d5d3c50c3588/exec-4c985bcc-a9cd-4537-9b88-5ed3ce9e094a.png",
+      "qa": "Correct half plus two quarter partition; actual 1254px square, requested 2048px not met.",
+      "reviewed": true
+    },
+    {
+      "name": "sun-moon-large.png",
+      "prompt": "Create two isolated large paper-collage objects side by side: a warm mustard-yellow sun made of two layered paper circles with short cut paper rays, and a cream crescent moon with two tiny paper stars.\nStyle: matte fibrous colored paper, subtly irregular scissor-cut edges, shallow soft shadow between layers, calm texture.\nCanvas 3000 × 1500, each object about 1200 px, large gap between them.\nConstraints: no faces, no text, no black outlines, no glossy effects.\nOutput: PNG with real transparent alpha background.\nMaterial quality check: quiet mostly smooth matte paper, no all-over noise, wrinkles, crumpled embossing or photorealistic food. Clearly separable flat hand-cut layers and short soft shadows at overlaps. Preserve exact requested item order. ",
+      "refs": [
+        "world-01-garden.png"
+      ],
+      "alpha": true,
+      "status": "reviewed_resolution_below_request",
+      "generatedPath": "/Users/nikitakargasin/.codex/generated_images/01a155ac-5a6d-7450-a38b-d5d3c50c3588/exec-676a07f2-b65b-4965-9002-ce9b18f82692.png",
+      "reviewed": true
+    },
+    {
+      "name": "plate-food-large-10.png",
+      "prompt": "Create an isolated prop sheet of 10 single food pieces for placing on a plate, top-down view, in high resolution (each piece at least 600 px).\nStyle: handmade PAPER COLLAGE, matte fibrous colored paper, flat hand-cut shapes, shallow soft shadows between layers, calm texture.\nItems in order: three cucumber slices with a piece of cucumber; a red apple with leaf; a slice of wholegrain toast; a boiled egg cut in half; cottage cheese in a small cream bowl; buckwheat in a small cream bowl; a salmon fillet; three potato wedges; a broccoli floret; a carrot with green top.\nLayout: grid 5 × 2, large gaps, no lines, no text.\nConstraints: no realistic food textures, no glossy 3D, no black outlines, no watermarks.\nOutput: PNG with real transparent alpha background.\nMaterial quality check: quiet mostly smooth matte paper, no all-over noise, wrinkles, crumpled embossing or photorealistic food. Clearly separable flat hand-cut layers and short soft shadows at overlaps. Preserve exact requested item order. Canvas at least 3840 × 1920 so each food piece can reach 600 px; do not solve resolution by upscaling a small image.\nIMPORTANT: redraw food like actual thin flat construction-paper silhouettes. A few broad smooth color patches and physically separate paper pieces. NO realistic crust, cooking mottling, realistic kernels, crumb pores, sculpted lumpy surface, glossy liquid or ceramic modeling. Shadows only under cut-paper overlaps, not volumetric shading.",
+      "refs": [
+        "elements-10.png",
+        "style-revision-2026-10-19/elements-20-food.png"
+      ],
+      "alpha": true,
+      "status": "reviewed_resolution_below_request",
+      "generatedPath": "/Users/nikitakargasin/.codex/generated_images/01a155ac-5a6d-7450-a38b-d5d3c50c3588/exec-06a4bf9a-0b0e-47cb-a0a0-b151df2a94b9.png",
+      "reviewed": true
+    },
+    {
+      "name": "boy-toast-girl-doubt.png",
+      "prompt": "Create a character reference sheet for an educational paper-collage cartoon for children aged 10–11.\nStyle: handmade European picture-book PAPER COLLAGE, matte fibrous paper, flat cut shapes, shallow soft shadows between layers, no anime.\nReferences: image 1 = boy identity; image 2 = girl identity; image 3 = paper material. Preserve faces, hair, outfits, proportions and texture exactly.\nPoses, full body, each figure separate:\nboy — 1 standing confidently holding a slice of toast up in one hand; 2 biting the toast happily; 3 surprised, eyebrows up, toast in hand;\ngirl — 4 hands on hips, one eyebrow raised in friendly doubt; 5 pointing at something with a smile; 6 holding a red apple and showing it.\nLayout: 3 × 2 grid, large gaps, no lines.\nConstraints: no anime/manga, no black outlines, no glossy 3D, no text, no watermarks.\nOutput: PNG with real transparent alpha background.\nMaterial quality check: quiet mostly smooth matte paper, no all-over noise, wrinkles, crumpled embossing or photorealistic food. Clearly separable flat hand-cut layers and short soft shadows at overlaps. Preserve exact requested item order. ",
+      "refs": [
+        "boy-summer-poses.png",
+        "girl-summer-pink-poses.png",
+        "world-01-garden.png"
+      ],
+      "alpha": true,
+      "status": "reviewed",
+      "generatedPath": "/Users/nikitakargasin/.codex/generated_images/01a155ac-5a6d-7450-a38b-d5d3c50c3588/exec-0b182004-b288-4c8a-8edf-3704457c3437.png",
+      "reviewed": true
+    },
+    {
+      "name": "heads-expressions-08.png",
+      "prompt": "Create a head-and-shoulders expression sheet for two paper-collage cartoon characters.\nStyle: handmade European picture-book PAPER COLLAGE, matte fibrous paper, flat cut shapes, shallow soft shadows, no anime.\nReferences: image 1 = boy; image 2 = girl. Keep identity, hair, clothing collar and proportions identical.\nExpressions, same head size and position in every cell: for the boy — smiling, surprised, tasting \"mmm\" with closed eyes, talking with open mouth; for the girl — the same four.\nLayout: 4 × 2 grid (boy top row, girl bottom row), large gaps.\nConstraints: no anime/manga, no oversized sparkling eyes, no black outlines, no text.\nOutput: PNG with real transparent alpha background.\nMaterial quality check: quiet mostly smooth matte paper, no all-over noise, wrinkles, crumpled embossing or photorealistic food. Clearly separable flat hand-cut layers and short soft shadows at overlaps. Preserve exact requested item order. ",
+      "refs": [
+        "boy-summer-poses.png",
+        "girl-summer-pink-poses.png",
+        "world-01-garden.png"
+      ],
+      "alpha": true,
+      "status": "reviewed",
+      "generatedPath": "/Users/nikitakargasin/.codex/generated_images/01a155ac-5a6d-7450-a38b-d5d3c50c3588/exec-37bc439f-31f7-4bb7-ac8a-8ecc95afbcfa.png",
+      "reviewed": true
+    },
+    {
+      "name": "snacks-drinks-10.png",
+      "prompt": "Create an isolated prop sheet for a children's food game.\nStyle: handmade PAPER COLLAGE, matte fibrous colored paper, flat hand-cut shapes, shallow soft shadows between layers, calm texture.\nExactly 10 items in order: cheese sandwich; egg sandwich; yogurt cup with a spoon; carrot and cucumber sticks in a small cup; a handful of berries; two round cookies; one wrapped candy; a slice of birthday cake; a glass of orange juice; a glass of fizzy soda with a straw.\nLayout: grid 5 × 2, large gaps, no lines, no text, no brand labels.\nConstraints: no realistic food photography, no glossy 3D, no black outlines, no logos, no watermarks.\nOutput: PNG with real transparent alpha background.\nMaterial quality check: quiet mostly smooth matte paper, no all-over noise, wrinkles, crumpled embossing or photorealistic food. Clearly separable flat hand-cut layers and short soft shadows at overlaps. Preserve exact requested item order. \nIMPORTANT: redraw food like actual thin flat construction-paper silhouettes. A few broad smooth color patches and physically separate paper pieces. NO realistic crust, cooking mottling, realistic kernels, crumb pores, sculpted lumpy surface, glossy liquid or ceramic modeling. Shadows only under cut-paper overlaps, not volumetric shading.",
+      "refs": [
+        "elements-10.png",
+        "style-revision-2026-10-19/elements-50-our-table.png"
+      ],
+      "alpha": true,
+      "status": "reviewed",
+      "generatedPath": "/Users/nikitakargasin/.codex/generated_images/01a155ac-5a6d-7450-a38b-d5d3c50c3588/exec-8c7b09ba-5811-4cc2-aa6f-05e23810e6ac.png",
+      "reviewed": true
+    },
+    {
+      "name": "lunchbox-top-large.png",
+      "prompt": "Create one isolated object: an open mint-green lunchbox seen exactly from above, empty, with three compartments — one large on the left (half of the box), two smaller on the right (top and bottom). Lid removed.\nStyle: handmade PAPER COLLAGE, matte fibrous paper, simple cut shapes, shallow soft shadows inside the compartments.\nCanvas 2400 × 1600, box fills about 85 %.\nConstraints: no food, no text, no glossy plastic, no black outlines.\nOutput: PNG with real transparent alpha background.\nMaterial quality check: quiet mostly smooth matte paper, no all-over noise, wrinkles, crumpled embossing or photorealistic food. Clearly separable flat hand-cut layers and short soft shadows at overlaps. Preserve exact requested item order. ",
+      "refs": [
+        "elements-40-routine.png"
+      ],
+      "alpha": true,
+      "status": "reviewed_resolution_below_request",
+      "generatedPath": "/Users/nikitakargasin/.codex/generated_images/01a155ac-5a6d-7450-a38b-d5d3c50c3588/exec-e6f811cb-6cd8-4696-8cdd-bb8e2e6c5d0c.png",
+      "reviewed": true
+    },
+    {
+      "name": "table-top-cloth.png",
+      "prompt": "Create a seamless-looking top-down background of a kitchen table covered with a cream paper tablecloth and a soft sage paper runner along one side.\nStyle: handmade PAPER COLLAGE, matte fibrous paper, very calm texture, subtle cut edges, no objects.\nOutput: 16:9, 2560 × 1440, no text, no shadows of objects, no vignette.\nMaterial quality check: quiet mostly smooth matte paper, no all-over noise, wrinkles, crumpled embossing or photorealistic food. Clearly separable flat hand-cut layers and short soft shadows at overlaps. Preserve exact requested item order. ",
+      "refs": [
+        "world-01-garden.png"
+      ],
+      "alpha": false,
+      "status": "reviewed_resolution_below_request",
+      "generatedPath": "/Users/nikitakargasin/.codex/generated_images/01a155ac-5a6d-7450-a38b-d5d3c50c3588/exec-e272d2b9-5445-4375-8477-d247cefb528b.png",
+      "reviewed": true
+    },
+    {
+      "name": "world-03-canteen-warm.png",
+      "prompt": "Recreate the referenced empty interior (image 2) in the palette and paper material of image 1.\nStyle: handmade European picture-book PAPER COLLAGE, matte fibrous paper, flat hand-cut shapes, calm texture, warm cream, sage, mint, mustard and terracotta palette; less saturated blue walls.\nKeep the same layout, furniture and camera angle as image 2. No people.\nOutput: 16:9 scene, 1672 × 941 or larger, no text.\nMaterial quality check: quiet mostly smooth matte paper, no all-over noise, wrinkles, crumpled embossing or photorealistic food. Clearly separable flat hand-cut layers and short soft shadows at overlaps. Preserve exact requested item order. References 3–4 are character continuity context only: do not draw any people.",
+      "refs": [
+        "world-02-kitchen.png",
+        "style-revision-2026-10-19/world-03-canteen.png",
+        "boy-summer-poses.png",
+        "girl-summer-pink-poses.png"
+      ],
+      "alpha": false,
+      "status": "reviewed",
+      "generatedPath": "/Users/nikitakargasin/.codex/generated_images/01a155ac-5a6d-7450-a38b-d5d3c50c3588/exec-d92e141e-10e1-42cc-b505-1bbcbcca89ea.png",
+      "reviewed": true
+    },
+    {
+      "name": "world-05-kitchen-evening-warm.png",
+      "prompt": "Recreate the referenced empty interior (image 2) in the palette and paper material of image 1.\nStyle: handmade European picture-book PAPER COLLAGE, matte fibrous paper, flat hand-cut shapes, calm texture, warm cream, sage, mint, mustard and terracotta palette; less saturated blue walls.\nKeep the same layout, furniture and camera angle as image 2. No people.\nOutput: 16:9 scene, 1672 × 941 or larger, no text.\nMaterial quality check: quiet mostly smooth matte paper, no all-over noise, wrinkles, crumpled embossing or photorealistic food. Clearly separable flat hand-cut layers and short soft shadows at overlaps. Preserve exact requested item order. References 3–4 are character continuity context only: do not draw any people.",
+      "refs": [
+        "world-02-kitchen.png",
+        "style-revision-2026-10-19/world-05-kitchen-evening.png",
+        "boy-summer-poses.png",
+        "girl-summer-pink-poses.png"
+      ],
+      "alpha": false,
+      "status": "reviewed",
+      "generatedPath": "/Users/nikitakargasin/.codex/generated_images/01a155ac-5a6d-7450-a38b-d5d3c50c3588/exec-acd078f0-efa9-46cb-b347-db8df1760d58.png",
+      "reviewed": true
+    }
+  ],
+  "corrections": [
+    {
+      "name": "menu-breakfasts-15.png",
+      "refs": [
+        "world-01-garden.png",
+        "elements-10.png",
+        "style-revision-2026-10-19/elements-50-our-table.png",
+        "new-2026-10/menu-breakfasts-15.png"
+      ],
+      "prompt": "Use case: style-transfer. LAST reference is ONLY the content and grid target. Keep EXACTLY FIFTEEN prepared dishes, same five-column three-row order, every dish recognisable and separated. First 3 references define actual thin FLAT COLORED-PAPER construction. Rebuild ALL food and dishes as simple hand-cut paper craft pieces, NOT real food with a paper filter. CRITICAL: NO realistic fried crust, roasted skin, curds, crumb pores, glossy sauce, spherical peas, rendered rice kernels or bumpy cooking textures. Each food component is a simple almost uniform flat colored-paper silhouette with a few separate cutout patches and short edge-contact shadows. Syrniki/pancakes flat yellow discs with broad ochre paper spots; crepes folded thin cream paper; grains flat angular paper chips; noodles flat paper strips; meat flat brown/cream cutouts with 2–3 broad color patches; soup flat colored ellipse plus paper vegetables. Bowls and plates layered cream ellipses, no ceramic lighting. Quiet mostly smooth matte paper, sparse subtle fibers, no grain/ripple/embossed texture. Preserve compositions, menu identities and food combinations; no ingredient-only generic divided plates. Real transparent alpha, clean generous gutters, no clipping or lettering. Do not add or drop dishes. Highest available native resolution; landscape 5:3 layout. CONTENT SPECIFICATION follows:\nCreate an isolated prop sheet for a children's family food guide.\nStyle: handmade European picture-book PAPER COLLAGE. Matte fibrous colored paper, simple flat hand-cut shapes, subtly irregular scissor-cut edges, shallow soft shadows between overlapping paper layers. Restrained mint, forest green, sage, cream, mustard and terracotta palette. Food is built from flat paper pieces, calm texture, no realistic surfaces.\nReferences: image 1 = paper material; image 2 = how food dishes are presented. Match their material and plate style.\nSubject: exactly 15 different breakfast dishes, each on its own simple cream paper plate, bowl, jar or board, seen from a 3/4 top-down view, in this order:\n1 cottage cheese pancakes (syrniki) with berries; 2 overnight oats in a glass jar with apple and berries; 3 three egg muffins with peppers and spinach; 4 thin crepes folded into envelopes with cottage cheese; 5 buckwheat with milk and grated apple in a bowl; 6 wholegrain toast with a soft egg and cucumber slices; 7 cottage cheese with banana slices and granola in a bowl; 8 small banana pancakes in a stack with yogurt; 9 two squares of cottage cheese casserole with raisins; 10 a board with open sandwiches: cheese, chicken, cucumber, tomato; 11 millet porridge with pumpkin cubes in a bowl; 12 a breakfast burrito cut in half showing scrambled egg and pepper; 13 a glass of yogurt parfait with granola and berries; 14 a toasted sandwich with turkey and cheese cut diagonally; 15 a glass of banana-berry smoothie next to a boiled egg.\nLayout: grid 5 columns × 3 rows, large even gaps, every dish fully separated, no lines, no labels, no text.\nConstraints: no realistic food photography, no glossy 3D, no black outlines, no lettering, no logos, no watermarks.\nOutput: PNG with real transparent alpha background.\nMaterial quality check: quiet mostly smooth matte paper, no all-over noise, wrinkles, crumpled embossing or photorealistic food. Clearly separable flat hand-cut layers and short soft shadows at overlaps. Preserve exact requested item order. High-resolution landscape sheet, aim 3000 × 1800 or larger. Each grid cell depicts a fully prepared recognisable dish, NOT a generic divided ingredient plate.",
+      "status": "generated",
+      "generatedPath": "/Users/nikitakargasin/.codex/generated_images/01a155ac-5a6d-7450-a38b-d5d3c50c3588/exec-b049e276-3314-4f77-ab47-37293f83e06e.png"
+    },
+    {
+      "name": "menu-lunches-15.png",
+      "refs": [
+        "world-01-garden.png",
+        "elements-10.png",
+        "style-revision-2026-10-19/elements-50-our-table.png",
+        "new-2026-10/menu-lunches-15.png"
+      ],
+      "prompt": "Use case: style-transfer. LAST reference is ONLY the content and grid target. Keep EXACTLY FIFTEEN prepared dishes, same five-column three-row order, every dish recognisable and separated. First 3 references define actual thin FLAT COLORED-PAPER construction. Rebuild ALL food and dishes as simple hand-cut paper craft pieces, NOT real food with a paper filter. CRITICAL: NO realistic fried crust, roasted skin, curds, crumb pores, glossy sauce, spherical peas, rendered rice kernels or bumpy cooking textures. Each food component is a simple almost uniform flat colored-paper silhouette with a few separate cutout patches and short edge-contact shadows. Syrniki/pancakes flat yellow discs with broad ochre paper spots; crepes folded thin cream paper; grains flat angular paper chips; noodles flat paper strips; meat flat brown/cream cutouts with 2–3 broad color patches; soup flat colored ellipse plus paper vegetables. Bowls and plates layered cream ellipses, no ceramic lighting. Quiet mostly smooth matte paper, sparse subtle fibers, no grain/ripple/embossed texture. Preserve compositions, menu identities and food combinations; no ingredient-only generic divided plates. Real transparent alpha, clean generous gutters, no clipping or lettering. Do not add or drop dishes. Highest available native resolution; landscape 5:3 layout. CONTENT SPECIFICATION follows:\nCreate an isolated prop sheet for a children's family food guide.\nStyle: handmade European picture-book PAPER COLLAGE. Matte fibrous colored paper, simple flat hand-cut shapes, subtly irregular scissor-cut edges, shallow soft shadows between overlapping paper layers. Restrained mint, forest green, sage, cream, mustard and terracotta palette. Food is built from flat paper pieces, calm texture, no realistic surfaces.\nReferences: image 1 = paper material; image 2 = how food dishes are presented. Match their material and plate style.\nSubject: exactly 15 different lunch dishes, each on its own simple cream paper plate or bowl, seen from a 3/4 top-down view, in this order:\n1 chicken noodle soup with carrot slices; 2 smooth orange red-lentil soup with croutons; 3 a bowl of borscht with a spoon of sour cream and dill; 4 buckwheat stewed with minced meat, carrot and onion; 5 chicken pilaf with carrot strips; 6 meatballs in tomato sauce over pasta; 7 a baking tray with roasted chicken thighs, pumpkin, carrot and peppers; 8 two lavash wraps cut in half showing chicken, cucumber and carrot; 9 Mexican-style beans with corn and peppers topped with cheese; 10 a bowl of fresh cabbage soup (shchi); 11 two fish cutlets with mashed potato and green peas; 12 spaghetti bolognese; 13 cabbage-and-meat patties (lazy cabbage rolls) in tomato-sour cream sauce with rice; 14 creamy pumpkin soup with chickpeas and a swirl of yogurt; 15 vegetable stew with chicken, zucchini, peppers and potato.\nLayout: grid 5 columns × 3 rows, large even gaps, every dish fully separated, no lines, no labels, no text.\nConstraints: no realistic food photography, no glossy 3D, no black outlines, no lettering, no logos, no watermarks.\nOutput: PNG with real transparent alpha background.\nMaterial quality check: quiet mostly smooth matte paper, no all-over noise, wrinkles, crumpled embossing or photorealistic food. Clearly separable flat hand-cut layers and short soft shadows at overlaps. Preserve exact requested item order. High-resolution landscape sheet, aim 3000 × 1800 or larger. Each grid cell depicts a fully prepared recognisable dish, NOT a generic divided ingredient plate.",
+      "status": "generated",
+      "generatedPath": "/Users/nikitakargasin/.codex/generated_images/01a155ac-5a6d-7450-a38b-d5d3c50c3588/exec-56529a2a-73e4-4548-872c-aaa49992fae1.png"
+    },
+    {
+      "name": "menu-dinners-15.png",
+      "refs": [
+        "world-01-garden.png",
+        "elements-10.png",
+        "style-revision-2026-10-19/elements-50-our-table.png",
+        "new-2026-10/menu-dinners-15.png"
+      ],
+      "prompt": "Use case: style-transfer. LAST reference is ONLY the content and grid target. Keep EXACTLY FIFTEEN prepared dishes, same five-column three-row order, every dish recognisable and separated. First 3 references define actual thin FLAT COLORED-PAPER construction. Rebuild ALL food and dishes as simple hand-cut paper craft pieces, NOT real food with a paper filter. CRITICAL: NO realistic fried crust, roasted skin, curds, crumb pores, glossy sauce, spherical peas, rendered rice kernels or bumpy cooking textures. Each food component is a simple almost uniform flat colored-paper silhouette with a few separate cutout patches and short edge-contact shadows. Syrniki/pancakes flat yellow discs with broad ochre paper spots; crepes folded thin cream paper; grains flat angular paper chips; noodles flat paper strips; meat flat brown/cream cutouts with 2–3 broad color patches; soup flat colored ellipse plus paper vegetables. Bowls and plates layered cream ellipses, no ceramic lighting. Quiet mostly smooth matte paper, sparse subtle fibers, no grain/ripple/embossed texture. Preserve compositions, menu identities and food combinations; no ingredient-only generic divided plates. Real transparent alpha, clean generous gutters, no clipping or lettering. Do not add or drop dishes. Highest available native resolution; landscape 5:3 layout. CONTENT SPECIFICATION follows:\nCreate an isolated prop sheet for a children's family food guide.\nStyle: handmade European picture-book PAPER COLLAGE. Matte fibrous colored paper, simple flat hand-cut shapes, subtly irregular scissor-cut edges, shallow soft shadows between overlapping paper layers. Restrained mint, forest green, sage, cream, mustard and terracotta palette. Food is built from flat paper pieces, calm texture, no realistic surfaces.\nReferences: image 1 = paper material; image 2 = how food dishes are presented. Match their material and plate style.\nSubject: exactly 15 different dinner dishes, each on its own simple cream paper plate, bowl or small pan, seen from a 3/4 top-down view, in this order:\n1 baked fish fillet with potato wedges and broccoli; 2 two meat cutlets with buckwheat and a cucumber-tomato salad; 3 teriyaki chicken pieces with rice and stir-fried vegetables; 4 meatballs in creamy tomato sauce with mashed potato; 5 a vegetable frittata in a small pan; 6 a lavash pizza with tomato, peppers, corn and mozzarella, cut into slices; 7 pasta bolognese with a small green salad; 8 roasted chicken leg with bulgur and stewed carrots; 9 cottage cheese pancakes with carrot sticks and apple slices; 10 beans in tomato sauce with rice and a halved boiled egg; 11 turkey pieces in cream sauce with pasta and green peas; 12 homemade breaded fish sticks with potato wedges and coleslaw; 13 lazy cottage-cheese dumplings with sour cream and berries; 14 a bowl of vegetable soup next to cheese sandwiches; 15 chicken skewers with grilled vegetables, flatbread and a small bowl of hummus.\nLayout: grid 5 columns × 3 rows, large even gaps, every dish fully separated, no lines, no labels, no text.\nConstraints: no realistic food photography, no glossy 3D, no black outlines, no lettering, no logos, no watermarks.\nOutput: PNG with real transparent alpha background.\nMaterial quality check: quiet mostly smooth matte paper, no all-over noise, wrinkles, crumpled embossing or photorealistic food. Clearly separable flat hand-cut layers and short soft shadows at overlaps. Preserve exact requested item order. High-resolution landscape sheet, aim 3000 × 1800 or larger. Each grid cell depicts a fully prepared recognisable dish, NOT a generic divided ingredient plate.",
+      "status": "generated",
+      "generatedPath": "/Users/nikitakargasin/.codex/generated_images/01a155ac-5a6d-7450-a38b-d5d3c50c3588/exec-eafa08de-4cff-4acd-bfdf-be1010c986fb.png"
+    },
+    {
+      "name": "speech-bubbles-08.png",
+      "refs": [
+        "new-2026-10/speech-bubbles-08.png"
+      ],
+      "prompt": "Use case: precise-object-edit. Keep EXACTLY all eight paper speech bubbles, their shape, colors and 4 by 2 layout unchanged. REMOVE the green exclamation mark entirely from the small round bubble in bottom row third column. Reconstruct its empty cream paper interior. All eight bubbles must be COMPLETELY EMPTY: no punctuation, symbols, letters, images or marks. Preserve mint and pink offset backing, quiet cream paper and soft interlayer shadows. Genuine transparent alpha background.",
+      "status": "generated",
+      "generatedPath": "/Users/nikitakargasin/.codex/generated_images/01a155ac-5a6d-7450-a38b-d5d3c50c3588/exec-5f69d3e0-ee4b-415e-8ef0-1face88c3a66.png"
+    }
+  ],
+  "finalStylePass": [
+    {
+      "name": "menu-breakfasts-15.png",
+      "prompt": "Use case: style-transfer. Image1 is the STYLE AUTHORITY: reproduce its simple FLAT paper patty, paper chicken stripes, flat paper syrniki and flat paper cottage-cheese scallops. Image2 is CONTENT ONLY. Creatively REBUILD all fifteen dishes of image2 in that SAME graphic cut-paper language. Keep all fifteen distinct recipes in exactly the same 5x3 positions, complete and separated. RADICALLY simplify surfaces into a small number of solid-color flat hand-cut paper patches. NO realistic fried, grilled or roasted surfaces. NO bumpy kernels or meat. NO smooth spheres, ceramic bowls or glossy sauce. Everything is flat thin paper with short edge-contact shadows; quiet smooth matte colored surfaces, no grain or embossing. Soup is a flat colored ellipse. Meat is a silhouette with 2–3 separate colored-paper patches. Rice and pasta are flat strips. No photographic lighting or volumetric shading. No words or labels. Transparent alpha. This is a material reconstruction, not a texture filter. Preserve recognisability, dish order and five-column three-row layout.",
+      "refs": [
+        "/Users/nikitakargasin/Projects/insines/foodkids/assets/paper-collage/style-revision-2026-10-19/elements-50-our-table.png",
+        "/Users/nikitakargasin/.codex/generated_images/01a155ac-5a6d-7450-a38b-d5d3c50c3588/exec-b049e276-3314-4f77-ab47-37293f83e06e.png"
+      ],
+      "status": "generated",
+      "generatedPath": "/Users/nikitakargasin/.codex/generated_images/01a155ac-5a6d-7450-a38b-d5d3c50c3588/exec-13b104b1-7642-466a-ab1d-11aa63454f2c.png"
+    },
+    {
+      "name": "menu-lunches-15.png",
+      "prompt": "Use case: style-transfer. Image1 is the STYLE AUTHORITY: reproduce its simple FLAT paper patty, paper chicken stripes, flat paper syrniki and flat paper cottage-cheese scallops. Image2 is CONTENT ONLY. Creatively REBUILD all fifteen dishes of image2 in that SAME graphic cut-paper language. Keep all fifteen distinct recipes in exactly the same 5x3 positions, complete and separated. RADICALLY simplify surfaces into a small number of solid-color flat hand-cut paper patches. NO realistic fried, grilled or roasted surfaces. NO bumpy kernels or meat. NO smooth spheres, ceramic bowls or glossy sauce. Everything is flat thin paper with short edge-contact shadows; quiet smooth matte colored surfaces, no grain or embossing. Soup is a flat colored ellipse. Meat is a silhouette with 2–3 separate colored-paper patches. Rice and pasta are flat strips. No photographic lighting or volumetric shading. No words or labels. Transparent alpha. This is a material reconstruction, not a texture filter. Preserve recognisability, dish order and five-column three-row layout.",
+      "refs": [
+        "/Users/nikitakargasin/Projects/insines/foodkids/assets/paper-collage/style-revision-2026-10-19/elements-50-our-table.png",
+        "/Users/nikitakargasin/.codex/generated_images/01a155ac-5a6d-7450-a38b-d5d3c50c3588/exec-56529a2a-73e4-4548-872c-aaa49992fae1.png"
+      ],
+      "status": "generated",
+      "generatedPath": "/Users/nikitakargasin/.codex/generated_images/01a155ac-5a6d-7450-a38b-d5d3c50c3588/exec-7b1b2c32-44e2-4638-9ee9-bf98e49f1945.png"
+    },
+    {
+      "name": "menu-dinners-15.png",
+      "prompt": "Use case: style-transfer. Image1 is the STYLE AUTHORITY: reproduce its simple FLAT paper patty, paper chicken stripes, flat paper syrniki and flat paper cottage-cheese scallops. Image2 is CONTENT ONLY. Creatively REBUILD all fifteen dishes of image2 in that SAME graphic cut-paper language. Keep all fifteen distinct recipes in exactly the same 5x3 positions, complete and separated. RADICALLY simplify surfaces into a small number of solid-color flat hand-cut paper patches. NO realistic fried, grilled or roasted surfaces. NO bumpy kernels or meat. NO smooth spheres, ceramic bowls or glossy sauce. Everything is flat thin paper with short edge-contact shadows; quiet smooth matte colored surfaces, no grain or embossing. Soup is a flat colored ellipse. Meat is a silhouette with 2–3 separate colored-paper patches. Rice and pasta are flat strips. No photographic lighting or volumetric shading. No words or labels. Transparent alpha. This is a material reconstruction, not a texture filter. Preserve recognisability, dish order and five-column three-row layout.",
+      "refs": [
+        "/Users/nikitakargasin/Projects/insines/foodkids/assets/paper-collage/style-revision-2026-10-19/elements-50-our-table.png",
+        "/Users/nikitakargasin/.codex/generated_images/01a155ac-5a6d-7450-a38b-d5d3c50c3588/exec-eafa08de-4cff-4acd-bfdf-be1010c986fb.png"
+      ],
+      "status": "generated",
+      "generatedPath": "/Users/nikitakargasin/.codex/generated_images/01a155ac-5a6d-7450-a38b-d5d3c50c3588/exec-cd780e70-e156-4365-b84b-c2c75996aeca.png"
+    }
+  ],
+  "quotaExhausted": false
+}

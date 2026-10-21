@@ -1,0 +1,27 @@
+---
+import { twMerge } from 'tailwind-merge'
+
+import PaperCard from '@/components/PaperCard.astro'
+import type { Video } from '@/data/videos'
+import { typo } from '@/lib/typo'
+
+interface Props {
+  video: Video
+  large?: boolean
+  class?: string
+  [key: string]: unknown
+}
+
+const { video, large = false, class: className, ...rest } = Astro.props
+---
+
+<PaperCard as="article" backing={large ? 'bg-sand' : 'bg-mint'} class={twMerge('overflow-hidden p-3 md:p-4', className)} {...rest}>
+  <video class="aspect-video w-full rounded-xl bg-ink" controls playsinline preload="none" poster={video.poster} aria-label={video.title}>
+    <source src={video.src} type="video/mp4" />
+  </video>
+  <div class="px-2 pt-4 pb-2">
+    <p class="font-display text-sm font-bold text-protein">{video.length}</p>
+    <h3 class:list={['font-display font-bold', large ? 'text-3xl md:text-4xl' : 'text-2xl']}>{video.title}</h3>
+    <p class="mt-1 text-base md:text-lg">{typo(video.text)}</p>
+  </div>
+</PaperCard>

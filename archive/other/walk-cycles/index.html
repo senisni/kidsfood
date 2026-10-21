@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="ru"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Foodkids — цикл ходьбы</title>
+<style>
+body{font:17px/1.5 system-ui,sans-serif;margin:24px auto;padding:0 20px;max-width:1100px;background:#f4f1e9;color:#283947}h1{font-size:30px}.controls{display:flex;gap:14px;align-items:center;flex-wrap:wrap}button,select{font:inherit;padding:8px 15px;border:1px solid #b8b8ab;border-radius:8px;background:#fff}button{cursor:pointer}.stage{display:flex;justify-content:center;background:#fffdf6;border-radius:18px;overflow:hidden;border-bottom:3px solid #e1d5bc;margin:20px 0}.hero{width:45%;max-width:420px;position:relative}.hero img{display:block;width:100%}.name{position:absolute;top:12px;left:20px;color:#5a655f}.sheets{display:grid;grid-template-columns:1fr 1fr;gap:20px}.sheets img{width:100%;background:white;border-radius:12px}a{color:#28614e}@media(max-width:650px){.sheets{grid-template-columns:1fr}}
+</style>
+<h1>Шагаем, а не скользим</h1>
+<p>Восемь фаз ходьбы каждого героя. Одинаковый размер PNG и общая линия опоры. Для просмотра герои шагают на месте; в видео их положение перемещается отдельно.</p>
+<div class="controls"><button id="play">Пауза</button><button id="next">Следующий кадр</button><label>Темп <select id="fps"><option value="6">6 кадров/с</option><option value="8" selected>8 кадров/с</option><option value="10">10 кадров/с</option><option value="12">12 кадров/с</option></select></label><label>Фаза <input id="scrub" type="range" min="0" max="7" value="0"></label><span id="counter">1 / 8</span></div>
+<div class="stage"><div class="hero"><span class="name">Мальчик</span><img id="boy" src="boy/01.png" alt="Мальчик: фазы ходьбы"></div><div class="hero"><span class="name">Девочка</span><img id="girl" src="girl/01.png" alt="Девочка: фазы ходьбы"></div></div>
+<p><a href="boy/01.png">Первый кадр мальчика</a> · <a href="girl/01.png">Первый кадр девочки</a> · <a href="README.md">Как использовать</a></p>
+<div class="sheets"><div><h2>Мальчик — весь цикл</h2><a href="boy-walk-8-v2.png"><img src="boy-walk-8-v2.png" alt="Восемь кадров мальчика"></a></div><div><h2>Девочка — весь цикл</h2><a href="girl-walk-8-v2.png"><img src="girl-walk-8-v2.png" alt="Восемь кадров девочки"></a></div></div>
+<script>
+let phase=0,playing=true,timer;
+const sheets={boy:[],girl:[]};for(const who of ['boy','girl'])for(let i=1;i<=8;i++){const im=new Image();im.src=who+'/'+String(i).padStart(2,'0')+'.png';sheets[who].push(im);}
+function draw(){for(const who of ['boy','girl'])document.getElementById(who).src=sheets[who][phase].src;document.getElementById('scrub').value=phase;document.getElementById('counter').textContent=(phase+1)+' / 8';window.walkPhase=phase;}
+function restart(){clearInterval(timer);timer=setInterval(()=>{if(playing){phase=(phase+1)%8;draw();}},1000/Number(document.getElementById('fps').value));}
+function pause(){playing=false;document.getElementById('play').textContent='Запустить';}
+document.getElementById('play').onclick=()=>{playing=!playing;document.getElementById('play').textContent=playing?'Пауза':'Запустить';};
+document.getElementById('next').onclick=()=>{pause();phase=(phase+1)%8;draw();};document.getElementById('fps').onchange=restart;document.getElementById('scrub').oninput=e=>{pause();phase=Number(e.target.value);draw();};draw();restart();
+</script></html>

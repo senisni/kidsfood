@@ -1,0 +1,25 @@
+---
+import { twMerge } from 'tailwind-merge'
+
+interface Props {
+  href: string
+  variant?: 'primary' | 'green' | 'ghost'
+  class?: string
+  [key: string]: unknown
+}
+
+const { href, variant = 'primary', class: className, ...rest } = Astro.props
+const tone = {
+  primary: 'bg-protein text-paper',
+  green: 'bg-veg text-paper',
+  ghost: 'bg-paper text-ink',
+}[variant]
+---
+
+<a
+  href={href}
+  class:list={[twMerge('inline-flex items-center gap-2 rounded-2xl px-6 py-3 font-display text-lg font-bold shadow-paper transition hover:-translate-y-0.5 active:translate-y-0.5 md:text-xl', tone, className)]}
+  {...rest}
+>
+  <slot />
+</a>

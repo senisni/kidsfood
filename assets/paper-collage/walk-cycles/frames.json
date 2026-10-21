@@ -1,0 +1,295 @@
+{
+  "direction": "right",
+  "fps": 8,
+  "frameSize": [
+    480,
+    640
+  ],
+  "groundY": 600,
+  "frameOrder": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "characters": {
+    "boy": {
+      "atlas": "boy-walk-8-v2.png",
+      "atlasSize": [
+        1774,
+        887
+      ],
+      "frames": [
+        {
+          "file": "boy/01.png",
+          "sourceCell": [
+            0,
+            0,
+            444,
+            461
+          ],
+          "sourceBounds": [
+            121,
+            9,
+            298,
+            449
+          ],
+          "scale": 1.1479028697571745
+        },
+        {
+          "file": "boy/02.png",
+          "sourceCell": [
+            444,
+            0,
+            443,
+            461
+          ],
+          "sourceBounds": [
+            573,
+            10,
+            254,
+            448
+          ],
+          "scale": 1.1479028697571745
+        },
+        {
+          "file": "boy/03.png",
+          "sourceCell": [
+            887,
+            0,
+            444,
+            461
+          ],
+          "sourceBounds": [
+            1028,
+            10,
+            188,
+            451
+          ],
+          "scale": 1.1479028697571745
+        },
+        {
+          "file": "boy/04.png",
+          "sourceCell": [
+            1331,
+            0,
+            443,
+            461
+          ],
+          "sourceBounds": [
+            1443,
+            6,
+            257,
+            453
+          ],
+          "scale": 1.1479028697571745
+        },
+        {
+          "file": "boy/05.png",
+          "sourceCell": [
+            0,
+            461,
+            444,
+            426
+          ],
+          "sourceBounds": [
+            113,
+            461,
+            305,
+            425
+          ],
+          "scale": 1.1479028697571745
+        },
+        {
+          "file": "boy/06.png",
+          "sourceCell": [
+            444,
+            461,
+            443,
+            426
+          ],
+          "sourceBounds": [
+            577,
+            461,
+            248,
+            425
+          ],
+          "scale": 1.1479028697571745
+        },
+        {
+          "file": "boy/07.png",
+          "sourceCell": [
+            887,
+            461,
+            444,
+            426
+          ],
+          "sourceBounds": [
+            1029,
+            461,
+            213,
+            425
+          ],
+          "scale": 1.1479028697571745
+        },
+        {
+          "file": "boy/08.png",
+          "sourceCell": [
+            1331,
+            461,
+            443,
+            426
+          ],
+          "sourceBounds": [
+            1444,
+            461,
+            256,
+            424
+          ],
+          "scale": 1.1479028697571745
+        }
+      ]
+    },
+    "girl": {
+      "atlas": "girl-walk-8-v2.png",
+      "atlasSize": [
+        1774,
+        887
+      ],
+      "frames": [
+        {
+          "file": "girl/01.png",
+          "sourceCell": [
+            0,
+            0,
+            444,
+            443
+          ],
+          "sourceBounds": [
+            131,
+            5,
+            306,
+            438
+          ],
+          "scale": 1.2984054669703873
+        },
+        {
+          "file": "girl/02.png",
+          "sourceCell": [
+            444,
+            0,
+            443,
+            443
+          ],
+          "sourceBounds": [
+            577,
+            6,
+            259,
+            437
+          ],
+          "scale": 1.2984054669703873
+        },
+        {
+          "file": "girl/03.png",
+          "sourceCell": [
+            887,
+            0,
+            444,
+            443
+          ],
+          "sourceBounds": [
+            995,
+            6,
+            209,
+            437
+          ],
+          "scale": 1.2984054669703873
+        },
+        {
+          "file": "girl/04.png",
+          "sourceCell": [
+            1331,
+            0,
+            443,
+            443
+          ],
+          "sourceBounds": [
+            1408,
+            4,
+            259,
+            439
+          ],
+          "scale": 1.2984054669703873
+        },
+        {
+          "file": "girl/05.png",
+          "sourceCell": [
+            0,
+            443,
+            444,
+            444
+          ],
+          "sourceBounds": [
+            135,
+            447,
+            309,
+            434
+          ],
+          "scale": 1.2984054669703873
+        },
+        {
+          "file": "girl/06.png",
+          "sourceCell": [
+            444,
+            443,
+            443,
+            444
+          ],
+          "sourceBounds": [
+            571,
+            453,
+            270,
+            429
+          ],
+          "scale": 1.2984054669703873
+        },
+        {
+          "file": "girl/07.png",
+          "sourceCell": [
+            887,
+            443,
+            444,
+            444
+          ],
+          "sourceBounds": [
+            1004,
+            450,
+            202,
+            432
+          ],
+          "scale": 1.2984054669703873
+        },
+        {
+          "file": "girl/08.png",
+          "sourceCell": [
+            1331,
+            443,
+            443,
+            444
+          ],
+          "sourceBounds": [
+            1409,
+            447,
+            263,
+            435
+          ],
+          "scale": 1.2984054669703873
+        }
+      ]
+    }
+  }
+}

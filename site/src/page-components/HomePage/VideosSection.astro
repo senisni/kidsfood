@@ -1,0 +1,19 @@
+---
+import SectionHeading from '@/components/SectionHeading.astro'
+import VideoCard from '@/components/VideoCard.astro'
+import { videos } from '@/data/videos'
+
+const [main, ...episodes] = videos
+---
+
+<section id="videos" class="scroll-mt-20 bg-cream-deep/60 py-20">
+  <div class="mx-auto max-w-7xl px-4 md:px-6">
+    <SectionHeading kicker="Смотреть" title="Мультфильмы" text="Короткие, с паузами на подумать. Остановите на вопросе — пусть ребёнок ответит раньше героев." />
+    <div class="grid items-start gap-8 lg:grid-cols-[1.6fr_1fr]">
+      <VideoCard video={main} large />
+      <div class="grid gap-8">
+        {episodes.map((video) => <VideoCard video={video} />)}
+      </div>
+    </div>
+  </div>
+</section>

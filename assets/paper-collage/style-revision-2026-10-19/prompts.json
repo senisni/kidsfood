@@ -1,0 +1,265 @@
+{
+  "tool": "built-in image_gen",
+  "date": "2026-10-19",
+  "styleAuthorities": [
+    "world-01-garden.png",
+    "elements-10.png"
+  ],
+  "pilots": [
+    {
+      "src": "video-additions/elements-50-our-table.png",
+      "name": "elements-50-our-table-v2",
+      "prompt": "Use case: style-transfer. REDESIGN THE MATERIAL, not a texture filter. Reference 1 (garden) and reference 2 (simple food elements) are the ONLY material authorities: actual layered FLAT colored paper cutouts, clearly readable gently uneven scissor edges, quiet mostly smooth matte colored sheets with sparse subtle fibers. A few broad color shapes per object, short soft contact shadows immediately beneath overlapping edges, all in one consistent light direction. NO all-over noise, fine stippling, ripples, embossing, crumpled paper, repeated texture pattern, glossy shading, bevels, inflated 3D or photographic food. Every detail must be a cut-out shape you could pick up and move on a tabletop. Food is simplified graphic paper construction, NOT realistic food with paper grain. White dishes are layered cream paper ellipses, not rounded ceramic bowls. Human skin is flat peach/brown paper, restrained separate cheek patches, not smoothly airbrushed skin. Preserve European picture-book faces, small eyes, no black outlines, no anime. Actual transparent alpha outside cutouts, no ground shadows in gaps, no colored halo or background. No labels or text. LAST reference is the CONTENT/layout target only; keep all TEN food groups in the same 5 by 2 order. Top: vegetable soup; cutlet; chicken fillet; cottage cheese; syrniki. Bottom: glass of milk; glass of kefir; cooked beans; walnuts/hazelnuts; cucumber and slices. Rebuild the food entirely in flat cut-paper shapes. Cutlet: simple brown oval with 3 darker cut-paper patches, no realistic seared crust. Chicken: cream silhouette with 3 tan strips. Cottage cheese: several overlapping cream paper scallops, no real curds. Syrniki: flat yellow discs with a few ochre cutout patches. Nuts: few simple brown paper silhouettes, no realistic convoluted surfaces. Cucumber: green paper silhouette and flat cutout circular slices, no realistic bumps or wet flesh. Soup ingredients flat paper circles and squares on ochre ellipse. Keep recognizable food but aggressively remove photographic detail. Clean large gutters and outer margins. Wide sheet, transparent."
+    },
+    {
+      "src": "video-additions/elements-60-extra-food.png",
+      "name": "elements-60-extra-food-v2",
+      "prompt": "Use case: style-transfer. REDESIGN THE MATERIAL, not a texture filter. Reference 1 (garden) and reference 2 (simple food elements) are the ONLY material authorities: actual layered FLAT colored paper cutouts, clearly readable gently uneven scissor edges, quiet mostly smooth matte colored sheets with sparse subtle fibers. A few broad color shapes per object, short soft contact shadows immediately beneath overlapping edges, all in one consistent light direction. NO all-over noise, fine stippling, ripples, embossing, crumpled paper, repeated texture pattern, glossy shading, bevels, inflated 3D or photographic food. Every detail must be a cut-out shape you could pick up and move on a tabletop. Food is simplified graphic paper construction, NOT realistic food with paper grain. White dishes are layered cream paper ellipses, not rounded ceramic bowls. Human skin is flat peach/brown paper, restrained separate cheek patches, not smoothly airbrushed skin. Preserve European picture-book faces, small eyes, no black outlines, no anime. Actual transparent alpha outside cutouts, no ground shadows in gaps, no colored halo or background. No labels or text. LAST reference is CONTENT/layout target only; retain exactly NINE groups in 3 by 3 order: plain buckwheat; buckwheat with ONE sausage; bulgur; butter; cheese; thin folded crepes; two brownies; plov; noodle soup. Rebuild ALL nine as a real flat construction-paper collage. Buckwheat: a brown flat mound silhouette plus a limited arrangement of overlapping flat angular brown paper grains, NOT 3D pebbles. Bulgur: small flat golden polygon cutouts, no rendered kernels. Sausage: flat salmon paper capsule, a few darker cut lines. Butter and cheese: 2–3 simple pale yellow polygon planes, no bevel shading. Crepes: layered folded triangular paper shapes with 3–4 broad ochre cutout patches, not realistic fried mottling. Brownies: simple dark-brown rectangles and lighter flat side planes, no crumb pores or cracks. Plov: broad golden ellipse plus a modest number of elongated paper rice strips, orange carrot strips and flat brown meat polygons. Soup: flat ochre oval with paper noodle strips, carrot circles and leaf shapes. Large gutters, complete silhouettes. Square sheet, transparent."
+    },
+    {
+      "src": "supporting-characters/classmate-boy-04.png",
+      "name": "classmate-boy-04-v2",
+      "prompt": "Use case: style-transfer. REDESIGN THE MATERIAL, not a texture filter. Reference 1 (garden) and reference 2 (simple food elements) are the ONLY material authorities: actual layered FLAT colored paper cutouts, clearly readable gently uneven scissor edges, quiet mostly smooth matte colored sheets with sparse subtle fibers. A few broad color shapes per object, short soft contact shadows immediately beneath overlapping edges, all in one consistent light direction. NO all-over noise, fine stippling, ripples, embossing, crumpled paper, repeated texture pattern, glossy shading, bevels, inflated 3D or photographic food. Every detail must be a cut-out shape you could pick up and move on a tabletop. Food is simplified graphic paper construction, NOT realistic food with paper grain. White dishes are layered cream paper ellipses, not rounded ceramic bowls. Human skin is flat peach/brown paper, restrained separate cheek patches, not smoothly airbrushed skin. Preserve European picture-book faces, small eyes, no black outlines, no anime. Actual transparent alpha outside cutouts, no ground shadows in gaps, no colored halo or background. No labels or text. LAST reference is character identity/pose target only. Preserve exactly this boy and all FOUR full-body poses in 2 by 2: neutral; wave; walk carrying mustard lunchbox; hold lunch tray. Same medium-brown skin, dark short curls, round terracotta glasses, teal shirt, rust shorts, cream sneakers. Rebuild hair as a few broad overlapping dark-brown paper scallops, not many embossed curls. Shirt, shorts, limbs and face each calm flat colored paper shapes. Visible layered overlaps at sleeves, hair, shorts and shoes. Remove granular ripple on clothes and skin. Keep his face, proportions and clothes recognizable, do not turn him into a different character. No new scene or extra objects, no contour lines. Transparent square sheet."
+    }
+  ],
+  "revision": [
+    {
+      "name": "elements-50-our-table-v3",
+      "src": "/Users/nikitakargasin/.codex/generated_images/01a155ac-5a6d-7450-a38b-d5d3c50c3588/exec-0471915a-552a-4a96-aaa7-d4dbbfdf8cde.png",
+      "alpha": true,
+      "detail": "TEN same food groups in same 5x2 layout. Keep simplified soup, patty, chicken, cottage cheese, syrniki; milk, kefir, beans, nuts, cucumber. Focus correction on NUTS and BEANS: walnuts must be flat ochre scalloped silhouettes with 3 broad darker PAPER strips, not a knobbly 3D walnut. Hazelnuts: brown circles with a separate tan cap patch, no smooth sphere shading. Beans: flat overlapping red and cream kidney-shaped paper cutouts, no inflated domes. Soup potatoes are flat cream squares, not cubes. Bowls are cream layered paper ellipses with simple outer silhouettes, no ceramic bowl rendering. Keep clean transparent background and wide clear gaps.",
+      "prompt": "Use case: style-transfer. Reconstruct the target as an actual CUT-COLORED-PAPER COLLAGE. Material authority: first reference garden, especially its broad calm sky and flat overlapping foliage; reference 2 simple egg/apple/vegetable paper cutouts. LAST image is only content/identity/layout target, NOT a surface-texture reference. CRITICAL MATERIAL CHANGE: replace ALL existing surface patterns with QUIET SMOOTH matte uncrumpled construction paper. Delete every network of wrinkles, embossed lines, stippling, ripples and mottled noise. Subtle natural paper only detectable on close inspection, almost uniform color at normal size. NO creases, grain filter, microtexture, lumpy relief, felt, clay, photorealistic object or volumetric modeling. Each shape is a THIN FLAT paper piece with a visible gently imperfect scissor-cut boundary. Separate overlapping pieces by short soft edge-contact shadows; use solid-color flat patches instead of shaded volumes. Every piece could be slid or rotated independently on a tabletop. No contour drawing, no black outlines, no anime, no glossy highlights, no text. Keep compositions and character identities. TEN same food groups in same 5x2 layout. Keep simplified soup, patty, chicken, cottage cheese, syrniki; milk, kefir, beans, nuts, cucumber. Focus correction on NUTS and BEANS: walnuts must be flat ochre scalloped silhouettes with 3 broad darker PAPER strips, not a knobbly 3D walnut. Hazelnuts: brown circles with a separate tan cap patch, no smooth sphere shading. Beans: flat overlapping red and cream kidney-shaped paper cutouts, no inflated domes. Soup potatoes are flat cream squares, not cubes. Bowls are cream layered paper ellipses with simple outer silhouettes, no ceramic bowl rendering. Keep clean transparent background and wide clear gaps."
+    },
+    {
+      "name": "classmate-boy-04-v3",
+      "src": "/Users/nikitakargasin/Projects/insines/foodkids/assets/paper-collage/supporting-characters/classmate-boy-04.png",
+      "alpha": true,
+      "detail": "Exactly FOUR poses of same schoolboy 2x2, neutral; wave; walk with lunchbox; hold tray. Same brown skin, short dark curls, terracotta eyeglasses, teal shirt, orange shorts and cream shoes. Most important: remove embossed crumpled pattern from shirt, shorts and skin. Shirt is ONE SMOOTH teal paper silhouette with a separate cuff piece, no wrinkles or seams drawn all over. Shorts ONE SMOOTH orange shape plus waistband/cuffs. Hair broad flat scalloped overlaps. Face flat warm brown paper with tiny cheek color patches; preserve face and proportions. True transparent alpha, no shadows in gaps.",
+      "prompt": "Use case: style-transfer. Reconstruct the target as an actual CUT-COLORED-PAPER COLLAGE. Material authority: first reference garden, especially its broad calm sky and flat overlapping foliage; reference 2 simple egg/apple/vegetable paper cutouts. LAST image is only content/identity/layout target, NOT a surface-texture reference. CRITICAL MATERIAL CHANGE: replace ALL existing surface patterns with QUIET SMOOTH matte uncrumpled construction paper. Delete every network of wrinkles, embossed lines, stippling, ripples and mottled noise. Subtle natural paper only detectable on close inspection, almost uniform color at normal size. NO creases, grain filter, microtexture, lumpy relief, felt, clay, photorealistic object or volumetric modeling. Each shape is a THIN FLAT paper piece with a visible gently imperfect scissor-cut boundary. Separate overlapping pieces by short soft edge-contact shadows; use solid-color flat patches instead of shaded volumes. Every piece could be slid or rotated independently on a tabletop. No contour drawing, no black outlines, no anime, no glossy highlights, no text. Keep compositions and character identities. Exactly FOUR poses of same schoolboy 2x2, neutral; wave; walk with lunchbox; hold tray. Same brown skin, short dark curls, terracotta eyeglasses, teal shirt, orange shorts and cream shoes. Most important: remove embossed crumpled pattern from shirt, shorts and skin. Shirt is ONE SMOOTH teal paper silhouette with a separate cuff piece, no wrinkles or seams drawn all over. Shorts ONE SMOOTH orange shape plus waistband/cuffs. Hair broad flat scalloped overlaps. Face flat warm brown paper with tiny cheek color patches; preserve face and proportions. True transparent alpha, no shadows in gaps."
+    },
+    {
+      "name": "classmate-girl-04-v2",
+      "src": "/Users/nikitakargasin/Projects/insines/foodkids/assets/paper-collage/supporting-characters/classmate-girl-04.png",
+      "alpha": true,
+      "detail": "Exactly FOUR same full-body poses 2x2, neutral; pointing right; walking with book; holding pear. Preserve auburn two braids, freckles, lavender shirt, dark teal short dungarees, terracotta sneakers and face. Remove all fine rumpled texture on clothes, skin and hair. Overalls broad SMOOTH teal paper planes with separate simple pocket and straps. Braids built from a modest number of flat auburn paper segments. Pear a flat green cutout with separate leaf. True transparent alpha, no shadows in gaps.",
+      "prompt": "Use case: style-transfer. Reconstruct the target as an actual CUT-COLORED-PAPER COLLAGE. Material authority: first reference garden, especially its broad calm sky and flat overlapping foliage; reference 2 simple egg/apple/vegetable paper cutouts. LAST image is only content/identity/layout target, NOT a surface-texture reference. CRITICAL MATERIAL CHANGE: replace ALL existing surface patterns with QUIET SMOOTH matte uncrumpled construction paper. Delete every network of wrinkles, embossed lines, stippling, ripples and mottled noise. Subtle natural paper only detectable on close inspection, almost uniform color at normal size. NO creases, grain filter, microtexture, lumpy relief, felt, clay, photorealistic object or volumetric modeling. Each shape is a THIN FLAT paper piece with a visible gently imperfect scissor-cut boundary. Separate overlapping pieces by short soft edge-contact shadows; use solid-color flat patches instead of shaded volumes. Every piece could be slid or rotated independently on a tabletop. No contour drawing, no black outlines, no anime, no glossy highlights, no text. Keep compositions and character identities. Exactly FOUR same full-body poses 2x2, neutral; pointing right; walking with book; holding pear. Preserve auburn two braids, freckles, lavender shirt, dark teal short dungarees, terracotta sneakers and face. Remove all fine rumpled texture on clothes, skin and hair. Overalls broad SMOOTH teal paper planes with separate simple pocket and straps. Braids built from a modest number of flat auburn paper segments. Pear a flat green cutout with separate leaf. True transparent alpha, no shadows in gaps."
+    },
+    {
+      "name": "canteen-cook-04-v2",
+      "src": "/Users/nikitakargasin/Projects/insines/foodkids/assets/paper-collage/supporting-characters/canteen-cook-04.png",
+      "alpha": true,
+      "detail": "Exactly FOUR same full-body poses 2x2: hands together; ladle forward; holding soup bowl; waving. Preserve this woman cook identity, brown hair and cream cap, sage blouse, cream apron with terracotta pocket, dark trousers and brown shoes. Clothes and apron must be SMOOTH broad flat paper, no fibrous relief or crumples. Cap simple overlapping cream paper shapes, not puffed fabric. Soup bowl and ladle built from flat paper shapes. True transparent alpha.",
+      "prompt": "Use case: style-transfer. Reconstruct the target as an actual CUT-COLORED-PAPER COLLAGE. Material authority: first reference garden, especially its broad calm sky and flat overlapping foliage; reference 2 simple egg/apple/vegetable paper cutouts. LAST image is only content/identity/layout target, NOT a surface-texture reference. CRITICAL MATERIAL CHANGE: replace ALL existing surface patterns with QUIET SMOOTH matte uncrumpled construction paper. Delete every network of wrinkles, embossed lines, stippling, ripples and mottled noise. Subtle natural paper only detectable on close inspection, almost uniform color at normal size. NO creases, grain filter, microtexture, lumpy relief, felt, clay, photorealistic object or volumetric modeling. Each shape is a THIN FLAT paper piece with a visible gently imperfect scissor-cut boundary. Separate overlapping pieces by short soft edge-contact shadows; use solid-color flat patches instead of shaded volumes. Every piece could be slid or rotated independently on a tabletop. No contour drawing, no black outlines, no anime, no glossy highlights, no text. Keep compositions and character identities. Exactly FOUR same full-body poses 2x2: hands together; ladle forward; holding soup bowl; waving. Preserve this woman cook identity, brown hair and cream cap, sage blouse, cream apron with terracotta pocket, dark trousers and brown shoes. Clothes and apron must be SMOOTH broad flat paper, no fibrous relief or crumples. Cap simple overlapping cream paper shapes, not puffed fabric. Soup bowl and ladle built from flat paper shapes. True transparent alpha."
+    },
+    {
+      "name": "home-adult-dad-04-v2",
+      "src": "/Users/nikitakargasin/Projects/insines/foodkids/assets/paper-collage/supporting-characters/home-adult-dad-04.png",
+      "alpha": true,
+      "detail": "Exactly FOUR same full-body poses 2x2: neutral; walking with grocery bag; holding crepe plate; open-palm conversational gesture. Preserve short brown hair, beard, coral shirt, slate blue trousers and cream shoes, same face/proportions. Shirt and trousers SMOOTH colored paper, no cloth folds or embossed pattern. Grocery bag a few flat tan polygons and flat leaf cutouts; crepes layered flat ochre folded shapes with a few broad color patches. True transparent alpha.",
+      "prompt": "Use case: style-transfer. Reconstruct the target as an actual CUT-COLORED-PAPER COLLAGE. Material authority: first reference garden, especially its broad calm sky and flat overlapping foliage; reference 2 simple egg/apple/vegetable paper cutouts. LAST image is only content/identity/layout target, NOT a surface-texture reference. CRITICAL MATERIAL CHANGE: replace ALL existing surface patterns with QUIET SMOOTH matte uncrumpled construction paper. Delete every network of wrinkles, embossed lines, stippling, ripples and mottled noise. Subtle natural paper only detectable on close inspection, almost uniform color at normal size. NO creases, grain filter, microtexture, lumpy relief, felt, clay, photorealistic object or volumetric modeling. Each shape is a THIN FLAT paper piece with a visible gently imperfect scissor-cut boundary. Separate overlapping pieces by short soft edge-contact shadows; use solid-color flat patches instead of shaded volumes. Every piece could be slid or rotated independently on a tabletop. No contour drawing, no black outlines, no anime, no glossy highlights, no text. Keep compositions and character identities. Exactly FOUR same full-body poses 2x2: neutral; walking with grocery bag; holding crepe plate; open-palm conversational gesture. Preserve short brown hair, beard, coral shirt, slate blue trousers and cream shoes, same face/proportions. Shirt and trousers SMOOTH colored paper, no cloth folds or embossed pattern. Grocery bag a few flat tan polygons and flat leaf cutouts; crepes layered flat ochre folded shapes with a few broad color patches. True transparent alpha."
+    },
+    {
+      "name": "boy-actions-06-v2",
+      "src": "/Users/nikitakargasin/Projects/insines/foodkids/assets/paper-collage/video-additions/boy-actions-06.png",
+      "alpha": true,
+      "detail": "Exactly SIX same complete boy poses in same 3x2 layout: reaching out with plate; fork near mouth; running; holding tray; satisfied hand on belly; thinking finger on chin. Preserve boy identity, chestnut hair, cream sun T-shirt with mint collar, sage shorts, socks and cream sneakers. Remove all grain on face and surface embossing on shirt/shoes. Hair broad flat overlapping brown paper locks. Clothing and limbs thin paper pieces with contact shadows at overlaps. Actual transparent background, no vignette or glow.",
+      "prompt": "Use case: style-transfer. Reconstruct the target as an actual CUT-COLORED-PAPER COLLAGE. Material authority: first reference garden, especially its broad calm sky and flat overlapping foliage; reference 2 simple egg/apple/vegetable paper cutouts. LAST image is only content/identity/layout target, NOT a surface-texture reference. CRITICAL MATERIAL CHANGE: replace ALL existing surface patterns with QUIET SMOOTH matte uncrumpled construction paper. Delete every network of wrinkles, embossed lines, stippling, ripples and mottled noise. Subtle natural paper only detectable on close inspection, almost uniform color at normal size. NO creases, grain filter, microtexture, lumpy relief, felt, clay, photorealistic object or volumetric modeling. Each shape is a THIN FLAT paper piece with a visible gently imperfect scissor-cut boundary. Separate overlapping pieces by short soft edge-contact shadows; use solid-color flat patches instead of shaded volumes. Every piece could be slid or rotated independently on a tabletop. No contour drawing, no black outlines, no anime, no glossy highlights, no text. Keep compositions and character identities. Exactly SIX same complete boy poses in same 3x2 layout: reaching out with plate; fork near mouth; running; holding tray; satisfied hand on belly; thinking finger on chin. Preserve boy identity, chestnut hair, cream sun T-shirt with mint collar, sage shorts, socks and cream sneakers. Remove all grain on face and surface embossing on shirt/shoes. Hair broad flat overlapping brown paper locks. Clothing and limbs thin paper pieces with contact shadows at overlaps. Actual transparent background, no vignette or glow."
+    },
+    {
+      "name": "girl-actions-06-v2",
+      "src": "/Users/nikitakargasin/Projects/insines/foodkids/assets/paper-collage/video-additions/girl-actions-06.png",
+      "alpha": true,
+      "detail": "Exactly SIX same complete girl poses in same 3x2 layout: pointing; holding open lunchbox; biting apple; satisfied with fork lowered and other palm raised; magnifying glass; sitting front with hands at table height and feet visible. Preserve pink bob, daisy clip, yellow dress with cream pocket, green sandals, face and proportions. Remove noise/embossing on dress, hair, skin. Pink hair broad flat overlaps; yellow dress smooth colored-paper silhouette plus a few separate skirt panels, no all-over creasing. No table or chair. Actual transparent background, no vignette or glow.",
+      "prompt": "Use case: style-transfer. Reconstruct the target as an actual CUT-COLORED-PAPER COLLAGE. Material authority: first reference garden, especially its broad calm sky and flat overlapping foliage; reference 2 simple egg/apple/vegetable paper cutouts. LAST image is only content/identity/layout target, NOT a surface-texture reference. CRITICAL MATERIAL CHANGE: replace ALL existing surface patterns with QUIET SMOOTH matte uncrumpled construction paper. Delete every network of wrinkles, embossed lines, stippling, ripples and mottled noise. Subtle natural paper only detectable on close inspection, almost uniform color at normal size. NO creases, grain filter, microtexture, lumpy relief, felt, clay, photorealistic object or volumetric modeling. Each shape is a THIN FLAT paper piece with a visible gently imperfect scissor-cut boundary. Separate overlapping pieces by short soft edge-contact shadows; use solid-color flat patches instead of shaded volumes. Every piece could be slid or rotated independently on a tabletop. No contour drawing, no black outlines, no anime, no glossy highlights, no text. Keep compositions and character identities. Exactly SIX same complete girl poses in same 3x2 layout: pointing; holding open lunchbox; biting apple; satisfied with fork lowered and other palm raised; magnifying glass; sitting front with hands at table height and feet visible. Preserve pink bob, daisy clip, yellow dress with cream pocket, green sandals, face and proportions. Remove noise/embossing on dress, hair, skin. Pink hair broad flat overlaps; yellow dress smooth colored-paper silhouette plus a few separate skirt panels, no all-over creasing. No table or chair. Actual transparent background, no vignette or glow."
+    },
+    {
+      "name": "microbe-gardeners-05-v2",
+      "src": "/Users/nikitakargasin/Projects/insines/foodkids/assets/paper-collage/video-additions/microbe-gardeners-05.png",
+      "alpha": true,
+      "detail": "Exactly FIVE same friendly gardeners with tools, one horizontal row: sage with watering can; teal with seedling; lavender with rake; terracotta with seeds basket; mustard with spade. Keep distinct identities and simple smiles. Rebuild bodies from smooth FLAT colored-paper silhouettes, arms/feet and tools separate thin cutouts. No convex highlights or grainy texture. No ground. Genuine transparent background. Wide sheet.",
+      "prompt": "Use case: style-transfer. Reconstruct the target as an actual CUT-COLORED-PAPER COLLAGE. Material authority: first reference garden, especially its broad calm sky and flat overlapping foliage; reference 2 simple egg/apple/vegetable paper cutouts. LAST image is only content/identity/layout target, NOT a surface-texture reference. CRITICAL MATERIAL CHANGE: replace ALL existing surface patterns with QUIET SMOOTH matte uncrumpled construction paper. Delete every network of wrinkles, embossed lines, stippling, ripples and mottled noise. Subtle natural paper only detectable on close inspection, almost uniform color at normal size. NO creases, grain filter, microtexture, lumpy relief, felt, clay, photorealistic object or volumetric modeling. Each shape is a THIN FLAT paper piece with a visible gently imperfect scissor-cut boundary. Separate overlapping pieces by short soft edge-contact shadows; use solid-color flat patches instead of shaded volumes. Every piece could be slid or rotated independently on a tabletop. No contour drawing, no black outlines, no anime, no glossy highlights, no text. Keep compositions and character identities. Exactly FIVE same friendly gardeners with tools, one horizontal row: sage with watering can; teal with seedling; lavender with rake; terracotta with seeds basket; mustard with spade. Keep distinct identities and simple smiles. Rebuild bodies from smooth FLAT colored-paper silhouettes, arms/feet and tools separate thin cutouts. No convex highlights or grainy texture. No ground. Genuine transparent background. Wide sheet."
+    },
+    {
+      "name": "scene-05-belly-garden-v2",
+      "src": "/Users/nikitakargasin/Projects/insines/foodkids/assets/paper-collage/video-additions/scene-05-belly-garden.png",
+      "alpha": false,
+      "detail": "Keep 16:9 same composition: cream torso/belly silhouette with circular garden opening, five kind microbe gardeners in beds, seedlings and woven colored fiber strips, outside garden landscape. Preserve colors and metaphor, no anatomy or text. Replace all noisy surfaces and wrinkled texture with calm flat paper. Fiber strips thin flat SMOOTH colored-paper strips, not corrugated ribbon. Soil broad terracotta cutouts, no real dirt. Gardeners smooth flat paper silhouettes. Sky, torso and leaves smooth sheets, subtle short shadows only below overlaps. Opaque background.",
+      "prompt": "Use case: style-transfer. Reconstruct the target as an actual CUT-COLORED-PAPER COLLAGE. Material authority: first reference garden, especially its broad calm sky and flat overlapping foliage; reference 2 simple egg/apple/vegetable paper cutouts. LAST image is only content/identity/layout target, NOT a surface-texture reference. CRITICAL MATERIAL CHANGE: replace ALL existing surface patterns with QUIET SMOOTH matte uncrumpled construction paper. Delete every network of wrinkles, embossed lines, stippling, ripples and mottled noise. Subtle natural paper only detectable on close inspection, almost uniform color at normal size. NO creases, grain filter, microtexture, lumpy relief, felt, clay, photorealistic object or volumetric modeling. Each shape is a THIN FLAT paper piece with a visible gently imperfect scissor-cut boundary. Separate overlapping pieces by short soft edge-contact shadows; use solid-color flat patches instead of shaded volumes. Every piece could be slid or rotated independently on a tabletop. No contour drawing, no black outlines, no anime, no glossy highlights, no text. Keep compositions and character identities. Keep 16:9 same composition: cream torso/belly silhouette with circular garden opening, five kind microbe gardeners in beds, seedlings and woven colored fiber strips, outside garden landscape. Preserve colors and metaphor, no anatomy or text. Replace all noisy surfaces and wrinkled texture with calm flat paper. Fiber strips thin flat SMOOTH colored-paper strips, not corrugated ribbon. Soil broad terracotta cutouts, no real dirt. Gardeners smooth flat paper silhouettes. Sky, torso and leaves smooth sheets, subtle short shadows only below overlaps. Opaque background."
+    },
+    {
+      "name": "world-03-canteen-v2",
+      "src": "/Users/nikitakargasin/Projects/insines/foodkids/assets/paper-collage/video-additions/world-03-canteen.png",
+      "alpha": false,
+      "detail": "Keep empty school canteen layout, blue/coral palette, birch schoolyard and basketball hoop through window, counters, chairs and empty foreground table. All people/food trays absent. Reduce room to staged layers of hand-cut flat paper, avoid 3D architectural visualization. REMOVE identical crumpled embossed wallpaper from floor, tables, chairs and walls. Each wall/tabletop/chair flat calm colored sheet; no mottled texture. No depth of field blur in foreground foliage; paper cutouts have crisp edges. Background depth from overlap and clear foreground/midground/background. Landscape 16:9 opaque.",
+      "prompt": "Use case: style-transfer. Reconstruct the target as an actual CUT-COLORED-PAPER COLLAGE. Material authority: first reference garden, especially its broad calm sky and flat overlapping foliage; reference 2 simple egg/apple/vegetable paper cutouts. LAST image is only content/identity/layout target, NOT a surface-texture reference. CRITICAL MATERIAL CHANGE: replace ALL existing surface patterns with QUIET SMOOTH matte uncrumpled construction paper. Delete every network of wrinkles, embossed lines, stippling, ripples and mottled noise. Subtle natural paper only detectable on close inspection, almost uniform color at normal size. NO creases, grain filter, microtexture, lumpy relief, felt, clay, photorealistic object or volumetric modeling. Each shape is a THIN FLAT paper piece with a visible gently imperfect scissor-cut boundary. Separate overlapping pieces by short soft edge-contact shadows; use solid-color flat patches instead of shaded volumes. Every piece could be slid or rotated independently on a tabletop. No contour drawing, no black outlines, no anime, no glossy highlights, no text. Keep compositions and character identities. Keep empty school canteen layout, blue/coral palette, birch schoolyard and basketball hoop through window, counters, chairs and empty foreground table. All people/food trays absent. Reduce room to staged layers of hand-cut flat paper, avoid 3D architectural visualization. REMOVE identical crumpled embossed wallpaper from floor, tables, chairs and walls. Each wall/tabletop/chair flat calm colored sheet; no mottled texture. No depth of field blur in foreground foliage; paper cutouts have crisp edges. Background depth from overlap and clear foreground/midground/background. Landscape 16:9 opaque."
+    },
+    {
+      "name": "world-04-evening-path-v2",
+      "src": "/Users/nikitakargasin/Projects/insines/foodkids/assets/paper-collage/video-additions/world-04-evening-path.png",
+      "alpha": false,
+      "detail": "Keep empty park bridge, path, stream, bench, lantern, lilac/pink sunset and setting sun, no people. REMOVE embossed crumple pattern everywhere, especially sky, water and bridge. Simplify trees into broad calm overlapping paper crowns. Bridge thin cut-paper railing/plank pieces, water broad layered purple and peach silhouettes, sun flat orange disc, no atmospheric glow or gradient modeling. Preserve scene-specific evening palette. Landscape 16:9 opaque.",
+      "prompt": "Use case: style-transfer. Reconstruct the target as an actual CUT-COLORED-PAPER COLLAGE. Material authority: first reference garden, especially its broad calm sky and flat overlapping foliage; reference 2 simple egg/apple/vegetable paper cutouts. LAST image is only content/identity/layout target, NOT a surface-texture reference. CRITICAL MATERIAL CHANGE: replace ALL existing surface patterns with QUIET SMOOTH matte uncrumpled construction paper. Delete every network of wrinkles, embossed lines, stippling, ripples and mottled noise. Subtle natural paper only detectable on close inspection, almost uniform color at normal size. NO creases, grain filter, microtexture, lumpy relief, felt, clay, photorealistic object or volumetric modeling. Each shape is a THIN FLAT paper piece with a visible gently imperfect scissor-cut boundary. Separate overlapping pieces by short soft edge-contact shadows; use solid-color flat patches instead of shaded volumes. Every piece could be slid or rotated independently on a tabletop. No contour drawing, no black outlines, no anime, no glossy highlights, no text. Keep compositions and character identities. Keep empty park bridge, path, stream, bench, lantern, lilac/pink sunset and setting sun, no people. REMOVE embossed crumple pattern everywhere, especially sky, water and bridge. Simplify trees into broad calm overlapping paper crowns. Bridge thin cut-paper railing/plank pieces, water broad layered purple and peach silhouettes, sun flat orange disc, no atmospheric glow or gradient modeling. Preserve scene-specific evening palette. Landscape 16:9 opaque."
+    },
+    {
+      "name": "world-05-kitchen-evening-v2",
+      "src": "/Users/nikitakargasin/Projects/insines/foodkids/assets/paper-collage/video-additions/world-05-kitchen-evening.png",
+      "alpha": false,
+      "detail": "Keep same empty evening dining/kitchen corner, deep blue walls, warm lit pendant lamp, wooden table with cream runner, two empty chairs, plants, geometric framed art, window with neighboring roof and moon. No people, dishes or food on table. REMOVE all crumple/embossed pattern from wall, lamp, curtain, table, cloth, chairs and leaves. Build objects with a few smooth flat colored paper planes, no furniture wood grain. Lamp warm cream/yellow paper layers with short edge shadows, no photoreal light bloom. Landscape 16:9 opaque.",
+      "prompt": "Use case: style-transfer. Reconstruct the target as an actual CUT-COLORED-PAPER COLLAGE. Material authority: first reference garden, especially its broad calm sky and flat overlapping foliage; reference 2 simple egg/apple/vegetable paper cutouts. LAST image is only content/identity/layout target, NOT a surface-texture reference. CRITICAL MATERIAL CHANGE: replace ALL existing surface patterns with QUIET SMOOTH matte uncrumpled construction paper. Delete every network of wrinkles, embossed lines, stippling, ripples and mottled noise. Subtle natural paper only detectable on close inspection, almost uniform color at normal size. NO creases, grain filter, microtexture, lumpy relief, felt, clay, photorealistic object or volumetric modeling. Each shape is a THIN FLAT paper piece with a visible gently imperfect scissor-cut boundary. Separate overlapping pieces by short soft edge-contact shadows; use solid-color flat patches instead of shaded volumes. Every piece could be slid or rotated independently on a tabletop. No contour drawing, no black outlines, no anime, no glossy highlights, no text. Keep compositions and character identities. Keep same empty evening dining/kitchen corner, deep blue walls, warm lit pendant lamp, wooden table with cream runner, two empty chairs, plants, geometric framed art, window with neighboring roof and moon. No people, dishes or food on table. REMOVE all crumple/embossed pattern from wall, lamp, curtain, table, cloth, chairs and leaves. Build objects with a few smooth flat colored paper planes, no furniture wood grain. Lamp warm cream/yellow paper layers with short edge shadows, no photoreal light bloom. Landscape 16:9 opaque."
+    },
+    {
+      "name": "elements-20-food-v2",
+      "src": "/Users/nikitakargasin/Projects/insines/foodkids/assets/paper-collage/elements-20-food.png",
+      "alpha": true,
+      "detail": "Rebuild original TEN same groups in 5x2: peeled banana; orange halves; pear; carrot; tomato; bowl lentils; jar yogurt; bowl buckwheat; bowl spiral pasta; cheese wedge. Same order and colors. All food actual thin smooth paper cutouts. Orange flat segments, banana cream/yellow flat layers. Lentils flat circles, buckwheat a limited group of flat angular brown shapes, spiral pasta as curved flat gold paper strips, not 3D extrusions. Yogurt flat cream patch inside layered pale teal jar silhouette, no glass highlights. No noisy embossed surfaces. Actual transparent background.",
+      "prompt": "Use case: style-transfer. Reconstruct the target as an actual CUT-COLORED-PAPER COLLAGE. Material authority: first reference garden, especially its broad calm sky and flat overlapping foliage; reference 2 simple egg/apple/vegetable paper cutouts. LAST image is only content/identity/layout target, NOT a surface-texture reference. CRITICAL MATERIAL CHANGE: replace ALL existing surface patterns with QUIET SMOOTH matte uncrumpled construction paper. Delete every network of wrinkles, embossed lines, stippling, ripples and mottled noise. Subtle natural paper only detectable on close inspection, almost uniform color at normal size. NO creases, grain filter, microtexture, lumpy relief, felt, clay, photorealistic object or volumetric modeling. Each shape is a THIN FLAT paper piece with a visible gently imperfect scissor-cut boundary. Separate overlapping pieces by short soft edge-contact shadows; use solid-color flat patches instead of shaded volumes. Every piece could be slid or rotated independently on a tabletop. No contour drawing, no black outlines, no anime, no glossy highlights, no text. Keep compositions and character identities. Rebuild original TEN same groups in 5x2: peeled banana; orange halves; pear; carrot; tomato; bowl lentils; jar yogurt; bowl buckwheat; bowl spiral pasta; cheese wedge. Same order and colors. All food actual thin smooth paper cutouts. Orange flat segments, banana cream/yellow flat layers. Lentils flat circles, buckwheat a limited group of flat angular brown shapes, spiral pasta as curved flat gold paper strips, not 3D extrusions. Yogurt flat cream patch inside layered pale teal jar silhouette, no glass highlights. No noisy embossed surfaces. Actual transparent background."
+    }
+  ],
+  "walks": [
+    {
+      "name": "boy-walk-8-v3",
+      "src": "walk-cycles/boy-walk-8-v2.png",
+      "prompt": "Use case: style-transfer. Correct ONLY the material rendering of this paper-collage walk-cycle sheet, preserving every pose, limb placement, facing direction, scale and spacing. Image1 garden is paper material authority, image2 boy and image3 girl are identity authorities. Image4 is the TARGET eight-frame walk sheet. Keep EXACTLY EIGHT complete figures in same 4-column 2-row order, with all eight poses identical to target. Do not invent a new gait. Replace all crumpled-paper/embossed/ripple textures on shirt/dress, shorts, hair and skin with quiet SMOOTH uncrumpled matte colored paper. Almost uniform color at normal scale, subtle paper visible close up only, no grain overlay, no network of creases. Geometry from separate thin hand-cut paper pieces and short soft contact shadows under overlapping edges, no inflated round forms or glossy shading, no outlines. Keep all outfit colors, faces and relative proportions identical to identity references. Transparent alpha background, no ground shadow, glow, labels or checkerboard. Only the boy: cream shirt with yellow sun and mint collar, sage shorts, cream shoes, chestnut hair. Keep walking right, eight positions."
+    },
+    {
+      "name": "girl-walk-8-v3",
+      "src": "walk-cycles/girl-walk-8-v2.png",
+      "prompt": "Use case: style-transfer. Correct ONLY the material rendering of this paper-collage walk-cycle sheet, preserving every pose, limb placement, facing direction, scale and spacing. Image1 garden is paper material authority, image2 boy and image3 girl are identity authorities. Image4 is the TARGET eight-frame walk sheet. Keep EXACTLY EIGHT complete figures in same 4-column 2-row order, with all eight poses identical to target. Do not invent a new gait. Replace all crumpled-paper/embossed/ripple textures on shirt/dress, shorts, hair and skin with quiet SMOOTH uncrumpled matte colored paper. Almost uniform color at normal scale, subtle paper visible close up only, no grain overlay, no network of creases. Geometry from separate thin hand-cut paper pieces and short soft contact shadows under overlapping edges, no inflated round forms or glossy shading, no outlines. Keep all outfit colors, faces and relative proportions identical to identity references. Transparent alpha background, no ground shadow, glow, labels or checkerboard. Only the girl: pink bob with daisy clip, yellow dress with cream pocket, green sandals. Keep walking right, eight positions."
+    }
+  ],
+  "walkCorrection": "Use case: precise-object-edit. Target image is image1, eight-pose boy walk cycle. Images2–3 are corrected paper material authorities (smooth cream shirt and smooth shorts in image2, calm paper garden image3). EDIT ONLY SURFACE TEXTURE ON ALL EIGHT BOYS: ERASE the entire angular crumpled polygon-line pattern from every cream T-SHIRT and from every green pair of SHORTS. Replace shirt interior with uninterrupted calm solid cream paper color; ONLY yellow sun and mint collar may remain on shirt. Replace shorts interior with uninterrupted sage-green paper color plus separate flat waistband and cuffs. No crease network, no gray triangular lines, no wrinkles, no fiber noise. Image2 demonstrates how calm smooth paper should look, match it closely. Keep the exact eight target poses, every limb position, face, hair, sun emblem, overall scale, eight-cell order, silhouette and walking direction unchanged. Small soft shadows under overlapping paper edges allowed. Do not remove tiny shirt sun or mint collar. Real transparent alpha; do not fill backdrop, no glow, no ground shadow. Do not add any text.",
+  "backgroundSecondPass": [
+    {
+      "name": "world-03-canteen-v3",
+      "previous": "world-03-canteen-v2",
+      "areas": "blue wall, coral chairs and counters, cream tabletops, pale floor, grey window frames and birch leaves",
+      "prompt": "Use case: precise-object-edit. IMAGE1 is the target background. ERASE ALL SURFACE LINE PATTERNS from the blue wall, coral chairs and counters, cream tabletops, pale floor, grey window frames and birch leaves. Specifically delete the repeated fine angular embossed/creased/crazed pattern that still covers the target. Replace every interior surface with QUIET, NEARLY UNIFORM MATTE COLORED PAPER. No visible wrinkles, speckles, pores, scratches, wood grain, weave or all-over fine lines. At ordinary view each cutout must read as one calm flat color area. Keep actual paper feeling through gently imperfect cut edges, subtle broad color variation and short soft shadows immediately under those cut edges. Keep the EXACT object positions, framing, colors and silhouettes, no new objects, no people. Image2 garden shows the desired simple hand-cut layered forms, especially calm blue sky and broad leaf shapes. Character references 3–4 are continuity support only, do not insert characters. Do not change time of day. This is a material cleanup, not a new composition. Opaque 16:9 image, no text."
+    },
+    {
+      "name": "world-04-evening-path-v3",
+      "previous": "world-04-evening-path-v2",
+      "areas": "purple and pink sky, paper tree crowns, bridge railing, bridge floor and river",
+      "prompt": "Use case: precise-object-edit. IMAGE1 is the target background. ERASE ALL SURFACE LINE PATTERNS from the purple and pink sky, paper tree crowns, bridge railing, bridge floor and river. Specifically delete the repeated fine angular embossed/creased/crazed pattern that still covers the target. Replace every interior surface with QUIET, NEARLY UNIFORM MATTE COLORED PAPER. No visible wrinkles, speckles, pores, scratches, wood grain, weave or all-over fine lines. At ordinary view each cutout must read as one calm flat color area. Keep actual paper feeling through gently imperfect cut edges, subtle broad color variation and short soft shadows immediately under those cut edges. Keep the EXACT object positions, framing, colors and silhouettes, no new objects, no people. Image2 garden shows the desired simple hand-cut layered forms, especially calm blue sky and broad leaf shapes. Character references 3–4 are continuity support only, do not insert characters. Do not change time of day. This is a material cleanup, not a new composition. Opaque 16:9 image, no text."
+    },
+    {
+      "name": "world-05-kitchen-evening-v3",
+      "previous": "world-05-kitchen-evening-v2",
+      "areas": "blue wall and bench, cream hanging lamp, pink curtain, orange-brown table and chairs, cream table runner",
+      "prompt": "Use case: precise-object-edit. IMAGE1 is the target background. ERASE ALL SURFACE LINE PATTERNS from the blue wall and bench, cream hanging lamp, pink curtain, orange-brown table and chairs, cream table runner. Specifically delete the repeated fine angular embossed/creased/crazed pattern that still covers the target. Replace every interior surface with QUIET, NEARLY UNIFORM MATTE COLORED PAPER. No visible wrinkles, speckles, pores, scratches, wood grain, weave or all-over fine lines. At ordinary view each cutout must read as one calm flat color area. Keep actual paper feeling through gently imperfect cut edges, subtle broad color variation and short soft shadows immediately under those cut edges. Keep the EXACT object positions, framing, colors and silhouettes, no new objects, no people. Image2 garden shows the desired simple hand-cut layered forms, especially calm blue sky and broad leaf shapes. Character references 3–4 are continuity support only, do not insert characters. Do not change time of day. This is a material cleanup, not a new composition. Opaque 16:9 image, no text."
+    }
+  ],
+  "selected": [
+    {
+      "key": "elements-50-our-table-v3",
+      "previous": "video-additions/elements-50-our-table.png",
+      "title": "Еда «наш стол»",
+      "file": "elements-50-our-table.png",
+      "generated": "/Users/nikitakargasin/.codex/generated_images/01a155ac-5a6d-7450-a38b-d5d3c50c3588/exec-c72d6daa-0136-459a-90f3-eb90b0e2079c.png"
+    },
+    {
+      "key": "elements-60-extra-food-v2",
+      "previous": "video-additions/elements-60-extra-food.png",
+      "title": "Гречка, блинчики, брауни и другие продукты",
+      "file": "elements-60-extra-food.png",
+      "generated": "/Users/nikitakargasin/.codex/generated_images/01a155ac-5a6d-7450-a38b-d5d3c50c3588/exec-434536c8-6dcd-4461-8779-85b4b22efbd1.png"
+    },
+    {
+      "key": "elements-20-food-v2",
+      "previous": "elements-20-food.png",
+      "title": "Ранний лист еды: приведён к общему материалу",
+      "file": "elements-20-food.png",
+      "generated": "/Users/nikitakargasin/.codex/generated_images/01a155ac-5a6d-7450-a38b-d5d3c50c3588/exec-dbb30a82-3ddf-4c94-9ce6-ac4bf7125ef1.png"
+    },
+    {
+      "key": "classmate-boy-04-v3",
+      "previous": "supporting-characters/classmate-boy-04.png",
+      "title": "Школьник в очках",
+      "file": "classmate-boy-04.png",
+      "generated": "/Users/nikitakargasin/.codex/generated_images/01a155ac-5a6d-7450-a38b-d5d3c50c3588/exec-19acfdfe-9f95-4ac1-a2f2-299323245c66.png"
+    },
+    {
+      "key": "classmate-girl-04-v2",
+      "previous": "supporting-characters/classmate-girl-04.png",
+      "title": "Школьница с косичками",
+      "file": "classmate-girl-04.png",
+      "generated": "/Users/nikitakargasin/.codex/generated_images/01a155ac-5a6d-7450-a38b-d5d3c50c3588/exec-afb2eec7-b6f9-4d9e-8454-213f160550de.png"
+    },
+    {
+      "key": "canteen-cook-04-v2",
+      "previous": "supporting-characters/canteen-cook-04.png",
+      "title": "Повар",
+      "file": "canteen-cook-04.png",
+      "generated": "/Users/nikitakargasin/.codex/generated_images/01a155ac-5a6d-7450-a38b-d5d3c50c3588/exec-2b72d1e8-29be-478e-8001-82fbe3390f55.png"
+    },
+    {
+      "key": "home-adult-dad-04-v2",
+      "previous": "supporting-characters/home-adult-dad-04.png",
+      "title": "Папа",
+      "file": "home-adult-dad-04.png",
+      "generated": "/Users/nikitakargasin/.codex/generated_images/01a155ac-5a6d-7450-a38b-d5d3c50c3588/exec-ff93a76d-6a30-4c83-9365-51dccb44d042.png"
+    },
+    {
+      "key": "boy-actions-06-v2",
+      "previous": "video-additions/boy-actions-06.png",
+      "title": "Шесть действий мальчика",
+      "file": "boy-actions-06.png",
+      "generated": "/Users/nikitakargasin/.codex/generated_images/01a155ac-5a6d-7450-a38b-d5d3c50c3588/exec-cb0d963a-3362-4225-93c9-5d70394d1fe5.png"
+    },
+    {
+      "key": "girl-actions-06-v2",
+      "previous": "video-additions/girl-actions-06.png",
+      "title": "Шесть действий девочки",
+      "file": "girl-actions-06.png",
+      "generated": "/Users/nikitakargasin/.codex/generated_images/01a155ac-5a6d-7450-a38b-d5d3c50c3588/exec-e25ee05e-f079-430d-aa9e-021b88544d34.png"
+    },
+    {
+      "key": "microbe-gardeners-05-v2",
+      "previous": "video-additions/microbe-gardeners-05.png",
+      "title": "Пять микробов-садовников",
+      "file": "microbe-gardeners-05.png",
+      "generated": "/Users/nikitakargasin/.codex/generated_images/01a155ac-5a6d-7450-a38b-d5d3c50c3588/exec-58f904a2-2700-4249-84eb-a6dcc77fe530.png"
+    },
+    {
+      "key": "scene-05-belly-garden-v2",
+      "previous": "video-additions/scene-05-belly-garden.png",
+      "title": "Сад в животе",
+      "file": "scene-05-belly-garden.png",
+      "generated": "/Users/nikitakargasin/.codex/generated_images/01a155ac-5a6d-7450-a38b-d5d3c50c3588/exec-a9c0a444-e02f-4ff0-a748-76b739390f3f.png"
+    },
+    {
+      "key": "world-03-canteen-v3",
+      "previous": "video-additions/world-03-canteen.png",
+      "title": "Столовая",
+      "file": "world-03-canteen.png",
+      "generated": "/Users/nikitakargasin/.codex/generated_images/01a155ac-5a6d-7450-a38b-d5d3c50c3588/exec-e8616a31-2996-4974-b460-d4a03d3ab057.png"
+    },
+    {
+      "key": "world-04-evening-path-v3",
+      "previous": "video-additions/world-04-evening-path.png",
+      "title": "Парк и мостик",
+      "file": "world-04-evening-path.png",
+      "generated": "/Users/nikitakargasin/.codex/generated_images/01a155ac-5a6d-7450-a38b-d5d3c50c3588/exec-7b1847da-97c7-4937-8256-fe976b528220.png"
+    },
+    {
+      "key": "world-05-kitchen-evening-v3",
+      "previous": "video-additions/world-05-kitchen-evening.png",
+      "title": "Вечерняя кухня",
+      "file": "world-05-kitchen-evening.png",
+      "generated": "/Users/nikitakargasin/.codex/generated_images/01a155ac-5a6d-7450-a38b-d5d3c50c3588/exec-13df3a5c-9f83-40cc-989d-349f58d73b6b.png"
+    },
+    {
+      "key": "boy-walk-8-v4",
+      "previous": "walk-cycles/boy-walk-8-v2.png",
+      "title": "Восемь поз ходьбы мальчика",
+      "file": "boy-walk-8.png",
+      "generated": "/Users/nikitakargasin/.codex/generated_images/01a155ac-5a6d-7450-a38b-d5d3c50c3588/exec-9d3994c1-5026-473e-b8d4-8d9ba03c8997.png"
+    },
+    {
+      "key": "girl-walk-8-v3",
+      "previous": "walk-cycles/girl-walk-8-v2.png",
+      "title": "Восемь поз ходьбы девочки",
+      "file": "girl-walk-8.png",
+      "generated": "/Users/nikitakargasin/.codex/generated_images/01a155ac-5a6d-7450-a38b-d5d3c50c3588/exec-f482c06b-b5af-4f59-af7a-812ce106dc9f.png"
+    }
+  ]
+}

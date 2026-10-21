@@ -1,0 +1,14 @@
+---
+import { twMerge } from 'tailwind-merge'
+
+interface Props {
+  kind: 'ice' | 'fr' | 'time'
+  class?: string
+  [key: string]: unknown
+}
+
+const { kind, class: className, ...rest } = Astro.props
+const tone = { ice: 'bg-sky', fr: 'bg-veg/20', time: 'bg-sand/50' }[kind]
+---
+
+<span class:list={[twMerge('inline-flex items-center gap-1 rounded-lg px-2.5 py-1 text-sm font-extrabold', tone, className)]} {...rest}><slot /></span>

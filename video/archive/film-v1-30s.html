@@ -1,0 +1,755 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Тарелка из трёх команд</title>
+<style>
+  @font-face { font-family: "Rubik"; font-weight: 800; src: url(fonts/rubik-cyrillic.woff2) format("woff2"); unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; }
+  @font-face { font-family: "Rubik"; font-weight: 800; src: url(fonts/rubik-latin.woff2) format("woff2"); }
+  @font-face { font-family: "Neucha"; src: url(fonts/neucha-cyrillic.woff2) format("woff2"); unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; }
+  @font-face { font-family: "Neucha"; src: url(fonts/neucha-latin.woff2) format("woff2"); }
+  html, body { margin: 0; background: #1d2a24; height: 100%; }
+  body { display: grid; place-items: center; }
+  canvas { width: min(100vw, 177.78vh); height: auto; display: block; }
+  #ui { position: fixed; left: 12px; bottom: 10px; color: #f4ecd8; font: 14px system-ui; opacity: .8; }
+</style>
+</head>
+<body>
+<canvas id="c" width="1920" height="1080"></canvas>
+<div id="ui"></div>
+<script>
+"use strict";
+const W = 1920, H = 1080, FPS = 60;
+const DURATION = 30;           // версия на 30 секунд: пролог, утро, школа
+const BPM = 120, BEAT = 60 / BPM;
+const canvas = document.getElementById("c");
+const ctx = canvas.getContext("2d");
+const params = new URLSearchParams(location.search);
+const RENDER = params.has("render");
+
+// ---------- палитра ----------
+const C = {
+  cream: "#f3ead3", creamDark: "#e2d5b6", forest: "#2f6b4a", sage: "#8fb08a", mint: "#9fd3cf",
+  mustard: "#e3a93a", terracotta: "#c9603f", ink: "#2c3a33", shadow: "rgba(40,30,15,0.28)",
+  green: "#4f8f4f",
+};
+
+// ---------- утилиты ----------
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const lerp = (a, b, t) => a + (b - a) * t;
+const prog = (t, a, b) => clamp((t - a) / (b - a));
+const easeInOut = x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+const easeOut = x => 1 - Math.pow(1 - x, 3);
+const easeIn = x => x * x * x;
+const backOut = (x, s = 1.7) => 1 + (s + 1) * Math.pow(x - 1, 3) + s * Math.pow(x - 1, 2);
+// Ступенчатое время «перекладки»: 12 поз в секунду.
+const step12 = t => Math.floor(t * 12) / 12;
+// Фаза цикла ходьбы: 8 отдельных PNG, опорная линия y=600 из 640.
+const walkFrame = (who, t, fps = 8, offset = 0) => SPR[`walk-${who}-${(Math.floor(t * fps) + offset) % 8 + 1}`];
+function rng(seed) { return () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let r = Math.imul(seed ^ seed >>> 15, 1 | seed); r = r + Math.imul(r ^ r >>> 7, 61 | r) ^ r; return ((r ^ r >>> 14) >>> 0) / 4294967296; }; }
+const hash = (n) => { const r = rng(n * 7919 + 13); return r(); };
+// Детерминированная «дрожь» бумаги: меняется только на шаге 12 к/с.
+const jitter = (id, t, amp) => (hash(id * 977 + Math.floor(t * 12)) - .5) * 2 * amp;
+
+// Сплайн Катмулла–Рома по ключам {t, v:[...]}: непрерывная скорость камеры.
+function spline(keys, t) {
+  if (t <= keys[0].t) return keys[0].v.slice();
+  if (t >= keys[keys.length - 1].t) return keys[keys.length - 1].v.slice();
+  let i = 0; while (t > keys[i + 1].t) i++;
+  const k0 = keys[Math.max(i - 1, 0)], k1 = keys[i], k2 = keys[i + 1], k3 = keys[Math.min(i + 2, keys.length - 1)];
+  const u = (t - k1.t) / (k2.t - k1.t);
+  const dt = k2.t - k1.t;
+  return k1.v.map((_, j) => {
+    const m1 = (k2.v[j] - k0.v[j]) / (k2.t - k0.t || 1) * dt;
+    const m2 = (k3.v[j] - k1.v[j]) / (k3.t - k1.t || 1) * dt;
+    const u2 = u * u, u3 = u2 * u;
+    return (2 * u3 - 3 * u2 + 1) * k1.v[j] + (u3 - 2 * u2 + u) * m1 + (-2 * u3 + 3 * u2) * k2.v[j] + (u3 - u2) * m2;
+  });
+}
+
+// ---------- ассеты ----------
+const SPR = {};
+const NAMES = ["garden-nosun.jpg", "kitchen.jpg", "kitchen-table-fg.png", "canteen-warm.jpg"];
+for (const k of ["boy", "girl"]) for (let i = 1; i <= 6; i++) NAMES.push(`${k}-${i}.png`);
+for (const k of ["el10", "el20", "el30", "el40", "el50"]) for (let i = 1; i <= 10; i++) NAMES.push(`${k}-${i}.png`);
+for (const k of ["boyact", "girlact"]) for (let i = 1; i <= 6; i++) NAMES.push(`${k}-${i}.png`);
+for (let i = 1; i <= 9; i++) NAMES.push(`el60-${i}.png`);
+for (let i = 1; i <= 5; i++) NAMES.push(`mic-${i}.png`);
+for (const k of ["boy", "girl"]) for (let i = 1; i <= 8; i++) NAMES.push(`walk-${k}-${i}.png`);
+function loadAll() {
+  return Promise.all(NAMES.map(n => new Promise((res, rej) => {
+    const im = new Image(); im.onload = () => { SPR[n.replace(/\.(png|jpg)$/, "")] = im; res(); }; im.onerror = rej; im.src = "sprites/" + n;
+  })));
+}
+
+// Процедурная бумага: волокна и зерно, один раз.
+function makePaper(w, h, base, seed, fibers = 900) {
+  const c = document.createElement("canvas"); c.width = w; c.height = h;
+  const g = c.getContext("2d"); const r = rng(seed);
+  g.fillStyle = base; g.fillRect(0, 0, w, h);
+  const id = g.getImageData(0, 0, w, h);
+  for (let i = 0; i < id.data.length; i += 4) { const n = (r() - .5) * 14; id.data[i] += n; id.data[i + 1] += n; id.data[i + 2] += n; }
+  g.putImageData(id, 0, 0);
+  for (let i = 0; i < fibers; i++) {
+    g.strokeStyle = r() < .5 ? "rgba(255,255,255,0.10)" : "rgba(90,70,40,0.07)";
+    g.lineWidth = .6 + r() * 1.1;
+    const x = r() * w, y = r() * h, a = r() * Math.PI * 2, l = 6 + r() * 26;
+    g.beginPath(); g.moveTo(x, y); g.quadraticCurveTo(x + Math.cos(a + 1) * l * .5, y + Math.sin(a + 1) * l * .5, x + Math.cos(a) * l, y + Math.sin(a) * l); g.stroke();
+  }
+  return c;
+}
+let TABLE, GRAIN, PAPERS = {};
+
+// ---------- рисование ----------
+// Спрайт с бумажной тенью. (x,y) — опорная точка: ax, ay в долях спрайта.
+function sprite(g, im, x, y, s, rot = 0, o = {}) {
+  const ax = o.ax ?? .5, ay = o.ay ?? .5;
+  const w = im.width * s, h = im.height * s;
+  g.save(); g.translate(x, y); g.rotate(rot);
+  if (o.flip) g.scale(-1, 1);
+  g.globalAlpha = o.alpha ?? 1;
+  if (o.shadow !== false) {
+    const sd = o.sd ?? 1;
+    g.save();
+    g.filter = `blur(${(o.sblur ?? 5) * sd}px) brightness(0)`;
+    g.globalAlpha = (o.alpha ?? 1) * (o.sa ?? .30);
+    g.drawImage(im, -ax * w + 7 * sd, -ay * h + 10 * sd, w, h);
+    g.restore();
+  }
+  if (o.blur) g.filter = `blur(${o.blur}px)`;
+  g.drawImage(im, -ax * w, -ay * h, w, h);
+  g.restore();
+}
+
+// Бумажная буква: цветная вырезка на кремовой подложке + тень.
+const GLYPHS = new Map();
+function glyphCanvas(ch, size, color) {
+  const key = ch + size + color;
+  if (GLYPHS.has(key)) return GLYPHS.get(key);
+  const c = document.createElement("canvas"); c.width = size * 1.3; c.height = size * 1.4;
+  const g = c.getContext("2d");
+  g.font = `800 ${size}px Rubik`; g.textAlign = "center"; g.textBaseline = "middle"; g.lineJoin = "round";
+  g.strokeStyle = C.cream; g.lineWidth = size * .16; g.strokeText(ch, c.width / 2, c.height / 2);
+  g.fillStyle = color; g.fillText(ch, c.width / 2, c.height / 2);
+  // фактура только внутри буквы
+  g.globalCompositeOperation = "source-atop"; g.globalAlpha = .16;
+  g.drawImage(GRAIN, 0, 0, c.width, c.height);
+  GLYPHS.set(key, c); return c;
+}
+function paperGlyph(g, ch, x, y, size, rot, color, alpha = 1) {
+  sprite(g, glyphCanvas(ch, size, color), x, y, 1, rot, { alpha, sa: .35, sblur: 4 });
+}
+
+// Бумажный ярлык с заголовком и подписью.
+function tag(g, x, y, title, sub, color, k, rot) {
+  if (k <= 0) return;
+  const s = backOut(clamp(k), 2.2);
+  g.save(); g.translate(x, y); g.rotate(rot); g.scale(s * 1.3, s * 1.3);
+  g.font = "800 46px Rubik"; const tw = g.measureText(title).width;
+  g.font = "34px Neucha"; const sw = g.measureText(sub).width;
+  const w = Math.max(tw, sw) + 64, h = 118;
+  const path = new Path2D();
+  // слегка неровный край вырезки
+  const r = rng(title.length * 31 + 7);
+  path.moveTo(-w / 2 + r() * 4, -h / 2 + r() * 4);
+  path.lineTo(w / 2 - r() * 4, -h / 2 + r() * 3);
+  path.lineTo(w / 2 - r() * 3, h / 2 - r() * 4);
+  path.lineTo(-w / 2 + r() * 4, h / 2 - r() * 3);
+  path.closePath();
+  g.save(); g.filter = "blur(6px)"; g.fillStyle = "rgba(40,30,15,0.3)"; g.translate(6, 9); g.fill(path); g.restore();
+  g.fillStyle = C.cream; g.fill(path);
+  g.save(); g.clip(path); g.globalAlpha = .6; g.drawImage(GRAIN, -w / 2, -h / 2, w, h); g.restore();
+  g.fillStyle = color; g.fillRect(-w / 2, -h / 2, 16, h);
+  g.textAlign = "center"; g.textBaseline = "middle";
+  g.fillStyle = color; g.font = "800 46px Rubik"; g.fillText(title, 8, -18);
+  g.fillStyle = C.ink; g.font = "34px Neucha"; g.fillText(sub, 8, 28);
+  g.restore();
+}
+
+// Облачко реплики: бумажный овал с хвостиком, текст печатается по буквам.
+function bubble(g, x, y, text, k, tailX, tailY, chars) {
+  if (k <= 0) return;
+  const s = backOut(clamp(k), 2);
+  g.save(); g.translate(x, y); g.scale(s, s);
+  g.font = "66px Neucha"; const tw = g.measureText(text).width;
+  const w = tw + 90, h = 120;
+  const p = new Path2D();
+  p.ellipse(0, 0, w / 2, h / 2, 0, 0, Math.PI * 2);
+  const tp = new Path2D();
+  tp.moveTo(-30, h / 2 - 14); tp.quadraticCurveTo(tailX * .4, tailY * .5, tailX, tailY); tp.quadraticCurveTo(10, h / 2, 30, h / 2 - 10); tp.closePath();
+  g.save(); g.filter = "blur(6px)"; g.fillStyle = "rgba(40,30,15,0.28)"; g.translate(6, 9); g.fill(p); g.fill(tp); g.restore();
+  g.fillStyle = "#fbf6e8"; g.fill(p); g.fill(tp);
+  g.save(); g.clip(p); g.globalAlpha = .45; g.drawImage(GRAIN, -w / 2, -h / 2, w, h); g.restore();
+  g.fillStyle = C.ink; g.textAlign = "left"; g.textBaseline = "middle";
+  g.fillText(text.slice(0, chars), -tw / 2, 2);
+  g.restore();
+}
+
+// ---------- План A: сад, 0–4.5 с ----------
+const CUT = 4.5;
+const GS = 0.74; // масштаб изображения сада к кадру
+const camA = [
+  { t: -0.5, v: [1000, 980, 1.48, -0.018] },
+  { t: 0.0, v: [1010, 975, 1.47, -0.016] },
+  { t: 2.2, v: [1180, 925, 1.42, -0.004] },
+  { t: 3.4, v: [1400, 760, 1.36, 0.010] },
+  { t: 4.5, v: [1560, 600, 1.32, 0.020] },
+  { t: 5.0, v: [1640, 520, 1.30, 0.024] },
+];
+const TITLE = "Топливо на весь день";
+const TITLE_COLORS = [C.terracotta, C.mustard, C.forest, "#3f8f86"];
+
+function drawA(g, t) {
+  const [cx, cy, z, roll] = spline(camA, t);
+  const focus = prog(t, 3.5, 4.5); // фокус уходит на солнце
+  // проекция слоя с параллаксом f
+  const P = (x, y, f = 1) => {
+    const k = GS * z * (1 + (f - 1) * .55);
+    return [(x - cx) * k, (y - cy) * k, k];
+  };
+  g.save();
+  g.translate(W / 2, H / 2); g.rotate(roll);
+  // задний план — сад
+  {
+    const [x, y, k] = P(0, 0, 1);
+    g.save(); if (focus > 0) g.filter = `blur(${focus * 5}px)`;
+    g.drawImage(SPR["garden-nosun"], x, y, 2646 * k, 1476 * k);
+    g.restore();
+  }
+  // облака (дальше фона по ощущению: медленнее)
+  const clouds = [[700, 330, .55, 0], [1650, 260, .45, 1], [400, 120, .4, 2]];
+  for (const [wx, wy, s, i] of clouds) {
+    const [x, y, k] = P(wx + t * 14 * (i + 1), wy, .85);
+    sprite(g, SPR["el30-3"], x, y, s * k, 0, { sd: .6, blur: focus * 4 });
+  }
+  // герои на тропинке
+  {
+    // шаг: 8 фаз цикла, 6 фаз в секунду; скорость подобрана к длине шага
+    const stopped = t >= 2.75;
+    const tw = Math.min(t, 2.75);
+    const gx = 140 + tw * 360, bx = gx - 300;
+    const groundY = 1425;
+    const bobB = 0, bobG = 0;
+    const [pbx, pby, k] = P(bx, groundY - bobB, 1);
+    const [pgx, pgy] = P(gx, groundY - bobG, 1);
+    // контактные тени на земле
+    for (const [px, py] of [[pbx, pby + bobB * k], [pgx, pgy + bobG * k]]) {
+      g.save(); g.fillStyle = "rgba(60,70,30,0.22)"; g.filter = "blur(6px)";
+      g.beginPath(); g.ellipse(px, py - 4, 150 * k, 22 * k, 0, 0, Math.PI * 2); g.fill(); g.restore();
+    }
+    const fb = focus * 4;
+    if (!stopped) {
+      sprite(g, walkFrame("boy", t, 6, 3), pbx, pby, .835 * k, 0, { ay: 600 / 640, shadow: false, blur: fb });
+      sprite(g, walkFrame("girl", t, 6), pgx, pgy, .84 * k, 0, { ay: 600 / 640, shadow: false, blur: fb });
+    } else {
+      // остановились и смотрят на солнце: девочка машет
+      const wave = Math.sin(step12(t) * Math.PI * 4) * .05;
+      sprite(g, SPR["boy-5"], pbx + 10 * k, pby, .786 * k, jitter(3, t, .012), { ay: 1, shadow: false, blur: fb });
+      sprite(g, SPR["girl-5"], pgx, pgy, .84 * k, wave, { ay: 1, shadow: false, blur: fb });
+    }
+  }
+  // передний план — кусты и колосья, ближе к камере и не в фокусе
+  {
+    const fg = [["el30-9", 0, 1560, 1.5, 0], ["el30-4", 150, 1540, 1.1, -.12], ["el30-9", 2150, 1580, 1.6, .02], ["el30-4", 1990, 1550, 1.05, .12]];
+    for (const [n, wx, wy, s, r] of fg) {
+      const [x, y, k] = P(wx, wy, 1.6);
+      sprite(g, SPR[n], x, y, s * k, r + jitter(wx, t, .01), { ay: 1, blur: 3.5, sd: 1.5 });
+    }
+  }
+  g.restore();
+
+  // солнце: отдельный слой. Сначала висит в небе, затем летит к зрителю в центр кадра.
+  {
+    const [sx0, sy0, k0] = P(2312, 190, .8);
+    const rot0 = roll;
+    const base = [W / 2 + Math.cos(rot0) * sx0 - Math.sin(rot0) * sy0, H / 2 + Math.sin(rot0) * sx0 + Math.cos(rot0) * sy0];
+    const f = easeInOut(prog(t, 2.75, 4.35));
+    const x = lerp(base[0], W / 2, f), y = lerp(base[1], H / 2 + 20, f);
+    const s = lerp(.92 * k0, 1.95, f);
+    const spin = -f * 1.4 + Math.sin(step12(t) * 2) * .02;
+    sprite(g, SPR["el30-1"], x, y, s, spin, { sd: 1 + f * 2, sblur: 6 });
+  }
+
+  // заголовок из бумажных букв
+  {
+    const size = 128;
+    g.save(); g.font = `800 ${size}px Rubik`;
+    const widths = [...TITLE].map(ch => g.measureText(ch).width);
+    const total = widths.reduce((a, b) => a + b, 0) + (TITLE.length - 1) * 6;
+    g.restore();
+    // параллакс: заголовок в небе, уезжает вниз вместе с подъёмом камеры
+    const [, cyNow] = spline(camA, t);
+    const drift = (975 - cyNow) * .55;
+    let x = W / 2 - total / 2; let li = 0;
+    [...TITLE].forEach((ch, i) => {
+      const w = widths[i];
+      if (ch !== " ") {
+        const t0 = .325 + li * .125;
+        const d = prog(t, t0, t0 + .42);
+        // сдувает ветром от солнца
+        const blow = easeIn(prog(t, 3.05 + li * .03, 3.75 + li * .03));
+        if (d > 0 && blow < 1) {
+          const land = backOut(d, 1.4);
+          const y = lerp(-180, 230, land) + drift + blow * -700;
+          const bx = blow * (-300 + (li % 3) * 120);
+          const r = (1 - d) * (hash(i) - .5) * 1.4 + jitter(40 + i, t, .02) + blow * (hash(i + 9) - .5) * 3;
+          paperGlyph(g, ch, x + w / 2 + bx, y, size, r, TITLE_COLORS[li % 4], 1 - blow * .3);
+        }
+        li++;
+      }
+      x += w + 6;
+    });
+  }
+}
+
+// ---------- План B: тарелка, 4.5–10 с ----------
+// Места еды в долях спрайта тарелки (el40-6: 382×370), масштаб — от ширины тарелки.
+const PLATE_W = 382, PLATE_H = 370;
+const FOOD = [
+  // команда «Цвет», левая половина
+  { n: "el10-4", u: .30, v: .31, s: .27, r: -.15, t: 5.0, team: 0 },
+  { n: "el10-3", u: .22, v: .54, s: .21, r: .10, t: 5.25, team: 0 },
+  { n: "el20-4", u: .36, v: .70, s: .22, r: -.6, t: 5.5, team: 0 },
+  { n: "el20-5", u: .21, v: .76, s: .14, r: .2, t: 5.75, team: 0 },
+  // «Энергия», правая верхняя четверть
+  { n: "el10-5", u: .66, v: .28, s: .27, r: .12, t: 6.25, team: 1 },
+  { n: "el20-8", u: .82, v: .35, s: .19, r: -.05, t: 6.5, team: 1 },
+  // «Строители», правая нижняя четверть
+  { n: "el10-2", u: .66, v: .67, s: .26, r: -.1, t: 7.0, team: 2 },
+  { n: "el20-10", u: .83, v: .63, s: .19, r: .2, t: 7.25, team: 2 },
+];
+const TEAMS = [
+  { title: "ЦВЕТ ½", sub: "витамины, клетчатка", color: C.green, t: 5.0 },
+  { title: "ЭНЕРГИЯ ¼", sub: "бегать и думать", color: "#c98f1f", t: 6.25 },
+  { title: "СТРОИТЕЛИ ¼", sub: "расти", color: C.terracotta, t: 7.0 },
+];
+const camB = [
+  { t: CUT - .5, v: [0, 0, 1.0, -0.20] },
+  { t: CUT, v: [0, 0, 1.0, -0.16] },
+  { t: 5.6, v: [-20, -10, 0.96, -0.06] },
+  { t: 7.3, v: [0, 10, 0.95, 0.0] },
+  { t: 8.5, v: [10, 40, 0.92, 0.012] },
+  { t: 10.5, v: [18, 52, 0.90, 0.018] },
+];
+
+function sectorPath(team, cx, cy, R) {
+  const p = new Path2D();
+  if (team === 0) { p.moveTo(cx, cy - R); p.arc(cx, cy, R, -Math.PI / 2, Math.PI / 2, true); p.closePath(); }
+  if (team === 1) { p.moveTo(cx, cy); p.arc(cx, cy, R, -Math.PI / 2, 0); p.closePath(); }
+  if (team === 2) { p.moveTo(cx, cy); p.arc(cx, cy, R, 0, Math.PI / 2); p.closePath(); }
+  return p;
+}
+
+function drawB(g, t) {
+  const [ox, oy, z, roll] = spline(camB, t);
+  const lt = t - CUT;
+  g.save();
+  g.translate(W / 2, H / 2); g.rotate(roll); g.scale(z, z); g.translate(-ox, -oy);
+  // стол сверху
+  g.drawImage(TABLE, -W * .75, -H * .75, W * 1.5, H * 1.5);
+  // сервировка: салфетка, вилка, ложка, стакан воды
+  sprite(g, SPR["el40-3"], -820, 330, 1.0, -.25, { sd: .8 });
+  sprite(g, SPR["el40-5"], -760, 330, .9, .5, { sd: .8 });
+  sprite(g, SPR["el40-4"], 820, 420, .9, -.5, { sd: .8 });
+  sprite(g, SPR["el40-7"], 850, -380, .85, .05, { sd: .8 });
+  sprite(g, SPR["el10-6"], -860, -330, .75, -.2, { sd: .8 });
+
+  // тарелка: продолжает вращение солнца и гасит жёлтый оттенок
+  const PW = 640; const ps = PW / PLATE_W;
+  const spinIn = easeOut(prog(t, CUT, CUT + .9));
+  const pr = lerp(-1.4, 0, spinIn) + (spinIn >= 1 ? 0 : 0);
+  const R = PW * .47;
+  g.save(); g.rotate(pr);
+  sprite(g, SPR["el40-6"], 0, 0, ps, 0, { sd: 1.4, sblur: 8 });
+  // цветные бумажные вкладки команд в секторах
+  const cx = 0, cy = 0;
+  TEAMS.forEach((tm, i) => {
+    const k = prog(t, tm.t - .15, tm.t + .15);
+    if (k <= 0) return;
+    const rr = R * .86 * backOut(k, 1.5);
+    const path = sectorPath(i, cx + (i === 0 ? -10 : 10), cy + (i === 1 ? -10 : i === 2 ? 10 : 0), rr);
+    g.save(); g.globalAlpha = .38 * k; g.fillStyle = tm.color; g.fill(path);
+    g.clip(path); g.globalAlpha = .25 * k; g.drawImage(GRAIN, -R, -R, R * 2, R * 2); g.restore();
+  });
+  // еда падает сверху: крупнее и с дальней тенью, затем ложится
+  for (const [i, f] of FOOD.entries()) {
+    const d = prog(t, f.t - .32, f.t);
+    if (d <= 0) continue;
+    const fall = easeIn(d);
+    const settle = prog(t, f.t, f.t + .3);
+    const bounce = Math.sin(settle * Math.PI) * (1 - settle) * .06;
+    const x = (f.u - .5) * PLATE_W * ps, y = (f.v - .5) * PLATE_H * ps;
+    const s = f.s * 1.3 * ps * (1 + (1 - fall) * .9 + bounce);
+    const r = f.r + (1 - fall) * (hash(i + 3) - .5) * 1.6 + jitter(100 + i, t, .015);
+    sprite(g, SPR[f.n], x, y - (1 - fall) * 60, s, r, { sd: 1 + (1 - fall) * 5, sblur: 4 + (1 - fall) * 14, sa: .3 * (0.4 + fall * .6), alpha: clamp(d * 3) });
+  }
+  g.restore();
+  // жёлтая вспышка склейки «солнце → тарелка»: заливка по силуэту тарелки
+  const tint = 1 - prog(t, CUT, CUT + .35);
+  if (tint > 0) {
+    g.save(); g.rotate(pr); g.globalAlpha = tint;
+    sprite(g, SPR["el30-1"], 0, 0, lerp(1.95, 2.1, 1 - tint) / z, 0, { shadow: false });
+    g.restore();
+  }
+  // ярлыки команд
+  tag(g, -560, -40, TEAMS[0].title, TEAMS[0].sub, TEAMS[0].color, prog(t, 5.1, 5.45), -.05 + jitter(201, t, .006));
+  tag(g, 570, -200, TEAMS[1].title, TEAMS[1].sub, TEAMS[1].color, prog(t, 6.35, 6.7), .04 + jitter(202, t, .006));
+  tag(g, 580, 140, TEAMS[2].title, TEAMS[2].sub, TEAMS[2].color, prog(t, 7.1, 7.45), -.03 + jitter(203, t, .006));
+  g.restore();
+
+  // герои заглядывают в кадр снизу (экранное пространство, ближний план)
+  {
+    const kb = easeOut(prog(t, 7.55, 8.05)), kg = easeOut(prog(t, 7.7, 8.2));
+    const bobB = jitter(301, t, 4), bobG = jitter(302, t, 4);
+    if (kb > 0) sprite(g, SPR["boy-5"], 300, H + 420 - kb * 470 + bobB, 1.25, .06, { ay: .5, sd: 1.5 });
+    if (kg > 0) sprite(g, SPR["girl-1"], 1560, H + 430 - kg * 400 + bobG, 1.25, -.05, { ay: .5, sd: 1.5 });
+    const text = "У каждой еды — своя работа!";
+    const kt = prog(t, 8.1, 8.4);
+    bubble(g, 760, 845, text, kt, -260, 70, Math.floor(prog(t, 8.15, 9.0) * text.length));
+  }
+}
+
+
+// ---------- общие помощники глав 10–30 с ----------
+// Камера по картинке-фону: (cx, cy) — точка картинки в центре кадра, base — масштаб «вписать в кадр».
+function camImage(g, cx, cy, z, base, roll = 0) {
+  g.translate(W / 2, H / 2); g.rotate(roll); g.scale(base * z, base * z); g.translate(-cx, -cy);
+}
+// Герой по высоте фигуры: ноги в (x, footY).
+function hero(g, im, x, footY, height, rot = 0, o = {}) {
+  const ay = o.ay ?? 1;
+  const figH = o.figH ?? im.height;
+  sprite(g, im, x, footY, height / figH, rot, { ay, shadow: false, ...o });
+}
+function walker(g, who, t, x, footY, height, fps = 8, o = {}) {
+  const fig = who === "boy" ? 515 : 570;
+  sprite(g, walkFrame(who, t, fps, o.offset || 0), x, footY, height / fig, 0, { ay: 600 / 640, shadow: false, flip: o.flip, blur: o.blur });
+}
+function contactShadow(g, x, y, w, a = .2) {
+  g.save(); g.fillStyle = `rgba(50,40,20,${a})`; g.filter = "blur(8px)";
+  g.beginPath(); g.ellipse(x, y, w, w * .14, 0, 0, Math.PI * 2); g.fill(); g.restore();
+}
+// Ярлык главы: бумажный флажок слева сверху с иконкой.
+function chapterTag(g, t, t0, text, icon) {
+  const k = prog(t, t0, t0 + .35);
+  if (k <= 0) return;
+  const s = backOut(k, 2);
+  g.save(); g.translate(150, 110); g.rotate(-.05 + jitter(500 + t0, t, .006)); g.scale(s, s);
+  g.font = "800 54px Rubik"; const tw = g.measureText(text).width;
+  const w = tw + 150, h = 96;
+  const p = new Path2D(); p.moveTo(-60, -h / 2); p.lineTo(w - 60, -h / 2); p.lineTo(w - 90, 0); p.lineTo(w - 60, h / 2); p.lineTo(-60, h / 2); p.closePath();
+  g.save(); g.filter = "blur(6px)"; g.fillStyle = "rgba(40,30,15,.3)"; g.translate(6, 9); g.fill(p); g.restore();
+  g.fillStyle = C.cream; g.fill(p);
+  g.save(); g.clip(p); g.globalAlpha = .5; g.drawImage(GRAIN, -60, -h / 2, w, h); g.restore();
+  sprite(g, SPR[icon], 0, 0, 76 / Math.max(SPR[icon].width, SPR[icon].height), 0, { sd: .4 });
+  g.fillStyle = C.ink; g.textBaseline = "middle"; g.textAlign = "left"; g.fillText(text, 52, 3);
+  g.restore();
+}
+// Падение продукта сверху и посадка с отскоком. (x, y) — место посадки, s — итоговый масштаб.
+function dropItem(g, im, x, y, s, r0, t, tl, id, alphaIn = true) {
+  const d = prog(t, tl - .32, tl);
+  if (d <= 0) return;
+  const fall = easeIn(d);
+  const settle = prog(t, tl, tl + .3);
+  const bounce = Math.sin(settle * Math.PI) * (1 - settle) * .06;
+  const sc = s * (1 + (1 - fall) * .9 + bounce);
+  const r = r0 + (1 - fall) * (hash(id + 3) - .5) * 1.6 + jitter(100 + id, t, .015);
+  sprite(g, im, x, y - (1 - fall) * 60, sc, r, { sd: 1 + (1 - fall) * 5, sblur: 4 + (1 - fall) * 14, sa: .3 * (0.4 + fall * .6), alpha: alphaIn ? clamp(d * 3) : 1 });
+}
+// Маленький ярлык команды без подписи.
+function chip(g, x, y, text, color, k, rot = 0) {
+  if (k <= 0) return;
+  const s = backOut(clamp(k), 2.2);
+  g.save(); g.translate(x, y); g.rotate(rot); g.scale(s * 1.35, s * 1.35);
+  g.font = "800 40px Rubik"; const w = g.measureText(text).width + 56, h = 70;
+  g.save(); g.filter = "blur(5px)"; g.fillStyle = "rgba(40,30,15,.3)"; g.fillRect(-w / 2 + 5, -h / 2 + 8, w, h); g.restore();
+  g.fillStyle = C.cream; g.fillRect(-w / 2, -h / 2, w, h);
+  g.fillStyle = color; g.fillRect(-w / 2, -h / 2, 12, h);
+  g.textAlign = "center"; g.textBaseline = "middle"; g.fillText(text, 6, 2);
+  g.restore();
+}
+// Строка бумажных букв по центру: появляются по одной.
+function paperLine(g, text, cx, y, size, t0, step, t, o = {}) {
+  g.save(); g.font = `800 ${size}px Rubik`;
+  const ws = [...text].map(ch => g.measureText(ch).width);
+  g.restore();
+  const total = ws.reduce((a, b) => a + b, 0) + (text.length - 1) * 4;
+  let x = cx - total / 2, li = 0;
+  [...text].forEach((ch, i) => {
+    if (ch !== " ") {
+      const tt = t0 + li * step;
+      const d = prog(t, tt, tt + .36);
+      const out = o.out ? easeIn(prog(t, o.out + li * .02, o.out + .45 + li * .02)) : 0;
+      if (d > 0 && out < 1) {
+        const land = backOut(d, 1.6);
+        const yy = lerp(y - 260, y, land) - out * 500;
+        const r = (1 - d) * (hash(i + 70) - .5) * 1.2 + jitter(600 + i, t, .02);
+        paperGlyph(g, ch, x + ws[i] / 2, yy, size, r, (o.colors || TITLE_COLORS)[li % (o.colors || TITLE_COLORS).length]);
+      }
+      li++;
+    }
+    x += ws[i] + 4;
+  });
+}
+
+// ---------- Глава «Утро»: кухня, 10–12.75 и 17.5–20 ----------
+const KB = 1920 / 1672; // масштаб кухни к кадру
+function drawKitchen(g, t, part) {
+  const lt = part === 1 ? t - 10 : t - 17.5;
+  const cam = part === 1 ? [836 + lt * 12, 470 - lt * 4, 1.06 + lt * .012] : [880 + lt * 40, 462, 1.09];
+  g.save(); camImage(g, cam[0], cam[1], cam[2], KB);
+  g.drawImage(SPR["kitchen"], 0, 0, 1672, 941);
+  if (part === 1) {
+    // мальчик несёт тарелку с одним тостом
+    const reach = easeOut(prog(t, 10.7, 11.2));
+    hero(g, SPR["boyact-1"], 600 + reach * 40, 880, 610, jitter(11, t, .01));
+    // девочка входит справа, идёт влево
+    const gt = clamp((t - 10.25) / 1.6);
+    const gx = 1820 - gt * 560;
+    if (t < 11.85) walker(g, "girl", t, gx, 890, 650, 8, { flip: true });
+    else hero(g, SPR["girl-1"], 1260, 890, 650, jitter(12, t, .008));
+  } else {
+    // позавтракали: пустая тарелка на столе, оба уходят вправо — в школу
+    const bt = lt - .2, bx = 560 + Math.max(0, bt) * 900;
+    const run = Math.abs(Math.sin(step12(t) * Math.PI * 4));
+    if (bx < 2100) hero(g, SPR["boyact-3"], bx, 860 - run * 22, 600, -.06 + run * .05, { blur: 0 });
+    const gx = 1150 + Math.max(0, lt - .5) * 420;
+    if (lt < .5) hero(g, SPR["girl-5"], 1150, 890, 650, Math.sin(step12(t) * 12) * .04);
+    else walker(g, "girl", t, gx, 890, 650, 10);
+  }
+  g.drawImage(SPR["kitchen-table-fg"], 0, 0, 1672, 941);
+  if (part === 2) {
+    // позавтракали: пустая тарелка и стакан на столе
+    g.save(); g.translate(760, 760); g.scale(1, .42); sprite(g, SPR["el40-6"], 0, 0, .62, 0, { sd: .6 }); g.restore();
+    sprite(g, SPR["el40-7"], 940, 760, .34, 0, { ay: 1, sd: .5 });
+  }
+  g.restore();
+  if (part === 1) {
+    chapterTag(g, t, 10.5, "Утро", "el30-1");
+    const text = "Мне хватит тоста!";
+    bubble(g, 690, 250, text, prog(t, 11.25, 11.55), -150, 90, Math.floor(prog(t, 11.3, 11.9) * text.length));
+  } else {
+    const text = "Бежим в школу!";
+    bubble(g, 1180, 230, text, prog(t, 17.75, 18.05) * (1 - prog(t, 19.4, 19.6)), 120, 90, Math.floor(prog(t, 17.8, 18.3) * text.length));
+  }
+}
+
+// ---------- Глава «Утро»: тарелка сверху, 12.75–17.5 ----------
+const BREAKFAST = [
+  { n: "el20-7", u: .70, v: .66, s: .27, r: .05, t: 15.0, team: 2 },
+  { n: "el10-3", u: .25, v: .40, s: .25, r: -.1, t: 15.5, team: 0 },
+  { n: "el20-2", u: .27, v: .70, s: .25, r: .2, t: 15.75, team: 0 },
+];
+function drawBreakfastPlate(g, t) {
+  const lt = t - 12.75;
+  const z = 1.12 - lt * .012, roll = -.03 + lt * .008;
+  g.save(); g.translate(W / 2, H / 2); g.rotate(roll); g.scale(z, z);
+  g.drawImage(TABLE, -W * .75, -H * .75, W * 1.5, H * 1.5);
+  sprite(g, SPR["el40-3"], -800, 300, 1.0, -.2, { sd: .8 });
+  sprite(g, SPR["el40-5"], -740, 300, .9, .45, { sd: .8 });
+  sprite(g, SPR["el50-6"], 780, -280, .8, .04, { sd: .8 });
+  // тарелка качается, пока есть пустые части; затихает, когда все в сборе
+  const full = prog(t, 15.75, 16.4);
+  const wob = Math.sin((t - 12.75) * Math.PI * 2 * 1.0) * .09 * (1 - easeOut(full)) * prog(t, 12.9, 13.3);
+  const PW = 640, ps = PW / PLATE_W, R = PW * .47;
+  g.save(); g.rotate(wob);
+  sprite(g, SPR["el40-6"], 0, 0, ps, 0, { sd: 1.4, sblur: 8 });
+  // пустые сектора мигают пунктиром, пока их не заполнят
+  const filled = [prog(t, 15.5, 15.6), 1, prog(t, 15.0, 15.1)];
+  for (let i = 0; i < 3; i++) {
+    const pathFill = sectorPath(i, i === 0 ? -10 : 10, i === 1 ? -10 : i === 2 ? 10 : 0, R * .86);
+    if (filled[i] < 1) {
+      const pulse = .35 + .35 * Math.sin(t * Math.PI * 4);
+      g.save(); g.setLineDash([22, 16]); g.lineWidth = 7; g.strokeStyle = `rgba(201,96,63,${pulse * (1 - filled[i])})`;
+      g.stroke(pathFill); g.restore();
+    }
+    const k = i === 1 ? prog(t, 13.0, 13.3) : filled[i];
+    if (k > 0) { g.save(); g.globalAlpha = .38 * k; g.fillStyle = TEAMS[i].color; g.fill(pathFill); g.restore(); }
+  }
+  // тост лежит с самого начала
+  sprite(g, SPR["el10-5"], .68 * PLATE_W * ps - PLATE_W * ps / 2, .30 * PLATE_H * ps - PLATE_H * ps / 2, .36 * ps, .1, { sd: 1 });
+  BREAKFAST.forEach((f, i) => dropItem(g, SPR[f.n], (f.u - .5) * PLATE_W * ps, (f.v - .5) * PLATE_H * ps, f.s * 1.3 * ps, f.r, t, f.t, 200 + i));
+  g.restore();
+  chip(g, 520, -230, "Энергия", TEAMS[1].color, prog(t, 13.05, 13.35), .04);
+  chip(g, 540, 220, "Строители", TEAMS[2].color, prog(t, 15.1, 15.4), -.03);
+  chip(g, -540, -60, "Цвет", TEAMS[0].color, prog(t, 15.6, 15.9), -.05);
+  g.restore();
+  // вопрос зрителю и пауза
+  paperLine(g, "Кого не хватает?", W / 2, 165, 116, 13.3, .07, t, { out: 14.9 });
+  // мальчик доволен
+  const kb = easeOut(prog(t, 16.2, 16.6));
+  if (kb > 0) sprite(g, SPR["boyact-5"], 330, H + 380 - kb * 430, 1.3, .05 + jitter(310, t, .01), { sd: 1.5 });
+  const text = "Все в сборе!";
+  bubble(g, 760, 880, text, prog(t, 16.4, 16.7), -230, 60, Math.floor(prog(t, 16.45, 16.9) * text.length));
+}
+
+// ---------- Глава «Школа»: столовая, 20–23.5 и 27–30 ----------
+const CB = 1920 / 1672;
+function drawCanteen(g, t, part) {
+  const lt = part === 1 ? t - 20 : t - 27;
+  const cam = part === 1 ? [836 - 30 + lt * 14, 470, 1.05 + lt * .01] : [836 + lt * 30, 470, 1.08];
+  g.save(); camImage(g, cam[0], cam[1], cam[2], CB);
+  g.drawImage(SPR["canteen-warm"], 0, 0, 1672, 941);
+  if (part === 1) {
+    // мальчик входит с подносом: шаг «перекладкой»
+    const bt = clamp((t - 20.1) / 1.5);
+    const bx = lerp(-150, 560, easeOut(bt));
+    const stepUp = bt < 1 ? Math.abs(Math.sin(step12(t) * Math.PI * 3)) * 14 : 0;
+    contactShadow(g, bx, 935, 150);
+    hero(g, SPR["boyact-4"], bx, 935 - stepUp, 660, bt < 1 ? Math.sin(step12(t) * Math.PI * 3) * .03 : jitter(21, t, .008));
+    contactShadow(g, 1250, 935, 150);
+    hero(g, SPR["girlact-2"], 1250, 935, 700, jitter(22, t, .008));
+  } else {
+    // после обеда — на площадку: мальчик бежит, девочка идёт следом
+    const bx = 500 + lt * 800;
+    const run = Math.abs(Math.sin(step12(t) * Math.PI * 4));
+    if (bx < 2000) { contactShadow(g, bx, 935, 130, .15); hero(g, SPR["boyact-3"], bx, 925 - run * 28, 640, -.06 + run * .05); }
+    const gx = 650 + lt * 330;
+    contactShadow(g, gx, 935, 140, .15);
+    walker(g, "girl", t, gx, 960, 620, 8);
+  }
+  g.restore();
+  if (part === 1) {
+    chapterTag(g, t, 20.5, "Школа", "el30-6");
+    const text = "А тут тоже три команды?";
+    bubble(g, 760, 230, text, prog(t, 21.5, 21.8), -120, 100, Math.floor(prog(t, 21.55, 22.4) * text.length));
+  } else {
+    // итог главы бумажными буквами, в две строки
+    { const k = prog(t, 27.55, 27.95); const grd = g.createLinearGradient(0, 0, 0, 470); grd.addColorStop(0, `rgba(243,234,211,${.85 * k})`); grd.addColorStop(.8, `rgba(243,234,211,${.7 * k})`); grd.addColorStop(1, "rgba(243,234,211,0)"); g.fillStyle = grd; g.fillRect(0, 0, W, 470); }
+    paperLine(g, "Три команды —", W / 2, 170, 104, 27.6, .05, t);
+    paperLine(g, "на каждой тарелке", W / 2, 330, 104, 28.2, .045, t);
+  }
+}
+
+// ---------- Глава «Школа»: поднос и ланч-бокс сверху, 23.5–27 ----------
+// Области в долях спрайта: [u0, v0, u1, v1].
+const TRAY = { n: "el10-7", x: -480, y: -10, s: 1.9, zones: [[.04, .05, .42, .95, 1], [.46, .05, .96, .47, 2], [.46, .51, .96, .95, 0]] };
+const LUNCHBOX = { n: "el40-2", x: 490, y: -40, s: 1.9, zones: [[.07, .5, .48, .9, 0], [.51, .5, .9, .63, 1], [.51, .66, .9, .81, 2]] };
+const BOX_FOOD = [
+  { n: "el10-5", u: .70, v: .565, s: .2, r: 1.57, t: 25.0, team: 1 },
+  { n: "el20-10", u: .71, v: .735, s: .19, r: .1, t: 25.25, team: 2 },
+  { n: "el50-10", u: .25, v: .66, s: .3, r: -.2, t: 25.5, team: 0 },
+  { n: "el20-3", u: .36, v: .78, s: .2, r: 1.2, t: 25.75, team: 0 },
+];
+function zoneGlow(g, obj, zi, k) {
+  if (k <= 0) return;
+  const im = SPR[obj.n], w = im.width * obj.s, h = im.height * obj.s;
+  const [u0, v0, u1, v1, team] = obj.zones[zi];
+  g.save(); g.globalAlpha = .45 * k; g.strokeStyle = TEAMS[team].color; g.lineWidth = 10;
+  g.beginPath(); g.roundRect(obj.x - w / 2 + u0 * w, obj.y - h / 2 + v0 * h, (u1 - u0) * w, (v1 - v0) * h, 18); g.stroke(); g.restore();
+}
+function drawLunch(g, t) {
+  const lt = t - 23.5;
+  const z = 1.02 - lt * .015, roll = .02 - lt * .006;
+  g.save(); g.translate(W / 2, H / 2); g.rotate(roll); g.scale(z, z);
+  g.drawImage(TABLE, -W * .75, -H * .75, W * 1.5, H * 1.5);
+  sprite(g, SPR[TRAY.n], TRAY.x, TRAY.y, TRAY.s, 0, { sd: 1.3 });
+  sprite(g, SPR[LUNCHBOX.n], LUNCHBOX.x, LUNCHBOX.y, LUNCHBOX.s, 0, { sd: 1.3 });
+  const im = SPR[LUNCHBOX.n], w = im.width * LUNCHBOX.s, h = im.height * LUNCHBOX.s;
+  BOX_FOOD.forEach((f, i) => dropItem(g, SPR[f.n], LUNCHBOX.x - w / 2 + f.u * w, LUNCHBOX.y - h / 2 + f.v * h, f.s * LUNCHBOX.s, f.r, t, f.t, 300 + i));
+  // подсветка частей подноса: энергия, строители, цвет
+  [[24.0, 0], [24.25, 1], [24.5, 2]].forEach(([tt, zi]) => zoneGlow(g, TRAY, zi, prog(t, tt, tt + .15)));
+  [[25.0, 1], [25.25, 2], [25.5, 0]].forEach(([tt, zi]) => zoneGlow(g, LUNCHBOX, zi, prog(t, tt, tt + .15)));
+  chip(g, -700, -360, "Энергия", TEAMS[1].color, prog(t, 24.0, 24.3), -.04);
+  chip(g, -300, -380, "Строители", TEAMS[2].color, prog(t, 24.25, 24.55), .03);
+  chip(g, -300, 360, "Цвет", TEAMS[0].color, prog(t, 24.5, 24.8), -.03);
+  // вода
+  dropItem(g, SPR["el10-6"], 20, 280, .75, -.1, t, 26.0, 330);
+  chip(g, 210, 400, "Вода", "#3f8f86", prog(t, 26.1, 26.4), .02);
+  g.restore();
+}
+
+// ---------- монтаж ----------
+// Сегменты ролика. slide — бумажная «карточка» въезжает справа поверх предыдущего плана.
+const SEGMENTS = [
+  { a: 0, b: CUT, draw: drawA },
+  { a: CUT, b: 10, draw: drawB },
+  { a: 10, b: 12.75, draw: (g, t) => drawKitchen(g, t, 1), slide: .5 },
+  { a: 12.75, b: 17.5, draw: drawBreakfastPlate },
+  { a: 17.5, b: 20, draw: (g, t) => drawKitchen(g, t, 2) },
+  { a: 20, b: 23.5, draw: (g, t) => drawCanteen(g, t, 1), slide: .5 },
+  { a: 23.5, b: 27, draw: drawLunch },
+  { a: 27, b: 30.01, draw: (g, t) => drawCanteen(g, t, 2) },
+];
+const segIndex = t => { for (let i = SEGMENTS.length - 1; i >= 0; i--) if (t >= SEGMENTS[i].a) return i; return 0; };
+const trc = document.createElement("canvas"); trc.width = W; trc.height = H; const trx = trc.getContext("2d");
+
+// ---------- кадр ----------
+function drawScene(g, t, si) {
+  const seg = SEGMENTS[si];
+  g.save();
+  g.fillStyle = C.cream; g.fillRect(0, 0, W, H);
+  const k = seg.slide ? prog(t, seg.a, seg.a + seg.slide) : 1;
+  if (k < 1) {
+    SEGMENTS[si - 1].draw(g, t);
+    trx.setTransform(1, 0, 0, 1, 0, 0); trx.fillStyle = C.cream; trx.fillRect(0, 0, W, H);
+    seg.draw(trx, t);
+    const e = easeInOut(k), x = (1 - e) * (W + 80);
+    g.save(); g.translate(x, 0); g.rotate((1 - e) * .03);
+    g.save(); g.filter = "blur(18px)"; g.fillStyle = "rgba(40,30,15,.35)"; g.fillRect(-30, -40, 60, H + 80); g.restore();
+    g.drawImage(trc, 0, 0);
+    g.restore();
+  } else seg.draw(g, t);
+  // мягкое затемнение в самом конце
+  const fo = prog(t, 29.7, 30);
+  if (fo > 0) { g.fillStyle = `rgba(243,234,211,${fo})`; g.fillRect(0, 0, W, H); }
+  g.restore();
+}
+
+// Субкадровая выборка для motion blur (затвор 180°).
+const acc = document.createElement("canvas"); acc.width = W; acc.height = H; const actx = acc.getContext("2d");
+const sub = document.createElement("canvas"); sub.width = W; sub.height = H; const sctx = sub.getContext("2d");
+const SAMPLES = RENDER ? 5 : 2;
+function renderAt(t) {
+  const shutter = .5 / FPS;
+  actx.clearRect(0, 0, W, H);
+  for (let i = 0; i < SAMPLES; i++) {
+    let ts = t + (SAMPLES > 1 ? (i / (SAMPLES - 1) - .5) * shutter : 0);
+    // не смешиваем разные планы на склейке
+    const si = segIndex(t), seg = SEGMENTS[si];
+    ts = Math.min(Math.max(ts, seg.a), seg.b - 1e-4);
+    sctx.setTransform(1, 0, 0, 1, 0, 0);
+    drawScene(sctx, ts, si);
+    actx.globalAlpha = 1 / (i + 1);
+    actx.drawImage(sub, 0, 0);
+  }
+  ctx.globalAlpha = 1; ctx.drawImage(acc, 0, 0);
+  // общее зерно бумаги и мягкая виньетка
+  ctx.save(); ctx.globalAlpha = .06; ctx.globalCompositeOperation = "multiply"; ctx.drawImage(GRAIN, 0, 0, W, H); ctx.restore();
+  const vg = ctx.createRadialGradient(W / 2, H / 2, H * .45, W / 2, H / 2, H * 1.05);
+  vg.addColorStop(0, "rgba(0,0,0,0)"); vg.addColorStop(1, "rgba(40,25,10,0.22)");
+  ctx.fillStyle = vg; ctx.fillRect(0, 0, W, H);
+}
+window.renderAt = renderAt;
+window.DURATION = DURATION; window.FPS = FPS;
+
+window.ready = (async () => {
+  await loadAll();
+  await document.fonts.load("800 64px Rubik", "Топливо ½");
+  await document.fonts.load("40px Neucha", "Своя работа");
+  TABLE = makePaper(1024, 600, "#efe3c8", 11, 2200);
+  GRAIN = makePaper(512, 512, "#bdb4a0", 5, 600);
+  renderAt(0);
+  return true;
+})();
+
+if (!RENDER) {
+  const ui = document.getElementById("ui");
+  const audio = new Audio("build/audio-B.wav");
+  let t0 = null;
+  window.ready.then(() => {
+    ui.textContent = "Клик — воспроизвести";
+    canvas.onclick = () => { t0 = performance.now(); audio.currentTime = 0; audio.play().catch(() => {}); };
+    const loop = (now) => {
+      if (t0 !== null) {
+        const t = (now - t0) / 1000;
+        if (t <= DURATION) { renderAt(t); ui.textContent = t.toFixed(2) + " с"; } else t0 = null;
+      }
+      requestAnimationFrame(loop);
+    };
+    requestAnimationFrame(loop);
+  });
+}
+</script>
+</body>
+</html>

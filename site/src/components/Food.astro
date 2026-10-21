@@ -1,0 +1,23 @@
+---
+// Еда по ключу из data/foods.ts; с подписью — как на полке в играх
+import { twMerge } from 'tailwind-merge'
+
+import Sprite from '@/components/Sprite.astro'
+import { foods, type FoodId } from '@/data/foods'
+
+interface Props {
+  id: FoodId
+  label?: boolean
+  class?: string
+  imgClass?: string
+  [key: string]: unknown
+}
+
+const { id, label = false, class: className, imgClass, ...rest } = Astro.props
+const food = foods[id]
+---
+
+<figure class:list={[twMerge('flex flex-col items-center gap-1', className)]} {...rest}>
+  <Sprite name={food.sprite} alt={food.name} class={twMerge('size-16', imgClass)} />
+  {label && <figcaption class="rounded-lg bg-paper/90 px-2 text-sm font-extrabold">{food.name}</figcaption>}
+</figure>

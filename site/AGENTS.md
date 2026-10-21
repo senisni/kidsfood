@@ -1,0 +1,75 @@
+# Сайт «Три друга на тарелке» — правила
+
+Открытый сайт проекта: лендинг, мультфильмы, игры, семейное меню. Общие правила проекта — `../AGENTS.md`, стиль — `../STYLE.md`.
+
+## Стек
+
+- Astro (статическая сборка), TypeScript strict.
+- Tailwind CSS 4 через `@tailwindcss/vite` — основной способ стилизации. Токены (цвета, шрифты) — в `@theme` в `src/styles/global.css`.
+- `tailwind-merge` для слияния классов в компонентах.
+- Новых зависимостей не добавлять ради того, что пишется десятком строк.
+
+## Структура
+
+```text
+src/
+  pages/              index.astro (лендинг), menu.astro (семейное меню)
+  layouts/            BaseLayout.astro
+  page-components/
+    HomePage/         секции лендинга (Hero, Friends, Videos, Games, …)
+  components/         общие компоненты (PaperCard, …)
+  data/               общие данные
+  styles/global.css   Tailwind + @theme
+public/               генерируется скриптом sync — руками не править
+scripts/sync-assets.mjs
+```
+
+- Страница импортирует секции напрямую, без компонентов-обёрток.
+- Данные и ассеты конкретной секции — рядом с ней (`data/`, `assets/`), в `src/data/` — только общее.
+- JS только конкретной секции — в `<script>` внутри её `.astro`.
+
+## Публичные ассеты
+
+`public/` собирается из исходников проекта командой `npm run sync` (вызывается перед `dev` и `build`):
+
+- игры — из `../interactive/` в `public/games/`;
+- спрайты — из `../video/sprites/` в `public/video/sprites/` (PNG пережимаются);
+- шрифты — из `../shared/fonts/`;
+- видео — из `../video/out/web/` (веб-версии 720p и постеры);
+- карточки меню — из `../docs/menu/img/` (в WebP).
+
+Исходники правятся в своих папках, затем `npm run sync`.
+
+## Правила кода (из общего гайда)
+
+- Компоненты `.astro`; принимают `class`, прокидывают `...rest`, классы сливают через `twMerge`:
+
+```astro
+---
+import { twMerge } from 'tailwind-merge'
+
+interface Props {
+  class?: string
+  [key: string]: unknown
+}
+
+const { class: className, ...rest } = Astro.props
+---
+
+<div class:list={[twMerge('default-classes', className)]} {...rest}>
+  <slot />
+</div>
+```
+
+- Описывать `interface Props`, не использовать `any`, функции — стрелочные через `const`.
+- Без inline-стилей, CSS-модулей и `<style>` без реальной необходимости. Вёрстка в rem, адаптивность — стандартными брейкпоинтами Tailwind.
+- Сначала нативная платформа: `<details>`, `<dialog>`, CSS scroll-snap, `loading="lazy"`, а не JS.
+- Имена: `PascalCase` — компоненты и типы, `camelCase` — функции и переменные, `kebab-case` — файлы утилит. Не использовать имена `e`, `ev`, `el`, `i`, `val` — писать `event`, `element`, `index`, `value`.
+- z-index: внутри секции — `z-0…z-50`; слои поверх страницы — токены `z-sticky`, `z-overlay`, `z-modal` из `@theme`.
+- Не срезать: доступность (alt, фокус, семантика), SEO-мету.
+- Осознанные упрощения помечать комментарием `// shortcut:` с потолком и условием апгрейда.
+
+## Типографика
+
+- В русском тексте — неразрывный пробел (символ U+00A0, не `&nbsp;`) после коротких предлогов и союзов: в, во, к, с, со, о, об, у, а, и, по, на, не, за, из, от, до, под, над, но, да, же, бы, ли, то, для, без, при, про.
+- Числовые диапазоны — короткое тире: `8–12`.

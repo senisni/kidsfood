@@ -1,0 +1,21 @@
+---
+import { twMerge } from 'tailwind-merge'
+
+import { typo } from '@/lib/typo'
+
+interface Props {
+  kicker?: string
+  title: string
+  text?: string
+  class?: string
+  [key: string]: unknown
+}
+
+const { kicker, title, text, class: className, ...rest } = Astro.props
+---
+
+<header class:list={[twMerge('mx-auto mb-10 max-w-3xl text-center', className)]} {...rest}>
+  {kicker && <p class="mb-2 font-display text-base font-bold tracking-wide text-protein uppercase md:text-lg">{kicker}</p>}
+  <h2 class="font-display text-4xl leading-tight font-bold md:text-5xl">{typo(title)}</h2>
+  {text && <p class="mt-4 text-lg leading-relaxed md:text-xl">{typo(text)}</p>}
+</header>

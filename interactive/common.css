@@ -1,0 +1,95 @@
+/* Общий вид игр «Три друга на тарелке»: сцена 1600×900, бумажные карточки, полка, полоса подсказок. */
+@font-face { font-family: "Balsamiq"; font-weight: 700; src: url(../shared/fonts/balsamiq-700-cyrillic.woff2) format("woff2"); unicode-range: U+0400-045F; }
+@font-face { font-family: "Balsamiq"; font-weight: 700; src: url(../shared/fonts/balsamiq-700-latin.woff2) format("woff2"); }
+@font-face { font-family: "Nunito"; font-weight: 800; src: url(../shared/fonts/nunito-800-cyrillic.woff2) format("woff2"); unicode-range: U+0400-045F; }
+@font-face { font-family: "Nunito"; font-weight: 800; src: url(../shared/fonts/nunito-800-latin.woff2) format("woff2"); }
+@font-face { font-family: "Nunito"; font-weight: 600; src: url(../shared/fonts/nunito-600-cyrillic.woff2) format("woff2"); unicode-range: U+0400-045F; }
+@font-face { font-family: "Nunito"; font-weight: 600; src: url(../shared/fonts/nunito-600-latin.woff2) format("woff2"); }
+:root {
+  --cream: #f3ead3; --cream2: #e9dcbc; --paper: #fbf6e8; --ink: #2c3a33;
+  --veg: #4f8f4f; --grain: #c98f1f; --prot: #c9603f; --water: #3f8f86; --sweet: #c77fa0;
+  --shadow: 0 5px 0 rgba(60,40,10,.10), 0 10px 22px rgba(60,40,10,.22);
+}
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body { margin: 0; height: 100%; background: #2d4a3c; overflow: hidden; touch-action: none; user-select: none; -webkit-user-select: none; }
+body { font-family: Nunito, system-ui, sans-serif; font-weight: 600; color: var(--ink); }
+#stage { width: 1600px; height: 900px; position: absolute; left: 50%; top: 50%; transform-origin: center; overflow: hidden; border-radius: 22px;
+  background: var(--cream); box-shadow: 0 20px 60px rgba(0,0,0,.35); }
+h1, h2, h3, .btn, .bal { font-family: Balsamiq, Nunito, sans-serif; font-weight: 700; }
+img { -webkit-user-drag: none; user-select: none; }
+button { font: inherit; }
+button:focus { outline: none; }
+button:focus-visible { outline: 4px solid rgba(201,96,63,.5); outline-offset: 3px; }
+
+/* бумажная карточка: кремовый лист на цветной подложке */
+.card { position: absolute; background: var(--paper); border-radius: 16px; box-shadow: var(--shadow); }
+.card::before { content: ""; position: absolute; inset: 0; border-radius: 16px; background: var(--back, #e6c27a); transform: translate(-9px, 8px) rotate(-.6deg); z-index: -1; }
+
+.btn { border: 0; cursor: pointer; font-size: 26px; padding: 12px 24px; border-radius: 14px; color: var(--paper); background: var(--prot); box-shadow: var(--shadow); }
+.btn:active { transform: translateY(3px) scale(.98); }
+.btn.ghost { background: var(--paper); color: var(--ink); }
+.btn.green { background: var(--veg); }
+.btn[disabled] { opacity: .45; cursor: default; }
+
+/* шапка: назад · задание · заново — одна строка, ничего не налезает */
+.top { position: absolute; left: 0; right: 0; top: 0; height: 104px; display: flex; align-items: center; gap: 18px; padding: 0 24px; z-index: 30; }
+.top .btn { flex: none; font-size: 22px; padding: 10px 18px; }
+.top .task { position: relative; flex: 1; min-width: 0; padding: 12px 22px; font-size: 27px; font-weight: 800; line-height: 1.15; display: flex; align-items: center; gap: 14px; }
+.top .task .num { flex: none; width: 46px; height: 46px; border-radius: 50%; background: var(--prot); color: var(--paper); display: grid; place-items: center; font-family: Balsamiq; font-size: 26px; }
+.top .round { flex: none; font-family: Balsamiq; font-size: 22px; background: var(--paper); padding: 8px 14px; border-radius: 12px; box-shadow: var(--shadow); }
+
+/* полоса подсказок: здесь говорят герои, всегда в одном месте над полкой */
+.say { position: absolute; left: 24px; right: 24px; top: 598px; height: 66px; display: flex; align-items: center; gap: 14px; z-index: 25; pointer-events: none; }
+.say .face { flex: none; width: 66px; height: 66px; border-radius: 50%; background: var(--paper) center 12% / 210% no-repeat; box-shadow: var(--shadow); border: 4px solid var(--back, #74b998); }
+.say .face.head { background-position: center 35%; background-size: 118%; }
+/* облачко по образцу new-2026-10/speech-bubbles-08.png: кремовый лист на чуть большей цветной подложке, хвостик к лицу */
+.say .txt { position: relative; margin-left: 12px; background: var(--paper); border-radius: 30px; padding: 10px 26px; font-size: 25px; font-weight: 800; max-width: 1400px;
+  box-shadow: 0 2px 0 7px var(--back, #74b998), 2px 3px 3px 8px rgba(40,30,15,.12), 5px 12px 16px 6px rgba(40,30,15,.24); }
+.say .txt::before, .say .txt::after { content: ""; position: absolute; top: 50%; clip-path: polygon(100% 0, 0 55%, 100% 100%); }
+.say .txt::before { left: -27px; width: 30px; height: 34px; margin-top: -15px; background: var(--back, #74b998); }
+.say .txt::after { left: -15px; width: 20px; height: 20px; margin-top: -9px; background: var(--paper); }
+.say.pop .txt { animation: pop .3s cubic-bezier(.3,1.8,.6,1); }
+.say.bad .txt { --back: var(--prot); }
+.say.good .txt { --back: var(--veg); }
+@keyframes pop { from { transform: scale(.6); opacity: 0; } }
+
+/* полка */
+.shelf { position: absolute; left: 0; right: 0; bottom: 0; height: 224px; background: #d9b77e; box-shadow: inset 0 10px 0 #c79f5e, 0 -6px 18px rgba(60,40,10,.18); }
+.shelf::before { content: ""; position: absolute; left: 0; right: 0; top: -14px; height: 18px; background: #e6c991; border-radius: 6px 6px 0 0; }
+.shelf .lbl { position: absolute; left: 18px; top: 6px; font-family: Balsamiq; font-size: 21px; color: #7a5a2e; }
+.item { position: absolute; width: 118px; height: 158px; cursor: grab; z-index: 10; touch-action: none; display: flex; flex-direction: column; align-items: center; transition: transform .15s; }
+.item img { height: 104px; max-width: 118px; object-fit: contain; filter: drop-shadow(4px 7px 4px rgba(60,40,10,.3)); pointer-events: none; }
+.item span { margin-top: 6px; font-size: 19px; font-weight: 800; background: rgba(251,246,232,.92); padding: 2px 8px; border-radius: 8px; white-space: nowrap; pointer-events: none; }
+.item:hover { transform: scale(1.07) rotate(-2deg); }
+.item.drag { cursor: grabbing; transition: none; z-index: 50; transform: scale(1.12); }
+.item.drag span { opacity: 0; }
+.item.back { transition: left .4s cubic-bezier(.3,1.4,.6,1), top .4s cubic-bezier(.3,1.4,.6,1); }
+.item.placed { cursor: pointer; width: 96px; height: 96px; }
+.item.placed img { height: 92px; }
+.item.placed span { display: none; }
+.item.shake { animation: shake .45s; }
+@keyframes shake { 20% { transform: translateX(-14px) rotate(-7deg); } 60% { transform: translateX(14px) rotate(7deg); } }
+.item.gone { transition: all .5s ease-in; transform: scale(.15); opacity: 0; pointer-events: none; }
+
+/* финальная карточка */
+.win { position: absolute; inset: 0; background: rgba(243,234,211,.86); display: none; z-index: 60; }
+.win.on { display: block; animation: fade .4s; }
+@keyframes fade { from { opacity: 0; } }
+.win .card { left: 300px; right: 300px; top: 110px; padding: 34px 48px; text-align: center; }
+.win h2 { font-size: 52px; margin: 0 0 10px; }
+.win p { font-size: 28px; margin: 10px 0; line-height: 1.25; font-weight: 800; }
+.win .row { display: flex; justify-content: center; gap: 12px; margin: 14px 0 4px; flex-wrap: wrap; }
+.win .row img { height: 74px; }
+.win .btn { margin: 14px 8px 0; }
+.stars { font-family: Balsamiq; font-size: 30px; color: var(--grain); }
+
+/* окно «Кто есть кто?» */
+.guide { left: 230px !important; right: 230px !important; top: 60px !important; padding: 26px 40px !important; text-align: left !important; }
+.guide h2 { text-align: center; }
+.gf { display: flex; gap: 18px; align-items: center; margin: 12px 0; padding: 10px 16px; border-left: 10px solid var(--c); background: #f5eedb; border-radius: 12px; font-size: 25px; }
+.gf b { font-family: Balsamiq; color: var(--c); }
+.gf small { display: block; font-size: 20px; opacity: .8; margin-top: 2px; }
+.gi { flex: none; display: flex; gap: 4px; }
+.gi img { height: 58px; }
+.carb { font-size: 21px !important; line-height: 1.3; background: #fff6df; padding: 10px 14px; border-radius: 12px; }
+.top .guideBtn { flex: none; font-size: 22px; padding: 10px 16px; }

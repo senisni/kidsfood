@@ -1,0 +1,43 @@
+---
+// Первый экран: сад-коллаж, бумажный заголовок, тарелка трёх друзей и герои с репликами
+import Button from '@/components/Button.astro'
+import PaperTitle from '@/components/PaperTitle.astro'
+import Plate from '@/components/Plate.astro'
+import SpeechBubble from '@/components/SpeechBubble.astro'
+import Sprite from '@/components/Sprite.astro'
+import { phrases } from '@/data/phrases'
+import { typo } from '@/lib/typo'
+---
+
+<section class="relative isolate overflow-hidden bg-sky" aria-labelledby="hero-title">
+  <img src="/img/garden.webp" alt="" class="absolute inset-0 -z-10 size-full object-cover object-bottom" fetchpriority="high" />
+  <div aria-hidden="true" class="absolute inset-0 -z-10 bg-gradient-to-b from-cream/90 via-cream/60 to-cream/10 lg:bg-gradient-to-r lg:from-cream/95 lg:via-cream/55 lg:to-transparent"></div>
+  <Sprite name="sunmoon-1" alt="" class="absolute top-6 right-[6%] -z-10 w-24 animate-[spin_60s_linear_infinite] md:w-36" eager />
+
+  <div class="mx-auto grid max-w-7xl items-center gap-6 px-4 pt-10 pb-28 md:px-6 lg:grid-cols-[1.05fr_1fr] lg:pt-16 lg:pb-36">
+    <div class="text-center lg:text-left">
+      <p class="mb-3 inline-block rounded-full bg-paper px-4 py-1 font-display text-base font-bold shadow-paper md:text-lg">Мультфильмы и игры для детей 8–12 лет</p>
+      <PaperTitle id="hero-title" text="Три друга на тарелке" class="text-5xl leading-[1.05] sm:text-6xl xl:text-7xl" />
+      <p class="mx-auto mt-6 max-w-xl text-xl leading-relaxed font-extrabold md:text-2xl lg:mx-0">
+        {typo('Овощи и фрукты, крупы и хлеб, белок. Позови всех троих — и сил хватит на весь день.')}
+      </p>
+      <div class="mt-8 flex flex-wrap justify-center gap-3 lg:justify-start">
+        <Button href="#videos">▶ Смотреть мультфильм</Button>
+        <Button href="#games" variant="green">Играть</Button>
+        <Button href="/menu/" variant="ghost">Меню для семьи</Button>
+      </div>
+    </div>
+
+    <div class="relative mx-auto w-full max-w-xl">
+      <Plate veg={['cucumber', 'apple']} grain={['bread']} protein={['egg', 'tvorog']} class="mx-auto w-[78%] animate-bob" />
+      <Sprite name="toast-1" alt="Мальчик с тостом" class="absolute bottom-[-12%] left-[-4%] h-[62%]" eager />
+      <Sprite name="toast-4" alt="Девочка" class="absolute right-[-4%] bottom-[-12%] h-[62%]" eager />
+      <SpeechBubble phrase={phrases.heroBoy} class="absolute top-[2%] left-0 hidden sm:flex" />
+      <SpeechBubble phrase={phrases.heroGirl} class="absolute top-[14%] right-0 hidden sm:flex" />
+    </div>
+  </div>
+
+  <svg aria-hidden="true" class="absolute bottom-0 left-0 h-12 w-full text-cream md:h-16" viewBox="0 0 1440 80" preserveAspectRatio="none">
+    <path fill="currentColor" d="M0 40 C 120 10 240 70 360 42 S 600 8 720 38 S 960 74 1080 40 S 1320 10 1440 36 V80 H0 Z" />
+  </svg>
+</section>

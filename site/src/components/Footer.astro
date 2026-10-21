@@ -1,0 +1,20 @@
+---
+import Sprite from '@/components/Sprite.astro'
+import { nav } from '@/data/nav'
+---
+
+<footer class="mt-24 bg-forest text-paper">
+  <div class="mx-auto flex max-w-7xl flex-col gap-8 px-4 py-12 md:flex-row md:items-end md:justify-between md:px-6">
+    <div class="max-w-md">
+      <p class="font-display text-3xl font-bold">Три друга на тарелке</p>
+      <p class="mt-2 text-lg opacity-90">Мультфильмы и игры о еде для детей 8–12 лет. Без запретов, калорий и «доешь».</p>
+    </div>
+    <nav aria-label="Разделы в подвале" class="flex flex-wrap gap-x-5 gap-y-2">
+      {nav.map((item) => <a href={item.href} class="font-display text-lg font-bold underline-offset-4 hover:underline">{item.label}</a>)}
+    </nav>
+    <div class="flex items-end gap-2" aria-hidden="true">
+      <Sprite name="toast-6" class="h-28" />
+      <Sprite name="toast-1" class="h-28" />
+    </div>
+  </div>
+</footer>

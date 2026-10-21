@@ -1,0 +1,13 @@
+{
+  "tool": "built-in image_gen",
+  "date": "2026-10-19",
+  "asset": "elements-60-extra-food.png",
+  "prompt": "Use case: illustration-story. Create an isolated FOOD PROP SHEET for Foodkids, an educational illustrated story for ages 10–11. References 1–2: selected paper material and world; references 3–4: character-world consistency only, DO NOT draw people; reference 5: match selected food props, cream ceramic dishes, three-quarter slightly top-down perspective and visible paper texture. Style: handmade European picture-book PAPER COLLAGE, matte fibrous colored paper, simple flat hand-cut shapes, subtly uneven cut edges, shallow soft shadows only BETWEEN overlapping paper layers. No photoreal food, glossy 3D, watercolor, black outlines. EXACTLY NINE separated food groups in a 3-column by 3-row grid with generous transparent gaps and clear outer margins. No grid lines or text. Reading order, left to right, top to bottom: TOP ROW: (1) a cream bowl of plain cooked BUCKWHEAT, recognizable distinct triangular brown buckwheat groats, not rice; (2) a cream plate of buckwheat with ONE cooked smooth pinkish-brown sausage beside it, NOT a baby pacifier; (3) a cream bowl of cooked BULGUR, small angular golden wheat grains, clearly yellower and smaller than the buckwheat. MIDDLE ROW: (4) a rectangular pale-yellow block of BUTTER with one thin slice resting beside it on a small cream butter dish, no wrapper; (5) a wedge of yellow CHEESE with a few holes and two simple cheese slices, one isolated group; (6) three thin golden BLINCHIKI crepes folded into quarters on a cream plate, thin folded edges, NOT thick pancakes or syrniki. BOTTOM ROW: (7) two square dark-chocolate BROWNIES with visible dense cut sides and matte crinkled top on a small cream plate, no icing, no sprinkles; (8) a cream plate of PLOV with long golden rice grains, orange carrot strips and small browned meat chunks, visibly rice-based; (9) a cream bowl of clear golden NOODLE SOUP with thin noodles, carrot rounds and a few herb pieces, distinct from the previous vegetable soup. Only these nine groups. Consistent relative scale, complete plates and bowls, no cropping, no duplicate groups. No cutlery, table, human hands, scattered garnish, backdrop, labels, faces, logos, watermark, nutritional symbols or value judgments. Output a high-resolution square PNG with GENUINE transparent alpha background, fully transparent gaps, NO painted checkerboard, NO glow or colored halos.",
+  "refs": [
+    "world-01-garden.png",
+    "world-02-kitchen.png",
+    "boy-summer-poses.png",
+    "girl-summer-pink-poses.png",
+    "video-additions/elements-50-our-table.png"
+  ]
+}

@@ -1,0 +1,27 @@
+---
+import { twMerge } from 'tailwind-merge'
+
+import Food from '@/components/Food.astro'
+import PaperCard from '@/components/PaperCard.astro'
+import { friendTone, type Friend } from '@/data/friends'
+import { typo } from '@/lib/typo'
+
+interface Props {
+  friend: Friend
+  class?: string
+  [key: string]: unknown
+}
+
+const { friend, class: className, ...rest } = Astro.props
+const tone = friendTone[friend.id]
+---
+
+<PaperCard as="article" backing={tone.bg} class={twMerge('flex flex-col gap-4 p-6', className)} {...rest}>
+  <div class:list={['flex justify-center gap-2 rounded-xl py-4', tone.soft]}>
+    {friend.foods.map((id) => <Food id={id} imgClass="size-20 md:size-24" />)}
+  </div>
+  <h3 class:list={['font-display text-3xl font-bold', tone.text]}>{friend.name}</h3>
+  <p class="text-xl font-extrabold">{typo(friend.why)}</p>
+  <p class="text-base opacity-80">{typo(friend.examples)}</p>
+  <p class:list={['mt-auto self-start rounded-full px-4 py-1 font-display text-base font-bold text-paper', tone.bg]}>{friend.share}</p>
+</PaperCard>

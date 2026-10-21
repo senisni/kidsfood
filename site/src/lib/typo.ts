@@ -1,0 +1,5 @@
+// Неразрывный пробел (U+00A0) после коротких предлогов и союзов — чтобы они не висели в конце строки.
+const SHORT = 'в|во|к|с|со|о|об|у|а|и|по|на|не|за|из|от|до|под|над|но|да|же|бы|ли|то|для|без|при|про|чем|тем'
+const pattern = new RegExp(`(^|[\\s(«—])(${SHORT}) (?=\\S)`, 'giu')
+
+export const typo = (text: string) => text.replace(pattern, (_match, before: string, word: string) => `${before}${word} `).replace(/ —/g, ' —')

@@ -1,0 +1,724 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Три друга на тарелке</title>
+<style>
+  @font-face { font-family: "Balsamiq"; font-weight: 400; src: url(../shared/fonts/balsamiq-400-cyrillic.woff2) format("woff2"); unicode-range: U+0400-045F, U+2116; }
+  @font-face { font-family: "Balsamiq"; font-weight: 400; src: url(../shared/fonts/balsamiq-400-latin.woff2) format("woff2"); }
+  @font-face { font-family: "Balsamiq"; font-weight: 700; src: url(../shared/fonts/balsamiq-700-cyrillic.woff2) format("woff2"); unicode-range: U+0400-045F, U+2116; }
+  @font-face { font-family: "Balsamiq"; font-weight: 700; src: url(../shared/fonts/balsamiq-700-latin.woff2) format("woff2"); }
+  @font-face { font-family: "Nunito"; font-weight: 800; src: url(../shared/fonts/nunito-800-cyrillic.woff2) format("woff2"); unicode-range: U+0400-045F, U+2116; }
+  @font-face { font-family: "Nunito"; font-weight: 800; src: url(../shared/fonts/nunito-800-latin.woff2) format("woff2"); }
+  html, body { margin: 0; background: #1d2a24; height: 100%; }
+  body { display: grid; place-items: center; }
+  canvas { width: min(100vw, 177.78vh); height: auto; display: block; }
+  #ui { position: fixed; left: 12px; bottom: 10px; color: #f4ecd8; font: 14px system-ui; opacity: .8; }
+</style>
+</head>
+<body>
+<canvas id="c" width="1920" height="1080"></canvas>
+<div id="ui"></div>
+<script>
+"use strict";
+// «Три друга на тарелке» — мультфильм ≈68 с. Сетка 100 BPM: доля 0.6 с.
+// Все ключевые моменты — в T: при замене музыки сдвигаются здесь.
+const W = 1920, H = 1080, FPS = 60;
+const T = {
+  kitchen: 0, boyLine: 2.4,
+  sunZoom: 5.4, title: 7.2,
+  plate: 9.6, girlLine: 11.0, question: 14.0, silenceA: 14.4, silenceB: 16.2,
+  f1: 16.2, f2: 19.8, f3: 23.4, done: 27.0,
+  school: 30.0, schoolLine: 31.8, tray: 34.2, run: 40.2,
+  path: 42.6, pathLine: 44.0, garden: 46.2, garden2: 50.2,
+  dinner: 53.4, dinnerPlate: 56.4, full: 60.0, finale: 63.6, end: 68.4,
+};
+const DURATION = T.end;
+const canvas = document.getElementById("c");
+const ctx = canvas.getContext("2d");
+const RENDER = new URLSearchParams(location.search).has("render");
+
+const C = {
+  cream: "#f3ead3", paper: "#fbf6e8", ink: "#2c3a33",
+  veg: "#4f8f4f", grain: "#c98f1f", prot: "#c9603f", water: "#3f8f86",
+  boyBack: "#9cc9b4", girlBack: "#f0b9b0",
+};
+const FRIENDS = [
+  { name: "Овощи и фрукты", sub: "половина тарелки", color: C.veg, icon: "pfood-1" },
+  { name: "Крупы и хлеб", sub: "чтобы бегать и думать", color: C.grain, icon: "pfood-3" },
+  { name: "Белок", sub: "чтобы расти", color: C.prot, icon: "pfood-4" },
+];
+const TITLE_COLORS = [C.prot, C.grain, "#2f6b4a", C.water];
+
+// ---------- утилиты ----------
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const lerp = (a, b, t) => a + (b - a) * t;
+const prog = (t, a, b) => clamp((t - a) / (b - a));
+const easeInOut = x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+const easeOut = x => 1 - Math.pow(1 - x, 3);
+const easeIn = x => x * x * x;
+const smooth = x => x * x * (3 - 2 * x);
+const backOut = (x, s = 1.7) => 1 + (s + 1) * Math.pow(x - 1, 3) + s * Math.pow(x - 1, 2);
+const step12 = t => Math.floor(t * 12) / 12;
+function rng(seed) { return () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let r = Math.imul(seed ^ seed >>> 15, 1 | seed); r = r + Math.imul(r ^ r >>> 7, 61 | r) ^ r; return ((r ^ r >>> 14) >>> 0) / 4294967296; }; }
+const hash = n => rng(n * 7919 + 13)();
+// «Бумажная» дрожь только у движущихся вырезок; удерживаемые позы её не получают.
+const jitter = (id, t, amp) => (hash(id * 977 + Math.floor(t * 8)) - .5) * 2 * amp;
+// мягкое «дыхание» удерживаемой позы
+const breathe = (id, t) => Math.sin(t * 2.1 + id) * .006;
+const walkFrame = (who, t, fps = 8) => SPR[`walk-${who}-${Math.floor(t * fps) % 8 + 1}`];
+
+// ---------- звук: события для tools/audio.py ----------
+const SFX = [];
+const sfx = (t, kind, p = 0, pan = 0) => SFX.push([+t.toFixed(3), kind, p, pan]);
+window.SFX = SFX;
+
+// ---------- ассеты ----------
+const SPR = {};
+const NAMES = ["garden-nosun.jpg", "kitchen.jpg", "kitchen-table-fg.png", "canteen-warm.jpg", "evening-kitchen.jpg", "evening-table-fg.png", "evening-path.jpg", "belly-garden.jpg", "table-cloth.jpg"];
+const add = (k, n) => { for (let i = 1; i <= n; i++) NAMES.push(`${k}-${i}.png`); };
+["boy", "girl", "boyact", "girlact"].forEach(k => add(k, 6));
+["el10", "el20", "el30", "el40", "el50"].forEach(k => add(k, 10));
+add("el60", 9); add("plate3", 1); add("sunmoon", 2); add("pfood", 10); add("toast", 6); add("mic", 5); ["classboy", "classgirl", "cook", "dad"].forEach(k => add(k, 4));
+add("walk-boy", 8); add("walk-girl", 8);
+function loadAll() {
+  return Promise.all(NAMES.map(n => new Promise((res, rej) => {
+    const im = new Image(); im.onload = () => { SPR[n.replace(/\.(png|jpg)$/, "")] = im; res(); }; im.onerror = () => rej(n); im.src = "sprites/" + n;
+  })));
+}
+function makePaper(w, h, base, seed, fibers = 900) {
+  const c = document.createElement("canvas"); c.width = w; c.height = h;
+  const g = c.getContext("2d"); const r = rng(seed);
+  g.fillStyle = base; g.fillRect(0, 0, w, h);
+  const id = g.getImageData(0, 0, w, h);
+  for (let i = 0; i < id.data.length; i += 4) { const n = (r() - .5) * 12; id.data[i] += n; id.data[i + 1] += n; id.data[i + 2] += n; }
+  g.putImageData(id, 0, 0);
+  for (let i = 0; i < fibers; i++) {
+    g.strokeStyle = r() < .5 ? "rgba(255,255,255,0.10)" : "rgba(90,70,40,0.06)";
+    g.lineWidth = .6 + r(); const x = r() * w, y = r() * h, a = r() * 6.28, l = 6 + r() * 24;
+    g.beginPath(); g.moveTo(x, y); g.quadraticCurveTo(x + Math.cos(a + 1) * l * .5, y + Math.sin(a + 1) * l * .5, x + Math.cos(a) * l, y + Math.sin(a) * l); g.stroke();
+  }
+  return c;
+}
+let TABLE, NIGHT, GRAIN;
+
+// ---------- рисование ----------
+function sprite(g, im, x, y, s, rot = 0, o = {}) {
+  const ax = o.ax ?? .5, ay = o.ay ?? .5, w = im.width * s, h = im.height * s;
+  g.save(); g.translate(x, y); g.rotate(rot); if (o.flip) g.scale(-1, 1);
+  g.globalAlpha = o.alpha ?? 1;
+  if (o.shadow !== false) {
+    const sd = o.sd ?? 1;
+    g.save(); g.filter = `blur(${(o.sblur ?? 5) * sd}px) brightness(0)`; g.globalAlpha = (o.alpha ?? 1) * (o.sa ?? .28);
+    g.drawImage(im, -ax * w + 6 * sd, -ay * h + 9 * sd, w, h); g.restore();
+  }
+  if (o.blur) g.filter = `blur(${o.blur}px)`;
+  g.drawImage(im, -ax * w, -ay * h, w, h);
+  g.restore();
+}
+// Герой по высоте, ноги в (x, footY)
+function hero(g, im, x, footY, height, rot = 0, o = {}) { sprite(g, im, x, footY, height / im.height, rot, { ay: 1, shadow: false, ...o }); }
+function walker(g, who, t, x, footY, height, fps = 8, o = {}) {
+  sprite(g, walkFrame(who, t, fps), x, footY, height / 540, 0, { ay: 600 / 640, shadow: false, flip: o.flip, blur: o.blur });
+}
+function contactShadow(g, x, y, w, a = .18) {
+  g.save(); g.fillStyle = `rgba(50,40,20,${a})`; g.filter = "blur(8px)";
+  g.beginPath(); g.ellipse(x, y, w, w * .13, 0, 0, Math.PI * 2); g.fill(); g.restore();
+}
+function camImage(g, cx, cy, z, base, roll = 0) { g.translate(W / 2, H / 2); g.rotate(roll); g.scale(base * z, base * z); g.translate(-cx, -cy); }
+
+// Неровный вырезанный контур: почти прямоугольник со скруглёнными углами и «ножничным» краем.
+function cutRect(w, h, seed) {
+  const p = new Path2D(), rr = rng(seed), pts = [], N = 32;
+  for (let i = 0; i < N; i++) {
+    const a = i / N * Math.PI * 2, ca = Math.cos(a), sa = Math.sin(a);
+    const ex = Math.sign(ca) * Math.pow(Math.abs(ca), .25) * w / 2, ey = Math.sign(sa) * Math.pow(Math.abs(sa), .25) * h / 2;
+    pts.push([ex + (rr() - .5) * 5, ey + (rr() - .5) * 5]);
+  }
+  p.moveTo(pts[0][0], pts[0][1]); pts.forEach(q => p.lineTo(q[0], q[1])); p.closePath();
+  return p;
+}
+// перенос по ширине; «\n» в тексте — ручной перенос
+function wrapText(g, text, maxW) {
+  const lines = [];
+  for (const para of text.split("\n")) {
+    let cur = "";
+    for (const w of para.split(" ")) { const t = cur ? cur + " " + w : w; if (g.measureText(t).width > maxW && cur) { lines.push(cur); cur = w; } else cur = t; }
+    lines.push(cur);
+  }
+  return lines;
+}
+// Облачко реплики по образцу new-2026-10/speech-bubbles-08.png: кремовый овал из бумаги
+// лежит на чуть большей цветной подложке (мята — мальчик, розовый — девочка), хвостик плавный.
+const BUB_BACK = { boy: "#74b998", girl: "#ee8088", "": "#dcb56c" };
+function bubbleShape(w, h, tail, seed) {
+  const body = new Path2D(), rr = rng(seed), N = 40;
+  for (let i = 0; i <= N; i++) {
+    const a = i / N * Math.PI * 2, ca = Math.cos(a), sa = Math.sin(a);
+    const ex = Math.sign(ca) * Math.pow(Math.abs(ca), .42) * w / 2, ey = Math.sign(sa) * Math.pow(Math.abs(sa), .55) * h / 2;
+    const j = i % N ? (rr() - .5) * 3 : 0;
+    i ? body.lineTo(ex + j, ey + j) : body.moveTo(ex, ey);
+  }
+  body.closePath();
+  const [tx, ty] = tail, down = ty > 0, side = Math.sign(tx) || 1;
+  const bx = clamp(tx * .45, -w / 2 + 70, w / 2 - 70), by = down ? h / 2 - 14 : -h / 2 + 14;
+  const tp = new Path2D(), bw = Math.min(34, w * .12);
+  tp.moveTo(bx - bw, by);
+  tp.quadraticCurveTo(bx - bw * .2 * side, (by + ty) / 2, tx, ty);
+  tp.quadraticCurveTo(bx + bw * .6, (by * 2 + ty) / 3, bx + bw, by);
+  tp.closePath();
+  return { body, tp };
+}
+function bubble(g, x, y, text, k, who, tail, t, o = {}) {
+  if (k <= 0) return;
+  const s = backOut(clamp(k), 1.8) * (o.out ? 1 - easeIn(o.out) : 1);
+  if (s <= 0.01) return;
+  g.save(); g.translate(x, y); g.rotate(o.rot ?? -.015); g.scale(s, s);
+  const size = o.size || 56;
+  g.font = `700 ${size}px Balsamiq`;
+  const lines = wrapText(g, text, o.maxW || 760);
+  const tw = Math.max(...lines.map(l => g.measureText(l).width));
+  const w = tw + 120, h = lines.length * size * 1.18 + 70;
+  const { body, tp } = bubbleShape(w, h, tail, text.length * 13 + (who === "girl" ? 7 : 3));
+  const back = BUB_BACK[who] ?? BUB_BACK[""], rim = 15;
+  g.lineJoin = "round";
+  // тень под обоими слоями
+  g.save(); g.filter = "blur(9px)"; g.translate(6, 13); g.fillStyle = "rgba(40,30,15,.3)"; g.strokeStyle = g.fillStyle; g.lineWidth = rim * 2;
+  g.stroke(body); g.fill(body); g.stroke(tp); g.fill(tp); g.restore();
+  // цветная подложка: тот же контур, шире на ободок и чуть ниже
+  g.save(); g.translate(2, 5); g.fillStyle = back; g.strokeStyle = back; g.lineWidth = rim * 2;
+  g.stroke(body); g.fill(body); g.stroke(tp); g.fill(tp);
+  g.clip(body); g.globalAlpha = .22; g.drawImage(GRAIN, -w / 2 - rim, -h / 2 - rim, w + rim * 2, h + rim * 2); g.restore();
+  // мягкая тень кремового листа на подложке
+  g.save(); g.filter = "blur(3px)"; g.translate(1, 4); g.fillStyle = "rgba(40,30,15,.22)"; g.fill(body); g.fill(tp); g.restore();
+  g.fillStyle = C.paper; g.fill(body); g.fill(tp);
+  g.save(); g.clip(body); g.globalAlpha = .2; g.drawImage(GRAIN, -w / 2, -h / 2, w, h); g.restore();
+  g.fillStyle = C.ink; g.textBaseline = "middle"; g.textAlign = "left";
+  // появление по словам: читается спокойнее, чем по буквам
+  const shown = o.words !== undefined ? o.words : 1e9;
+  let count = 0;
+  lines.forEach((ln, i) => {
+    const vis = ln.split(" ").filter(() => count++ < shown).join(" ");
+    if (!vis) return;
+    g.fillText(vis, -g.measureText(ln).width / 2, (i - (lines.length - 1) / 2) * size * 1.18 + 3);
+  });
+  g.restore();
+}
+const wordsAt = (t, t0, rate = 6) => Math.floor(Math.max(0, t - t0) * rate) + 1;
+
+// Ярлык друга: иконка еды + название + «зачем».
+function friendTag(g, x, y, fi, k, o = {}) {
+  if (k <= 0) return;
+  const f = FRIENDS[fi], s = backOut(clamp(k), 2) * (o.scale || 1);
+  g.save(); g.translate(x, y); g.rotate(o.rot ?? 0); g.scale(s, s); g.globalAlpha = o.alpha ?? 1;
+  g.font = "700 50px Balsamiq"; const w1 = g.measureText(f.name).width;
+  g.font = "800 32px Nunito"; const w2 = o.noSub ? 0 : g.measureText(f.sub).width;
+  const w = Math.max(w1, w2) + 170, h = o.noSub ? 96 : 136;
+  const p = cutRect(w, h, fi * 31 + 5);
+  g.save(); g.filter = "blur(7px)"; g.fillStyle = "rgba(40,30,15,.28)"; g.translate(7, 10); g.fill(p); g.restore();
+  g.save(); g.translate(-12, 10); g.rotate(-.015); g.fillStyle = f.color; g.fill(p); g.restore();
+  g.fillStyle = C.paper; g.fill(p);
+  g.save(); g.clip(p); g.globalAlpha = .18; g.drawImage(GRAIN, -w / 2, -h / 2, w, h); g.restore();
+  const icon = SPR[f.icon];
+  sprite(g, icon, -w / 2 + 70, 0, 92 / Math.max(icon.width, icon.height), 0, { sd: .4 });
+  g.textAlign = "left"; g.textBaseline = "middle";
+  g.fillStyle = f.color; g.font = "700 50px Balsamiq"; g.fillText(f.name, -w / 2 + 132, o.noSub ? 2 : -20);
+  if (!o.noSub) { g.fillStyle = C.ink; g.font = "800 32px Nunito"; g.fillText(f.sub, -w / 2 + 134, 30); }
+  g.restore();
+}
+// Подпись-вывод (не реплика): бумажная лента.
+function caption(g, x, y, text, k, o = {}) {
+  if (k <= 0) return;
+  const s = backOut(clamp(k), 1.6) * (o.out ? 1 - easeIn(o.out) : 1);
+  if (s <= .01) return;
+  g.save(); g.translate(x, y); g.rotate(o.rot ?? .01); g.scale(s, s);
+  const size = o.size || 60;
+  g.font = `700 ${size}px Balsamiq`;
+  const lines = wrapText(g, text, o.maxW || 1300);
+  const tw = Math.max(...lines.map(l => g.measureText(l).width));
+  const w = tw + 110, h = lines.length * size * 1.2 + 50;
+  const p = cutRect(w, h, text.length * 7);
+  g.save(); g.filter = "blur(8px)"; g.fillStyle = "rgba(40,30,15,.3)"; g.translate(8, 12); g.fill(p); g.restore();
+  g.save(); g.translate(-14, 11); g.rotate(-.012); g.fillStyle = o.back || "#e6c27a"; g.fill(p); g.restore();
+  g.fillStyle = C.paper; g.fill(p);
+  g.save(); g.clip(p); g.globalAlpha = .18; g.drawImage(GRAIN, -w / 2, -h / 2, w, h); g.restore();
+  g.fillStyle = o.color || C.ink; g.textAlign = "center"; g.textBaseline = "middle";
+  lines.forEach((ln, i) => g.fillText(ln, 0, (i - (lines.length - 1) / 2) * size * 1.2 + 3));
+  g.restore();
+}
+// Бумажные буквы
+const GLYPHS = new Map();
+function glyphCanvas(ch, size, color) {
+  const key = ch + size + color; if (GLYPHS.has(key)) return GLYPHS.get(key);
+  const c = document.createElement("canvas"); c.width = size * 1.3; c.height = size * 1.45;
+  const g = c.getContext("2d");
+  g.font = `700 ${size}px Balsamiq`; g.textAlign = "center"; g.textBaseline = "middle"; g.lineJoin = "round";
+  g.strokeStyle = C.paper; g.lineWidth = size * .17; g.strokeText(ch, c.width / 2, c.height / 2);
+  g.fillStyle = color; g.fillText(ch, c.width / 2, c.height / 2);
+  g.globalCompositeOperation = "source-atop"; g.globalAlpha = .14; g.drawImage(GRAIN, 0, 0, c.width, c.height);
+  GLYPHS.set(key, c); return c;
+}
+function paperLine(g, text, cx, y, size, t0, step, t, o = {}) {
+  g.save(); g.font = `700 ${size}px Balsamiq`; const ws = [...text].map(ch => g.measureText(ch).width); g.restore();
+  const total = ws.reduce((a, b) => a + b, 0) + (text.length - 1) * 3;
+  let x = cx - total / 2, li = 0;
+  const cols = o.colors || TITLE_COLORS;
+  [...text].forEach((ch, i) => {
+    if (ch !== " ") {
+      const tt = t0 + li * step, d = prog(t, tt, tt + .4);
+      const out = o.out ? easeIn(prog(t, o.out + li * .02, o.out + .45 + li * .02)) : 0;
+      if (d > 0 && out < 1) {
+        const yy = lerp(y - 240, y, backOut(d, 1.5)) - out * 520;
+        const r = (1 - d) * (hash(i + 70) - .5) * 1.2 + (hash(i + 200) - .5) * .06;
+        sprite(g, glyphCanvas(ch, size, cols[li % cols.length]), x + ws[i] / 2, yy, 1, r, { sa: .32, sblur: 4 });
+      }
+      li++;
+    }
+    x += ws[i] + 3;
+  });
+}
+function chapterTag(g, t, t0, text, icon) {
+  const k = prog(t, t0, t0 + .35); if (k <= 0) return;
+  const s = backOut(k, 2);
+  g.save(); g.translate(190, 110); g.rotate(-.04); g.scale(s, s);
+  g.font = "700 54px Balsamiq"; const w = g.measureText(text).width + 160, h = 96;
+  const p = cutRect(w, h, text.length * 17);
+  g.save(); g.filter = "blur(6px)"; g.fillStyle = "rgba(40,30,15,.3)"; g.translate(6, 9); g.fill(p); g.restore();
+  g.save(); g.translate(-8, 6); g.fillStyle = "#e6c27a"; g.fill(p); g.restore();
+  g.fillStyle = C.paper; g.fill(p);
+  sprite(g, SPR[icon], -w / 2 + 62, 0, 70 / Math.max(SPR[icon].width, SPR[icon].height), 0, { sd: .4 });
+  g.fillStyle = C.ink; g.textBaseline = "middle"; g.textAlign = "left"; g.fillText(text, -w / 2 + 110, 3);
+  g.restore();
+}
+// Падение продукта и посадка с отскоком
+function dropItem(g, im, x, y, s, r0, t, tl, id) {
+  const d = prog(t, tl - .34, tl); if (d <= 0) return;
+  const fall = easeIn(d), settle = prog(t, tl, tl + .32);
+  const bounce = Math.sin(settle * Math.PI) * (1 - settle) * .07;
+  const sc = s * (1 + (1 - fall) * .8 + bounce);
+  const r = r0 + (1 - fall) * (hash(id + 3) - .5) * 1.4;
+  sprite(g, im, x, y - (1 - fall) * 60, sc, r, { sd: 1 + (1 - fall) * 5, sblur: 4 + (1 - fall) * 12, sa: .3, alpha: clamp(d * 3) });
+}
+
+// ---------- тарелка сверху ----------
+const PLATE_W = 382, PLATE_H = 370;
+function sectorPath(i, R) {
+  const p = new Path2D();
+  if (i === 0) { p.moveTo(-10, -R); p.arc(-10, 0, R, -Math.PI / 2, Math.PI / 2, true); p.closePath(); } // половина: овощи и фрукты
+  if (i === 1) { p.moveTo(10, -10); p.arc(10, -10, R, -Math.PI / 2, 0); p.closePath(); }              // крупы и хлеб
+  if (i === 2) { p.moveTo(10, 10); p.arc(10, 10, R, 0, Math.PI / 2); p.closePath(); }                 // белок
+  return p;
+}
+// st: { fill: [k0,k1,k2], want: [...], glow: [...], items: [{n,u,v,s,r,t?}] }
+function plate(g, t, PW, rot, st) {
+  const ps = PW / PLATE_W, R = PW * .47 * .86;
+  g.save(); g.rotate(rot);
+  sprite(g, SPR["plate3-1"], 0, 0, PW / SPR["plate3-1"].width, 0, { sd: 1.4, sblur: 8 });
+  for (let i = 0; i < 3; i++) {
+    const p = sectorPath(i, R);
+    if (st.want && st.want[i] > 0) {
+      const pulse = .4 + .35 * Math.sin(t * Math.PI * 3.33);
+      g.save(); g.setLineDash([24, 18]); g.lineDashOffset = -t * 40; g.lineWidth = 8;
+      g.strokeStyle = `rgba(201,96,63,${pulse * st.want[i]})`; g.stroke(p); g.restore();
+    }
+    const k = st.fill ? st.fill[i] : 0;
+    if (k > 0) { g.save(); g.globalAlpha = .34 * k; g.fillStyle = FRIENDS[i].color; g.fill(p); g.restore(); }
+    if (st.glow && st.glow[i] > 0) {
+      g.save(); g.globalAlpha = st.glow[i] * .8; g.lineWidth = 12; g.strokeStyle = FRIENDS[i].color; g.filter = "blur(2px)"; g.stroke(p); g.restore();
+    }
+  }
+  (st.items || []).forEach((f, i) => {
+    const x = (f.u - .5) * PLATE_W * ps, y = (f.v - .5) * PLATE_H * ps;
+    if (f.t === undefined) sprite(g, SPR[f.n], x, y, f.s * ps, f.r, { sd: 1 });
+    else dropItem(g, SPR[f.n], x, y, f.s * ps, f.r, t, f.t, 400 + i);
+  });
+  g.restore();
+}
+
+// ================= СЦЕНЫ =================
+const KB = 1920 / 1672;
+
+// 1. Кухня утром: «Мне хватит тоста!», затем наезд на солнце в окне
+function sKitchen(g, t) {
+  // к склейке солнце уже в центре и нужного размера: совпадает с тарелкой
+  const zoomK = easeInOut(prog(t, T.sunZoom, T.title - .25));
+  const cx = lerp(820 + t * 6, 1372, zoomK), cy = lerp(470, 140, zoomK);
+  const z = lerp(1.06 + t * .006, 5.2, zoomK);
+  g.save(); camImage(g, cx, cy, z, KB);
+  g.save(); if (zoomK > .25) g.filter = `blur(${(zoomK - .25) * 6}px)`;
+  g.drawImage(SPR["kitchen"], 0, 0, 1672, 941); g.restore();
+  // пустая тарелка на столе (вид сбоку — сплюснутая); тост у мальчика в руке
+  g.save(); g.translate(900, 760); g.scale(1, .42); sprite(g, SPR["plate3-1"], 0, 0, .55 * PLATE_W / SPR["plate3-1"].width, 0, { sd: .5 }); g.restore();
+  // мальчик входит слева шагом, останавливается у стола
+  if (t < 1.9) walker(g, "boy", t, 120 + clamp(t / 1.9) * 520, 885, 520, 8);
+  else hero(g, SPR["toast-1"], 650, 885, 520, breathe(1, t)); // поднимает тост: «Мне хватит тоста!»
+  // девочка входит справа и останавливается
+  if (t < 2.6) walker(g, "girl", t, 1760 - clamp((t - .8) / 1.8) * 480, 890, 565, 8, { flip: true });
+  else hero(g, SPR["toast-4"], 1290, 890, 565, breathe(2, t), { flip: true }); // руки в боки, сомневается
+  g.drawImage(SPR["kitchen-table-fg"], 0, 0, 1672, 941);
+  g.restore();
+  // солнце-вырезка проявляется поверх нарисованного, чтобы не мылилось при наезде
+  if (zoomK > 0) {
+    const sx = W / 2 + (1372 - cx) * KB * z, sy = H / 2 + (140 - cy) * KB * z;
+    sprite(g, SPR["el30-1"], sx, sy, 112 * KB * z / 300, -zoomK * 1.2, { alpha: smooth(prog(zoomK, .1, .5)), shadow: false });
+  }
+  bubble(g, 640, 300, "Мне хватит тоста!", prog(t, T.boyLine, T.boyLine + .3), "boy", [-90, 120], t,
+    { out: prog(t, T.sunZoom - .3, T.sunZoom), words: wordsAt(t, T.boyLine + .1) });
+}
+
+// 2. Заголовок: солнце становится тарелкой
+function sTitle(g, t) {
+  const lt = t - T.title;
+  g.save(); g.translate(W / 2, H / 2); g.scale(1.02 - lt * .01, 1.02 - lt * .01);
+  g.drawImage(TABLE, -W * .75, -H * .75, W * 1.5, H * 1.5);
+  const spin = lerp(-1.2, 0, easeOut(prog(t, T.title, T.title + .9)));
+  plate(g, t, 640, spin, {});
+  const tint = 1 - prog(t, T.title, T.title + .4);
+  if (tint > 0) sprite(g, SPR["el30-1"], 0, 0, 2.15, spin, { alpha: tint, shadow: false });
+  g.restore();
+  paperLine(g, "Три друга", W / 2, 150, 120, T.title + .3, .09, t, { out: T.plate - .1 });
+  paperLine(g, "на тарелке", W / 2, 950, 120, T.title + .8, .08, t, { out: T.plate - .1 });
+}
+
+// 3–5. Тарелка: один тост → вопрос → три друга по очереди
+const BREAKFAST = [
+  { n: "pfood-3", u: .70, v: .30, s: 0.289, r: .1, t: T.plate + .5 },
+  { n: "pfood-1", u: .27, v: .36, s: 0.256, r: -.15, t: T.f1 + .3 },
+  { n: "pfood-2", u: .25, v: .66, s: 0.223, r: .1, t: T.f1 + .75 },
+  { n: "pfood-4", u: .66, v: .67, s: 0.218, r: -.1, t: T.f2 + .3 },
+  { n: "pfood-5", u: .83, v: .70, s: 0.23, r: .15, t: T.f2 + .75 },
+];
+const FRIEND_T = [T.f1, T.f3, T.f2]; // время рассказа о каждом друге (индекс = друг)
+function sPlate(g, t) {
+  const lt = t - T.plate;
+  const z = 1.0 + lt * .006;
+  const settled = prog(t, T.done, T.done + .6);
+  const wobAmp = prog(t, T.plate + .6, T.plate + 1.2) * (1 - easeOut(settled));
+  const wob = Math.sin((t - T.plate) * Math.PI * 2 / 1.2) * .07 * wobAmp;
+  g.save(); g.translate(W / 2, H / 2 - 20); g.scale(z, z);
+  g.drawImage(TABLE, -W * .75, -H * .75, W * 1.5, H * 1.5);
+  sprite(g, SPR["el40-3"], -780, 320, 1.0, -.2, { sd: .8 });
+  sprite(g, SPR["el40-5"], -720, 310, .9, .45, { sd: .8 });
+  sprite(g, SPR["el40-7"], 790, -300, .8, .04, { sd: .8 });
+  const fill = [prog(t, T.f1 + .3, T.f1 + .6), prog(t, T.plate + .5, T.plate + .8), prog(t, T.f2 + .3, T.f2 + .6)];
+  const want = [1 - fill[0], 0, 1 - fill[2]].map(v => v * prog(t, T.plate + 1, T.plate + 1.4));
+  const glow = [0, 1, 2].map(i => Math.sin(prog(t, FRIEND_T[i] + .9, FRIEND_T[i] + 2.1) * Math.PI));
+  const items = BREAKFAST.map(f => ({ ...f }));
+  items[0].v -= Math.sin(prog(t, T.f3 + .2, T.f3 + .7) * Math.PI) * .05; // тост «подпрыгивает», когда о нём речь
+  plate(g, t, 620, wob, { fill, want, glow, items });
+  g.restore();
+
+  const kg = easeOut(prog(t, T.girlLine - .5, T.girlLine)) * (1 - easeIn(prog(t, T.question - .4, T.question)));
+  if (kg > 0) sprite(g, SPR["girlact-1"], 1700, H + 390 - kg * 440, 1.25, -.04 + breathe(3, t), { sd: 1.4 });
+  bubble(g, 1270, 650, "Тосту скучно одному!", prog(t, T.girlLine, T.girlLine + .3), "girl", [230, 120], t,
+    { out: prog(t, T.question - .4, T.question), words: wordsAt(t, T.girlLine + .1) });
+  paperLine(g, "Кого не хватает?", W / 2, 150, 104, T.question, .06, t, { out: T.f1 - .2 });
+  const tagK = i => prog(t, FRIEND_T[i] + .9, FRIEND_T[i] + 1.25);
+  friendTag(g, 330, 300, 0, tagK(0), { rot: -.03 });
+  friendTag(g, 1580, 250, 1, tagK(1), { rot: .03 });
+  friendTag(g, 1590, 620, 2, tagK(2), { rot: -.02 });
+  const kb = easeOut(prog(t, T.done + .3, T.done + .8));
+  if (kb > 0) sprite(g, SPR["boyact-5"], 300, H + 380 - kb * 420, 1.25, .04 + breathe(4, t), { sd: 1.4 });
+  bubble(g, 700, 860, "Все три друга!", prog(t, T.done + .6, T.done + .9), "boy", [-230, 90], t, { words: wordsAt(t, T.done + .7) });
+}
+
+// 6. Школа
+function sSchool(g, t) {
+  const lt = t - T.school;
+  g.save(); camImage(g, 806 + lt * 14, 470, 1.05 + lt * .008, KB);
+  g.drawImage(SPR["canteen-warm"], 0, 0, 1672, 941);
+  hero(g, SPR["cook-3"], 300, 520, 380, breathe(5, t));
+  const bt = clamp((t - T.school - .3) / 1.6);
+  const bx = lerp(-160, 640, easeOut(bt));
+  const step = bt < 1 ? Math.abs(Math.sin((t - T.school) * Math.PI * 3.33)) : 0;
+  contactShadow(g, bx, 935, 140);
+  hero(g, SPR["boyact-4"], bx, 935 - step * 14, 640, bt < 1 ? (step - .5) * .04 : breathe(6, t));
+  hero(g, SPR["classgirl-1"], 1500, 700, 330, breathe(14, t));   // одноклассница вдали
+  contactShadow(g, 1230, 935, 140);
+  hero(g, SPR["girlact-2"], 1230, 935, 640, breathe(7, t));     // наша девочка с ланч-боксом
+  g.restore();
+  chapterTag(g, t, T.school + .5, "Школа", "el30-6");
+  bubble(g, 780, 240, "Проверим: все три друга?", prog(t, T.schoolLine, T.schoolLine + .3), "boy", [-120, 130], t, { words: wordsAt(t, T.schoolLine + .1) });
+}
+// 7. Поднос сверху: зритель уже знает ответ — подсказки быстрее
+const TRAY = { n: "el10-7", s: 2.6, zones: [[.46, .51, .96, .95, 0], [.04, .05, .42, .95, 1], [.46, .05, .96, .47, 2]] };
+function sTray(g, t) {
+  const lt = t - T.tray;
+  g.save(); g.translate(W / 2 - 160, H / 2 + 30); g.scale(1.0 - lt * .01, 1.0 - lt * .01); g.rotate(.015 - lt * .004);
+  g.drawImage(TABLE, -W * .75, -H * .75, W * 1.5, H * 1.5);
+  const im = SPR[TRAY.n], w = im.width * TRAY.s, h = im.height * TRAY.s;
+  sprite(g, im, 0, 0, TRAY.s, 0, { sd: 1.4 });
+  TRAY.zones.forEach(([u0, v0, u1, v1, fi], i) => {
+    const k = prog(t, T.tray + .8 + i * 1.1, T.tray + 1.0 + i * 1.1);
+    if (k <= 0) return;
+    g.save(); g.globalAlpha = .9 * k; g.strokeStyle = FRIENDS[fi].color; g.lineWidth = 12;
+    g.beginPath(); g.roundRect(-w / 2 + u0 * w, -h / 2 + v0 * h, (u1 - u0) * w, (v1 - v0) * h, 24); g.stroke(); g.restore();
+  });
+  dropItem(g, SPR["el10-6"], 700, 120, .95, -.08, t, T.tray + 4.1, 50);
+  g.restore();
+  friendTag(g, 1490, 640, 0, prog(t, T.tray + .85, T.tray + 1.15), { noSub: true, scale: .9 });
+  friendTag(g, 330, 150, 1, prog(t, T.tray + 1.95, T.tray + 2.25), { noSub: true, scale: .9 });
+  friendTag(g, 1290, 150, 2, prog(t, T.tray + 3.05, T.tray + 3.35), { noSub: true, scale: .9 });
+  caption(g, 1360, 940, "Пить — воду", prog(t, T.tray + 4.3, T.tray + 4.6), { back: "#9fd3cf", size: 56 });
+}
+function sRun(g, t) {
+  const lt = t - T.run;
+  g.save(); camImage(g, 836 + lt * 40, 470, 1.08, KB);
+  g.drawImage(SPR["canteen-warm"], 0, 0, 1672, 941);
+  hero(g, SPR["cook-4"], 300, 520, 380, Math.sin(t * 6) * .03);
+  const bx = 420 + lt * 820, run = Math.abs(Math.sin(step12(t) * Math.PI * 4));
+  if (bx < 2100) { contactShadow(g, bx, 935, 120, .14); hero(g, SPR["boyact-3"], bx, 925 - run * 26, 630, -.05 + run * .04); }
+  g.restore();
+  caption(g, W / 2, 170, "Есть силы играть!", prog(t, T.run + .4, T.run + .7), { back: "#e6c27a" });
+}
+
+// 8–9. Дорога домой и сад в животе
+function sPath(g, t) {
+  const lt = t - T.path;
+  g.save(); camImage(g, 760 + lt * 22, 480, 1.08, KB);
+  g.drawImage(SPR["evening-path"], 0, 0, 1672, 941);
+  const walking = lt < 1.4, gx = 300 + Math.min(lt, 1.4) * 330;
+  if (walking) walker(g, "girl", t, gx, 900, 560, 8);
+  else hero(g, SPR["girlact-3"], gx, 900, 560, breathe(8, t));
+  if (walking) walker(g, "boy", t + .3, gx - 260, 905, 520, 8);
+  else hero(g, SPR["boy-2"], gx - 260, 905, 520, breathe(13, t), { flip: true });
+  g.restore();
+  bubble(g, 1100, 230, "Знаешь, кто ест\nвместе с нами?", prog(t, T.pathLine, T.pathLine + .3), "girl", [-200, 150], t,
+    { out: prog(t, T.garden - .3, T.garden), words: wordsAt(t, T.pathLine + .1) });
+}
+// Бумажный паровозик: паровоз и два вагончика с едой едут слева направо по волне.
+function paperTrain(g, t, t0, t1) {
+  const k = prog(t, t0, t1); if (k <= 0 || k >= 1) return;
+  const x0 = lerp(-60, W + 700, k), cars = [["#c9603f", null], ["#e9c46a", "pfood-2"], ["#8fb08a", "pfood-10"]];
+  cars.forEach(([col, load], i) => {
+    const x = x0 - i * 290, y = 600 + Math.sin(x / 220) * 34, rot = Math.cos(x / 160) * .12;
+    g.save(); g.translate(x, y); g.rotate(rot); g.scale(1.55, 1.55);
+    g.save(); g.filter = "blur(6px)"; g.fillStyle = "rgba(40,30,15,.3)"; g.fillRect(-78, -38, 168, 86); g.restore();
+    if (load) sprite(g, SPR[load], 0, -62, 105 / Math.max(SPR[load].width, SPR[load].height), Math.sin(t * 9 + i) * .08, { sd: .5 });
+    g.fillStyle = col; g.beginPath(); g.roundRect(-80, -44, 160, 76, 14); g.fill();
+    if (!load) { // паровоз: кабина и труба
+      g.fillRect(-70, -96, 64, 56); g.fillStyle = "#2c3a33"; g.fillRect(34, -84, 26, 42);
+      g.fillStyle = "#fbf6e8"; g.beginPath(); g.roundRect(-58, -84, 40, 30, 6); g.fill();
+      for (let p = 0; p < 3; p++) { const d = ((t * 2 + p / 3) % 1); g.globalAlpha = 1 - d; g.beginPath(); g.arc(47 - d * 60, -100 - d * 70, 14 + d * 18, 0, 7); g.fill(); g.globalAlpha = 1; }
+    }
+    g.fillStyle = "#2c3a33"; [-48, 48].forEach(wx => { g.beginPath(); g.arc(wx, 36, 20, 0, 7); g.fill(); g.fillStyle = "#e9dcbc"; g.beginPath(); g.arc(wx, 36, 7, 0, 7); g.fill(); g.fillStyle = "#2c3a33"; });
+    if (i) { g.fillStyle = "#7a5a3a"; g.fillRect(80, -6, 34, 10); }
+    g.restore();
+  });
+}
+
+function sGarden(g, t) {
+  const z = lerp(1.6, 1.08, easeOut(prog(t, T.garden, T.garden + 2.2)));
+  g.save(); camImage(g, 836, 470 - (z - 1.08) * 60, z, KB);
+  g.drawImage(SPR["belly-garden"], 0, 0, 1672, 941);
+  for (let i = 0; i < 9; i++) { // бумажные «нитки» клетчатки сыплются в сад
+    const tt = T.garden + .3 + i * .22, d = prog(t, tt, tt + 1.3);
+    if (d <= 0 || d >= 1) continue;
+    const x = 620 + hash(i) * 440, y = lerp(140, 520 + hash(i + 4) * 160, easeIn(d));
+    g.save(); g.translate(x, y); g.rotate(d * 3 + i); g.globalAlpha = 1 - d * .4;
+    g.fillStyle = ["#e9c46a", "#8fb08a", "#e9965a"][i % 3]; g.beginPath(); g.roundRect(-34, -7, 68, 14, 7); g.fill(); g.restore();
+  }
+  g.restore();
+  ["mic-1", "mic-2", "mic-4"].forEach((m, i) => {
+    const k = easeOut(prog(t, T.garden + .8 + i * .3, T.garden + 1.3 + i * .3));
+    if (k <= 0) return;
+    const hop = Math.abs(Math.sin((t - T.garden) * Math.PI * 1.67 + i)) * 18;
+    sprite(g, SPR[m], 1450 + i * 150 - (i === 1 ? 40 : 0), H + 120 - k * 360 - hop, .55, (i - 1) * .06, { sd: 1.2 });
+  });
+  // бумажный паровозик клетчатки везёт еду через «сад»
+  paperTrain(g, t, T.garden + .2, T.garden + 3.4);
+  caption(g, 620, 170, "Клетчатка — как паровозик:\nпомогает еде ехать по животу", prog(t, T.garden + .5, T.garden + .8), { back: "#e6c27a", size: 58, out: prog(t, T.garden + 2.9, T.garden + 3.2) });
+  caption(g, 620, 170, "А ещё это еда\nдля помощников в животе", prog(t, T.garden + 3.2, T.garden + 3.5), { back: "#8fb08a", size: 58 });
+  caption(g, 700, 940, "Она есть только в растениях", prog(t, T.garden2, T.garden2 + .3), { back: "#e6c27a", size: 58 });
+  ["pfood-2", "el50-8", "pfood-3", "pfood-10", "pfood-9"].forEach((n, i) => {
+    const k = prog(t, T.garden2 + .5 + i * .3, T.garden2 + .8 + i * .3);
+    if (k > 0) sprite(g, SPR[n], 260 + i * 220, 780, backOut(k, 2) * 150 / Math.max(SPR[n].width, SPR[n].height), (i - 2) * .05, { sd: .8 });
+  });
+}
+
+// 10–12. Ужин
+function sDinner(g, t) {
+  const lt = t - T.dinner;
+  g.save(); camImage(g, 836 + lt * 10, 470, 1.06 + lt * .006, KB);
+  g.drawImage(SPR["evening-kitchen"], 0, 0, 1672, 941);
+  hero(g, SPR["boy-6"], 520, 880, 470, breathe(9, t));
+  hero(g, SPR["girlact-6"], 1150, 880, 470, breathe(10, t));
+  hero(g, SPR["dad-4"], 1520, 940, 700, breathe(11, t));
+  g.drawImage(SPR["evening-table-fg"], 0, 0, 1672, 941);
+  g.restore();
+  chapterTag(g, t, T.dinner + .4, "Вечер", "sunmoon-2");
+  bubble(g, 1180, 230, "Ужин! Найдёте трёх друзей?", prog(t, T.dinner + .7, T.dinner + 1.0), "", [190, 130], t, { words: wordsAt(t, T.dinner + .8) });
+}
+function sDinnerPlate(g, t) {
+  const lt = t - T.dinnerPlate;
+  g.save(); g.translate(W / 2, H / 2); g.scale(1.0 - lt * .01, 1.0 - lt * .01);
+  g.drawImage(NIGHT, -W * .75, -H * .75, W * 1.5, H * 1.5);
+  sprite(g, SPR["el10-8"], 0, 0, 1.75, 0, { sd: 1.4 });
+  g.restore();
+  // зритель отвечает первым: подсказки появляются после паузы
+  friendTag(g, 1500, 760, 0, prog(t, T.dinnerPlate + 1.4, T.dinnerPlate + 1.7), { noSub: true, scale: .9 });
+  friendTag(g, 380, 760, 1, prog(t, T.dinnerPlate + 2.0, T.dinnerPlate + 2.3), { noSub: true, scale: .9 });
+  friendTag(g, 1460, 210, 2, prog(t, T.dinnerPlate + 2.6, T.dinnerPlate + 2.9), { noSub: true, scale: .9 });
+}
+function sFull(g, t) {
+  const lt = t - T.full;
+  g.save(); camImage(g, 1100, 470, 1.4 + lt * .01, KB);
+  g.drawImage(SPR["evening-kitchen"], 0, 0, 1672, 941);
+  hero(g, SPR["girlact-4"], 1150, 880, 520, breathe(12, t));
+  g.drawImage(SPR["evening-table-fg"], 0, 0, 1672, 941);
+  g.restore();
+  bubble(g, 1200, 230, "Я наелась. Спасибо!", prog(t, T.full + .3, T.full + .6), "girl", [-160, 140], t,
+    { out: prog(t, T.full + 2.3, T.full + 2.6), words: wordsAt(t, T.full + .4) });
+  caption(g, W / 2, 920, "Наелся — можно остановиться", prog(t, T.full + 2.0, T.full + 2.3), { back: C.girlBack });
+}
+// 13. Финал: утренняя и вечерняя тарелки рядом
+function sFinale(g, t) {
+  const lt = t - T.finale;
+  g.save(); g.translate(W / 2, H / 2); g.scale(1.04 - lt * .01, 1.04 - lt * .01);
+  g.drawImage(TABLE, -W * .75, -H * .75, W * 1.5, H * 1.5);
+  const k1 = easeOut(prog(t, T.finale, T.finale + .8)), k2 = easeOut(prog(t, T.finale + .6, T.finale + 1.4));
+  g.save(); g.translate(-400, 60); g.scale(k1, k1);
+  plate(g, t, 520, 0, { fill: [1, 1, 1], items: [
+    { n: "pfood-1", u: .27, v: .36, s: 0.256, r: -.15 }, { n: "pfood-2", u: .25, v: .66, s: 0.223, r: .1 },
+    { n: "pfood-3", u: .70, v: .30, s: 0.289, r: .1 }, { n: "pfood-4", u: .66, v: .67, s: 0.218, r: -.1 }] });
+  sprite(g, SPR["sunmoon-1"], -230, -260, .45 * 307 / SPR["sunmoon-1"].width, 0, { sd: .6 });
+  g.restore();
+  g.save(); g.translate(400, 60); g.scale(k2, k2);
+  plate(g, t, 520, 0, { fill: [1, 1, 1], items: [
+    { n: "pfood-9", u: .26, v: .35, s: 0.279, r: -.1 }, { n: "pfood-10", u: .3, v: .68, s: 0.301, r: -.5 },
+    { n: "pfood-6", u: .72, v: .30, s: 0.283, r: .05 }, { n: "pfood-7", u: .70, v: .70, s: 0.289, r: .1 }] });
+  sprite(g, SPR["sunmoon-2"], 240, -260, .45 * 292 / SPR["sunmoon-2"].height, 0, { sd: .6 });
+  g.restore();
+  g.restore();
+  paperLine(g, "Все три друга —", W / 2, 140, 104, T.finale + 1.4, .06, t);
+  paperLine(g, "на каждой тарелке!", W / 2, 960, 104, T.finale + 2.2, .05, t);
+}
+
+// ---------- монтаж ----------
+const SEGMENTS = [
+  { a: T.kitchen, b: T.title, draw: sKitchen },
+  { a: T.title, b: T.plate, draw: sTitle },
+  { a: T.plate, b: T.school, draw: sPlate },
+  { a: T.school, b: T.tray, draw: sSchool, slide: .7 },
+  { a: T.tray, b: T.run, draw: sTray },
+  { a: T.run, b: T.path, draw: sRun },
+  { a: T.path, b: T.garden, draw: sPath, slide: .7 },
+  { a: T.garden, b: T.dinner, draw: sGarden },
+  { a: T.dinner, b: T.dinnerPlate, draw: sDinner, slide: .7 },
+  { a: T.dinnerPlate, b: T.full, draw: sDinnerPlate },
+  { a: T.full, b: T.finale, draw: sFull },
+  { a: T.finale, b: T.end + .01, draw: sFinale },
+];
+const segIndex = t => { for (let i = SEGMENTS.length - 1; i >= 0; i--) if (t >= SEGMENTS[i].a) return i; return 0; };
+const trc = document.createElement("canvas"); trc.width = W; trc.height = H; const trx = trc.getContext("2d");
+function drawScene(g, t, si) {
+  const seg = SEGMENTS[si];
+  g.save(); g.fillStyle = C.cream; g.fillRect(0, 0, W, H);
+  const k = seg.slide ? prog(t, seg.a, seg.a + seg.slide) : 1;
+  if (k < 1) {
+    SEGMENTS[si - 1].draw(g, t);
+    trx.setTransform(1, 0, 0, 1, 0, 0); trx.fillStyle = C.cream; trx.fillRect(0, 0, W, H);
+    seg.draw(trx, t);
+    const e = easeInOut(k), x = (1 - e) * (W + 80);
+    g.save(); g.translate(x, 0); g.rotate((1 - e) * .03);
+    g.save(); g.filter = "blur(18px)"; g.fillStyle = "rgba(40,30,15,.35)"; g.fillRect(-30, -40, 60, H + 80); g.restore();
+    g.drawImage(trc, 0, 0); g.restore();
+  } else seg.draw(g, t);
+  const fo = prog(t, T.end - .5, T.end);
+  if (fo > 0) { g.fillStyle = `rgba(243,234,211,${fo})`; g.fillRect(0, 0, W, H); }
+  g.restore();
+}
+const acc = document.createElement("canvas"); acc.width = W; acc.height = H; const actx = acc.getContext("2d");
+const sub = document.createElement("canvas"); sub.width = W; sub.height = H; const sctx = sub.getContext("2d");
+const SAMPLES = RENDER ? 4 : 1;
+function renderAt(t) {
+  const shutter = .5 / FPS, si = segIndex(t), seg = SEGMENTS[si];
+  // въезд бумажной карточки — чёткий, без размазывания на полосы
+  const n = seg.slide && t < seg.a + seg.slide ? 1 : SAMPLES;
+  actx.clearRect(0, 0, W, H);
+  for (let i = 0; i < n; i++) {
+    let ts = t + (n > 1 ? (i / (n - 1) - .5) * shutter : 0);
+    ts = Math.min(Math.max(ts, seg.a), seg.b - 1e-4);
+    sctx.setTransform(1, 0, 0, 1, 0, 0); drawScene(sctx, ts, si);
+    actx.globalAlpha = 1 / (i + 1); actx.drawImage(sub, 0, 0);
+  }
+  ctx.globalAlpha = 1; ctx.drawImage(acc, 0, 0);
+  ctx.save(); ctx.globalAlpha = .05; ctx.globalCompositeOperation = "multiply"; ctx.drawImage(GRAIN, 0, 0, W, H); ctx.restore();
+  const vg = ctx.createRadialGradient(W / 2, H / 2, H * .45, W / 2, H / 2, H * 1.05);
+  vg.addColorStop(0, "rgba(0,0,0,0)"); vg.addColorStop(1, "rgba(40,25,10,0.2)");
+  ctx.fillStyle = vg; ctx.fillRect(0, 0, W, H);
+}
+
+// ---------- события звука ----------
+(function buildSfx() {
+  for (let k = 0; k < 4; k++) sfx(.25 + k * .5, "step", .5, -.6);
+  for (let k = 0; k < 4; k++) sfx(1.05 + k * .5, "step", .45, .6);
+  sfx(T.boyLine, "pop", 0, -.3);
+  sfx(T.sunZoom, "whoosh", 1.8, .3);
+  sfx(T.title, "snap", 0, 0);
+  for (let i = 0; i < 8; i++) sfx(T.title + .3 + i * .09 + .15, "tap", 1, -.5 + i / 8);
+  for (let i = 0; i < 9; i++) sfx(T.title + .8 + i * .08 + .15, "tap", 1, -.5 + i / 9);
+  sfx(T.plate - .1, "whoosh", .5, 0);
+  sfx(T.plate + .5, "plop", 450, .3);
+  for (let k = 0; k < 4; k++) sfx(T.plate + 1.2 + k * .6, "wood", k % 2, k % 2 ? -.3 : .3);
+  sfx(T.girlLine, "pop", 0, .4);
+  for (let i = 0; i < 14; i++) sfx(T.question + i * .06 + .15, "tap", 1.1, -.5 + i / 14);
+  sfx(T.f1 - .25, "whoosh", .4, 0);
+  BREAKFAST.slice(1).forEach(f => sfx(f.t, "plop", 500 + f.u * 150, f.u < .5 ? -.3 : .3));
+  FRIEND_T.forEach((tt, i) => sfx(tt + .9, "chime", [0, 7, 4][i], 0));
+  sfx(T.f3 + .2, "plop", 380, .3);
+  sfx(T.done, "chord", 0, 0);
+  sfx(T.done + .6, "pop", 0, -.3);
+  sfx(T.school, "slide", 0, .4); sfx(T.school + .5, "pop", 0, -.7);
+  for (let k = 0; k < 5; k++) sfx(T.school + .3 + k * .3, "step", .5, -.5);
+  sfx(T.schoolLine, "pop", 0, -.2);
+  sfx(T.tray, "snap", 0, 0);
+  for (let i = 0; i < 3; i++) sfx(T.tray + .85 + i * 1.1, "chime", [0, 4, 7][i], 0);
+  sfx(T.tray + 4.1, "plop", 260, .5); sfx(T.tray + 4.3, "pop", 0, .5);
+  sfx(T.run, "snap", 0, 0); for (let k = 0; k < 6; k++) sfx(T.run + .1 + k * .25, "step", .6, -.3 + k * .15);
+  sfx(T.run + .4, "pop", 0, 0);
+  sfx(T.path, "slide", 0, .4);
+  for (let k = 0; k < 3; k++) sfx(T.path + .25 + k * .5, "step", .4, -.4);
+  sfx(T.path + 1.5, "crunch", 0, -.2);
+  sfx(T.pathLine, "pop", 0, .2);
+  sfx(T.garden - .2, "whoosh", 1.0, 0); for (let k = 0; k < 12; k++) sfx(T.garden + .4 + k * .3, "wood", k % 2, -.6 + k * .1);
+  for (let i = 0; i < 9; i++) sfx(T.garden + 1.5 + i * .22, "tap", .7, -.3 + i * .07);
+  sfx(T.garden + .9, "chime", 0, -.3); sfx(T.garden2, "chime", 4, .3);
+  for (let i = 0; i < 5; i++) sfx(T.garden2 + .65 + i * .3, "plop", 600 + i * 60, -.5 + i * .25);
+  sfx(T.dinner, "slide", 0, .4); sfx(T.dinner + .4, "pop", 0, -.7); sfx(T.dinner + .7, "pop", 0, .3);
+  sfx(T.dinnerPlate, "snap", 0, 0);
+  for (let i = 0; i < 3; i++) sfx(T.dinnerPlate + 1.45 + i * .6, "chime", [0, 4, 7][i], 0);
+  sfx(T.full, "snap", 0, 0); sfx(T.full + .3, "pop", 0, .2); sfx(T.full + 2.0, "chime", 7, 0);
+  sfx(T.finale, "snap", 0, 0); sfx(T.finale + .3, "plop", 420, -.4); sfx(T.finale + .9, "plop", 380, .4);
+  for (let i = 0; i < 13; i++) sfx(T.finale + 1.4 + i * .06 + .15, "tap", 1, -.5 + i / 13);
+  for (let i = 0; i < 15; i++) sfx(T.finale + 2.2 + i * .05 + .15, "tap", 1, -.5 + i / 15);
+})();
+
+window.renderAt = renderAt; window.DURATION = DURATION; window.FPS = FPS; window.T = T;
+window.ready = (async () => {
+  await loadAll();
+  await Promise.all(["700 60px Balsamiq", "800 30px Nunito"].map(f => document.fonts.load(f, "Три друга Ёё")));
+  TABLE = SPR["table-cloth"]; // бумажная скатерть сверху (new-2026-10/table-top-cloth.png)
+  NIGHT = makePaper(1024, 600, "#e4d3b0", 21, 2200);
+  GRAIN = makePaper(512, 512, "#bdb4a0", 5, 600);
+  renderAt(0);
+  return true;
+})();
+
+if (!RENDER) {
+  const ui = document.getElementById("ui");
+  const audio = new Audio("build/film-audio.wav");
+  let t0 = null;
+  window.ready.then(() => {
+    ui.textContent = "Клик — воспроизвести";
+    canvas.onclick = () => { t0 = performance.now(); audio.currentTime = 0; audio.play().catch(() => {}); };
+    const loop = now => {
+      if (t0 !== null) { const t = (now - t0) / 1000; if (t <= DURATION) { renderAt(t); ui.textContent = t.toFixed(2) + " с"; } else t0 = null; }
+      requestAnimationFrame(loop);
+    };
+    requestAnimationFrame(loop);
+  });
+}
+</script>
+</body>
+</html>

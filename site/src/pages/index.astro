@@ -1,0 +1,18 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import FriendsSection from '@/page-components/HomePage/FriendsSection.astro'
+import GamesSection from '@/page-components/HomePage/GamesSection.astro'
+import HeroSection from '@/page-components/HomePage/HeroSection.astro'
+import MenuTeaser from '@/page-components/HomePage/MenuTeaser.astro'
+import ParentsSection from '@/page-components/HomePage/ParentsSection.astro'
+import VideosSection from '@/page-components/HomePage/VideosSection.astro'
+---
+
+<BaseLayout title="Три друга на тарелке — мультфильмы и игры о еде для детей" description="Мультфильмы и семь игр о еде для детей 8–12 лет: три друга на тарелке, клетчатка, завтрак, школа и ужин. Плюс семейное меню на 45 блюд.">
+  <HeroSection />
+  <FriendsSection />
+  <VideosSection />
+  <GamesSection />
+  <MenuTeaser />
+  <ParentsSection />
+</BaseLayout>

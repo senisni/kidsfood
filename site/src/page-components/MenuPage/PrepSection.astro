@@ -1,0 +1,30 @@
+---
+import PaperCard from '@/components/PaperCard.astro'
+import SectionHeading from '@/components/SectionHeading.astro'
+import { typo } from '@/lib/typo'
+
+import { freezeRules, prepSteps } from './data/prep'
+---
+
+<section id="prep" class="mx-auto max-w-7xl scroll-mt-20 px-4 py-16 md:px-6">
+  <SectionHeading kicker="Около трёх часов" title="Воскресенье заготовок" text="Порядок такой, чтобы духовка, плита и руки не простаивали. Итог: 3–4 ужина почти готовы, 2 обеда в морозилке, завтраки на 4–5 дней." />
+  <ol class="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+    {
+      prepSteps.map((step, index) => (
+        <li>
+          <PaperCard backing="bg-sand" class="h-full p-5">
+            <span class="grid size-10 place-items-center rounded-full bg-protein font-display text-lg font-bold text-paper">{index + 1}</span>
+            <h3 class="mt-3 font-display text-xl font-bold">{step.title}</h3>
+            <p class="mt-1 text-base">{typo(step.text)}</p>
+          </PaperCard>
+        </li>
+      ))
+    }
+  </ol>
+  <PaperCard backing="bg-sky" wrapperClass="mt-12" class="p-6 md:p-8">
+    <h3 class="font-display text-2xl font-bold">Правила заморозки</h3>
+    <ul class="mt-3 grid gap-2 text-lg md:grid-cols-2">
+      {freezeRules.map((rule) => <li class="flex gap-2"><span aria-hidden="true">❄</span>{typo(rule)}</li>)}
+    </ul>
+  </PaperCard>
+</section>

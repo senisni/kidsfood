@@ -1,0 +1,194 @@
+[
+  {
+    "file": "menu-breakfasts-15.png",
+    "title": "Завтраки — 15 блюд",
+    "width": 1620,
+    "height": 971,
+    "mode": "RGBA",
+    "reviewed": true,
+    "alpha_range": [
+      0,
+      255
+    ],
+    "transparent_fraction": 0.35
+  },
+  {
+    "file": "menu-lunches-15.png",
+    "title": "Обеды — 15 блюд",
+    "width": 1619,
+    "height": 971,
+    "mode": "RGBA",
+    "reviewed": true,
+    "alpha_range": [
+      0,
+      255
+    ],
+    "transparent_fraction": 0.305
+  },
+  {
+    "file": "menu-dinners-15.png",
+    "title": "Ужины — 15 блюд",
+    "width": 1619,
+    "height": 971,
+    "mode": "RGBA",
+    "reviewed": true,
+    "alpha_range": [
+      0,
+      255
+    ],
+    "transparent_fraction": 0.265
+  },
+  {
+    "file": "speech-bubbles-08.png",
+    "title": "Облачка — 8 пустых",
+    "width": 1774,
+    "height": 887,
+    "mode": "RGBA",
+    "reviewed": true,
+    "alpha_range": [
+      0,
+      255
+    ],
+    "transparent_fraction": 0.544
+  },
+  {
+    "file": "plate-three-parts-large.png",
+    "title": "Тарелка из трёх частей",
+    "width": 1254,
+    "height": 1254,
+    "mode": "RGBA",
+    "reviewed": true,
+    "alpha_range": [
+      0,
+      255
+    ],
+    "transparent_fraction": 0.297,
+    "requested_canvas": [
+      2048,
+      2048
+    ],
+    "resolution_requirement_met": false
+  },
+  {
+    "file": "sun-moon-large.png",
+    "title": "Солнце и луна",
+    "width": 1774,
+    "height": 887,
+    "mode": "RGBA",
+    "reviewed": true,
+    "alpha_range": [
+      0,
+      255
+    ],
+    "transparent_fraction": 0.588,
+    "requested_canvas": [
+      3000,
+      1500
+    ],
+    "resolution_requirement_met": false
+  },
+  {
+    "file": "plate-food-large-10.png",
+    "title": "Еда для тарелки — 10 групп",
+    "width": 1774,
+    "height": 887,
+    "mode": "RGBA",
+    "reviewed": true,
+    "alpha_range": [
+      0,
+      255
+    ],
+    "transparent_fraction": 0.513,
+    "requested_canvas": [
+      3840,
+      1920
+    ],
+    "resolution_requirement_met": false
+  },
+  {
+    "file": "boy-toast-girl-doubt.png",
+    "title": "Тост и сомнение — 6 поз",
+    "width": 1536,
+    "height": 1024,
+    "mode": "RGBA",
+    "reviewed": true,
+    "alpha_range": [
+      0,
+      254
+    ],
+    "transparent_fraction": 0.695
+  },
+  {
+    "file": "heads-expressions-08.png",
+    "title": "Эмоции — 8 портретов",
+    "width": 1774,
+    "height": 887,
+    "mode": "RGBA",
+    "reviewed": true,
+    "alpha_range": [
+      0,
+      255
+    ],
+    "transparent_fraction": 0.442
+  },
+  {
+    "file": "snacks-drinks-10.png",
+    "title": "Перекусы и напитки — 10 групп",
+    "width": 1944,
+    "height": 809,
+    "mode": "RGBA",
+    "reviewed": true,
+    "alpha_range": [
+      0,
+      255
+    ],
+    "transparent_fraction": 0.499
+  },
+  {
+    "file": "lunchbox-top-large.png",
+    "title": "Пустой ланч-бокс сверху",
+    "width": 1536,
+    "height": 1024,
+    "mode": "RGBA",
+    "reviewed": true,
+    "alpha_range": [
+      0,
+      254
+    ],
+    "transparent_fraction": 0.31,
+    "requested_canvas": [
+      2400,
+      1600
+    ],
+    "resolution_requirement_met": false
+  },
+  {
+    "file": "table-top-cloth.png",
+    "title": "Бумажная скатерть",
+    "width": 1672,
+    "height": 941,
+    "mode": "RGB",
+    "reviewed": true,
+    "requested_canvas": [
+      2560,
+      1440
+    ],
+    "resolution_requirement_met": false
+  },
+  {
+    "file": "world-03-canteen-warm.png",
+    "title": "Тёплая столовая",
+    "width": 1672,
+    "height": 941,
+    "mode": "RGB",
+    "reviewed": true
+  },
+  {
+    "file": "world-05-kitchen-evening-warm.png",
+    "title": "Тёплая вечерняя кухня",
+    "width": 1672,
+    "height": 941,
+    "mode": "RGB",
+    "reviewed": true
+  }
+]

@@ -1,0 +1,38 @@
+---
+import '@/styles/global.css'
+
+import Footer from '@/components/Footer.astro'
+import Header from '@/components/Header.astro'
+
+interface Props {
+  title: string
+  description: string
+  image?: string
+}
+
+const { title, description, image = '/media/three-friends.jpg' } = Astro.props
+const canonical = new URL(Astro.url.pathname, Astro.site)
+---
+
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={new URL(image, Astro.site)} />
+    <meta name="theme-color" content="#f3ead3" />
+    <link rel="icon" href="/video/sprites/plate3-1.png" />
+    <link rel="preload" href="/shared/fonts/balsamiq-700-cyrillic.woff2" as="font" type="font/woff2" crossorigin />
+  </head>
+  <body>
+    <Header />
+    <main><slot /></main>
+    <Footer />
+  </body>
+</html>

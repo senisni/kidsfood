@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<title>Собери тарелку</title>
+<link rel="stylesheet" href="common.css?v=3">
+<style>
+  #plate { position: absolute; left: 560px; top: 112px; width: 470px; height: 470px; }
+  #plate > img { position: absolute; inset: 0; width: 100%; height: 100%; filter: drop-shadow(8px 14px 10px rgba(60,40,10,.28)); }
+  #plate svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+  .sector { fill: transparent; stroke-width: 7; transition: fill .25s; }
+  .sector.hot { fill: rgba(255,255,255,.5); }
+  .sector.wrong { fill: rgba(201,96,63,.35); }
+  .sector.hint { stroke: var(--grain); stroke-dasharray: 20 14; animation: dash 1s linear infinite; }
+  @keyframes dash { to { stroke-dashoffset: -68; } }
+  .slabel { position: absolute; transform: translate(-50%, -50%); text-align: center; font-family: Balsamiq; font-size: 26px; line-height: 1.05; opacity: .62; pointer-events: none; }
+  .check { left: 30px; top: 120px; width: 420px; padding: 14px 20px; }
+  .check h3 { margin: 0 0 10px; font-size: 26px; }
+  .check .row { display: flex; align-items: center; gap: 10px; margin: 8px 0; font-size: 22px; font-weight: 800; white-space: nowrap; }
+  .check .row img { height: 38px; }
+  .check .slots { margin-left: auto; display: flex; gap: 6px; }
+  .check .slots i { width: 28px; height: 28px; border-radius: 8px; border: 4px solid var(--c); transition: background .2s; }
+  .check .slots i.on { background: var(--c); animation: pop .35s cubic-bezier(.3,1.8,.6,1); }
+  .check small { display: block; font-size: 18px; opacity: .7; margin-top: 4px; }
+  .dessert { left: 30px; top: 410px; width: 420px; height: 172px; padding: 12px 18px; --back: #e8b8cc; }
+  .dessert h3 { margin: 0; font-size: 24px; }
+  .dessert p { margin: 2px 0 0; font-size: 19px; opacity: .8; }
+  .dessert img.dish { position: absolute; right: 16px; bottom: 12px; width: 110px; opacity: .9; }
+  .dessert.hot { box-shadow: 0 0 0 6px rgba(199,127,160,.6), var(--shadow); }
+  #hero { position: absolute; left: 1150px; top: 150px; height: 430px; z-index: 4; transition: opacity .2s; }
+  .first { position: absolute; left: 1130px; top: 120px; font-family: Balsamiq; font-size: 21px; background: var(--paper); padding: 6px 12px; border-radius: 10px; box-shadow: var(--shadow); }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div class="top">
+    <a class="btn ghost" href="index.html">← Меню</a>
+    <div class="card task"><div class="num">?</div><div id="task">Перетащи еду в <b>нужную часть</b> тарелки. Позови всех трёх друзей!</div></div>
+    <button class="btn ghost guideBtn" id="gBtn">Кто есть кто?</button>
+    <div class="round" id="round">Завтрак · 1 из 3</div>
+    <button class="btn ghost" id="reset">Заново</button>
+  </div>
+
+  <div class="card check" style="--back:#9cc9b4">
+    <h3>Нужно на тарелке</h3>
+    <div class="row" style="--c:var(--veg)"><img src="../video/sprites/pfood-1.png">Овощи и фрукты<div class="slots" data-f="0"><i></i><i></i></div></div>
+    <div class="row" style="--c:var(--grain)"><img src="../video/sprites/pfood-3.png">Крупы и хлеб<div class="slots" data-f="1"><i></i></div></div>
+    <div class="row" style="--c:var(--prot)"><img src="../video/sprites/pfood-4.png">Белок<div class="slots" data-f="2"><i></i></div></div>
+    <small>Овощей и фруктов — два: это половина тарелки</small>
+  </div>
+  <div class="card dessert" id="dessert"><h3>Десерт — иногда</h3><p>Сладкое — не друг тарелки.<br>Ему место на блюдце.</p><img class="dish" src="../video/sprites/plate3-1.png"></div>
+
+  <div id="plate">
+    <img src="../video/sprites/plate3-1.png">
+    <svg viewBox="0 0 470 470">
+      <path class="sector" data-s="0" d="M231 20 A213 213 0 0 0 231 446 Z"/>
+      <path class="sector" data-s="1" d="M239 231 L239 20 A213 213 0 0 1 452 231 Z"/>
+      <path class="sector" data-s="2" d="M239 239 L452 239 A213 213 0 0 1 239 446 Z"/>
+    </svg>
+    <div class="slabel" style="left:150px; top:235px; color:var(--veg)">Овощи<br>и фрукты</div>
+    <div class="slabel" style="left:345px; top:170px; color:var(--grain)">Крупы<br>и хлеб</div>
+    <div class="slabel" style="left:345px; top:300px; color:var(--prot)">Белок</div>
+  </div>
+  <img id="hero" src="../video/sprites/boyact-6.png" alt="">
+
+  <div class="say"><div class="face"></div><div class="txt"></div></div>
+  <div class="shelf"><div class="lbl">полка с едой</div></div>
+  <div class="win"><div class="card" style="--back:#9cc9b4"></div></div>
+</div>
+<script src="common.js?v=3"></script>
+<script>
+// Каждая еда знает своего «друга» (часть тарелки). team — массив: фасоль подходит и к белку, и к овощам.
+// hint — подсказка после ошибки; -1 — десерт.
+const F = {
+  apple: { img: "pfood-2", name: "яблоко", team: [0], hint: "яблоко — фрукт" },
+  banana: { img: "el20-1", name: "банан", team: [0], hint: "банан — фрукт" },
+  orange: { img: "el20-2", name: "апельсин", team: [0], hint: "апельсин — фрукт" },
+  pear: { img: "el20-3", name: "груша", team: [0], hint: "груша — фрукт" },
+  cucumber: { img: "pfood-1", name: "огурец", team: [0], hint: "огурец — овощ" },
+  tomato: { img: "el20-5", name: "помидор", team: [0], hint: "помидор — овощ" },
+  carrot: { img: "pfood-10", name: "морковь", team: [0], hint: "морковь — овощ" },
+  broccoli: { img: "pfood-9", name: "брокколи", team: [0], hint: "брокколи — овощ" },
+  porridge: { img: "el10-1", name: "каша", team: [1], hint: "каша — из зерна, это «Крупы и хлеб»" },
+  blini: { img: "el60-6", name: "блинчики", team: [1], hint: "блинчики пекут из муки — это «Крупы и хлеб»" },
+  buckwheat: { img: "pfood-6", name: "гречка", team: [1], hint: "гречка — крупа, это «Крупы и хлеб»" },
+  pasta: { img: "el20-9", name: "макароны", team: [1], hint: "макароны делают из муки — это «Крупы и хлеб»" },
+  bulgur: { img: "el60-3", name: "булгур", team: [1], hint: "булгур — крупа из пшеницы, это «Крупы и хлеб»" },
+  egg: { img: "pfood-4", name: "яйцо", team: [2], hint: "яйцо — белок" },
+  tvorog: { img: "pfood-5", name: "творог", team: [2], hint: "творог делают из молока — это белок" },
+  cheese: { img: "el20-10", name: "сыр", team: [2], hint: "сыр делают из молока — это белок" },
+  chicken: { img: "el50-3", name: "курица", team: [2], hint: "курица — мясо, это белок" },
+  cutlet: { img: "el50-2", name: "котлета", team: [2], hint: "котлета из мяса — это белок" },
+  nuts: { img: "el50-9", name: "орехи", team: [2], hint: "орехи — белок" },
+  beans: { img: "el50-8", name: "фасоль", team: [2, 0], hint: "фасоль — и белок, и овощ" },
+  brownie: { img: "el60-7", name: "брауни", team: [-1], hint: "это десерт" },
+};
+const ROUNDS = [
+  { title: "Завтрак", hero: "boyact-6", pre: [["porridge", 1]], intro: "Каша уже на тарелке. Кого ещё позвать?",
+    shelf: ["apple", "cheese", "banana", "blini", "egg", "cucumber", "tvorog", "brownie", "orange", "tomato"] },
+  { title: "Обед", hero: "boyact-4", pre: [], intro: "Обед в школе: собери тарелку сам!",
+    shelf: ["chicken", "pasta", "carrot", "beans", "broccoli", "cutlet", "buckwheat", "tomato", "brownie", "cucumber"] },
+  { title: "Ужин", hero: "girlact-6", pre: [], intro: "Вечером — та же тарелка. Какая часть для чего?",
+    shelf: ["bulgur", "pear", "nuts", "broccoli", "blini", "cheese", "carrot", "brownie", "egg", "orange"] },
+];
+const NEED = [2, 1, 1];
+const SPOTS = [[[165, 108], [165, 362], [72, 236]], [[300, 82], [398, 120], [300, 200]], [[300, 388], [398, 350], [400, 268]]];
+const PLATE = { x: 560, y: 112, c: 235, r: 222 };
+const NAMES = ["Овощи и фрукты", "Крупы и хлеб", "Белок"];
+
+let R = 0, st;
+function sectorAt(p) {
+  const dx = p.x - (PLATE.x + PLATE.c), dy = p.y - (PLATE.y + PLATE.c);
+  if (Math.hypot(dx, dy) > PLATE.r) return null;
+  return dx < 0 ? 0 : dy < 0 ? 1 : 2;
+}
+function inDessert(p) { return p.x > 30 && p.x < 450 && p.y > 410 && p.y < 582; }
+function hot(s) { document.querySelectorAll(".sector").forEach(el => el.classList.toggle("hot", +el.dataset.s === s)); }
+function mark(cls, s) { const el = document.querySelector(`.sector[data-s="${s}"]`); el.classList.add(cls); return el; }
+
+function start(r) {
+  R = r; const rd = ROUNDS[r];
+  stage.querySelectorAll(".item").forEach(e => e.remove());
+  document.querySelectorAll(".sector").forEach(el => el.className.baseVal = "sector");
+  hideWin();
+  st = { count: [0, 0, 0], wrong: {}, first: 0, placedKinds: 0 };
+  $("#round").textContent = `${rd.title} · ${r + 1} из 3`;
+  $("#hero").src = S(rd.hero);
+  rd.pre.forEach(([k, s]) => { const el = makeItem(stage, F[k], 0, 0); place(el, s); el.dataset.lock = 1; });
+  fillShelf(stage, rd.shelf.map(k => ({ ...F[k], key: k })), (el, it) => {
+    el.dataset.key = it.key;
+    draggable(el, {
+      onMove: (el, p) => { hot(sectorAt(p)); $("#dessert").classList.toggle("hot", inDessert(p)); },
+      onDrop: (el, p) => drop(el, F[it.key], it.key, p),
+    });
+  });
+  update();
+  say(rd.intro, rd.hero.startsWith("girl") ? "girl" : "boy");
+}
+function place(el, s) {
+  const n = st.count[s], spot = SPOTS[s][Math.min(n, 2)];
+  el.classList.add("back", "placed"); el.dataset.lock = 1;
+  el.style.left = (PLATE.x + spot[0] - 48) + "px"; el.style.top = (PLATE.y + spot[1] - 48) + "px";
+  st.count[s]++;
+}
+function drop(el, f, key, p) {
+  hot(null); $("#dessert").classList.remove("hot");
+  const s = sectorAt(p), who = ROUNDS[R].hero.startsWith("girl") ? "girl" : "boy";
+  const firstTry = !st.wrong[key];
+  // десерт
+  if (f.team[0] === -1) {
+    if (inDessert(p)) {
+      el.classList.add("back", "placed"); el.dataset.lock = 1;
+      el.style.left = (330 - (st.dess = (st.dess || 0) + 1) * 14) + "px"; el.style.top = "470px";
+      if (firstTry) st.first++;
+      sfx.plop(.8); say("Десерт — на блюдце. Иногда можно!", who, "good"); return true;
+    }
+    if (s !== null) {
+      st.wrong[key] = (st.wrong[key] || 0) + 1; mark("wrong", s); setTimeout(() => clearMarks(), 600);
+      bounceBack(el); say(`${cap(f.name)} — это десерт, не друг тарелки. Положи на блюдце «иногда» слева.`, who, "bad");
+      $("#dessert").classList.add("hot"); setTimeout(() => $("#dessert").classList.remove("hot"), 1200);
+      return true;
+    }
+    return false;
+  }
+  if (inDessert(p)) { bounceBack(el); say(`${cap(f.name)} — не десерт. Ему место на тарелке!`, who, "bad"); st.wrong[key] = (st.wrong[key] || 0) + 1; return true; }
+  if (s === null) return false;
+  if (f.team.includes(s)) {
+    if (st.count[s] >= 3) { bounceBack(el); say(`В части «${NAMES[s]}» уже тесно. Кого ещё не хватает?`, who); return true; }
+    place(el, s); if (firstTry) st.first++;
+    sfx.plop(1 + s * .12); sfx.check();
+    say(`Верно: ${f.hint}!`, who, "good");
+    clearMarks(); update();
+    return true;
+  }
+  // ошибка: первая — подумать ещё, вторая — подсказка с подсветкой нужной части
+  st.wrong[key] = (st.wrong[key] || 0) + 1;
+  mark("wrong", s); setTimeout(() => document.querySelectorAll(".sector.wrong").forEach(e => e.classList.remove("wrong")), 600);
+  bounceBack(el);
+  if (st.wrong[key] === 1) say(`Хм, ${f.name} — не «${NAMES[s]}». Подумай, какой это друг?`, who, "bad");
+  else { say(`Подсказка: ${f.hint}. Нужная часть мигает.`, who, "bad"); f.team.forEach(t => mark("hint", t)); }
+  return true;
+}
+function clearMarks() { document.querySelectorAll(".sector").forEach(el => el.className.baseVal = "sector"); }
+function update() {
+  document.querySelectorAll(".check .slots").forEach(sl => {
+    const s = +sl.dataset.f; sl.querySelectorAll("i").forEach((i, k) => i.classList.toggle("on", st.count[s] > k));
+  });
+  if (st.count.every((c, i) => c >= NEED[i])) {
+    sfx.win(); store.set("plate-" + R, true);
+    const total = ROUNDS[R].shelf.length;
+    setTimeout(() => showWin(`
+      <h2>${ROUNDS[R].title} собран!</h2>
+      <p>Все три друга на тарелке: овощей и фруктов — половина, а ещё каша или хлеб и белок.</p>
+      <p class="stars">С первой попытки: ${st.first} ${st.first === 1 ? "продукт" : "продукта"}${Object.keys(st.wrong).length ? "" : " — ни одной ошибки!"}</p>
+      ${R < 2 ? `<button class="btn green" onclick="start(${R + 1})">Дальше: ${ROUNDS[R + 1].title.toLowerCase()} →</button>` : `<p>Ты собрал завтрак, обед и ужин. Формула одна — еда разная!</p><a class="btn green" href="index.html">В меню</a>`}
+      <button class="btn ghost" onclick="hideWin()">Посмотреть тарелку</button>`), 700);
+  }
+}
+$("#reset").onclick = () => start(R);
+start(0);
+$("#gBtn").onclick = () => friendsGuide();
+</script>
+</body>
+</html>

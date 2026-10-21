@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<title>Правда или миф</title>
+<link rel="stylesheet" href="common.css?v=3">
+<style>
+  .deck { position: absolute; left: 50%; top: 130px; width: 900px; height: 400px; transform: translateX(-50%); perspective: 1600px; }
+  .flip { position: absolute; inset: 0; transition: transform .6s cubic-bezier(.3,1.3,.6,1); transform-style: preserve-3d; }
+  .flip.turn { transform: rotateY(180deg); }
+  .face2 { position: absolute; inset: 0; backface-visibility: hidden; border-radius: 22px; background: var(--paper); box-shadow: var(--shadow); padding: 36px 48px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+  .face2::before { content: ""; position: absolute; inset: 0; border-radius: 22px; background: var(--back, #e6c27a); transform: translate(-12px, 10px) rotate(-.8deg); z-index: -1; }
+  .front .q { font-family: Balsamiq; font-size: 46px; line-height: 1.15; }
+  .front img { height: 120px; margin-bottom: 14px; }
+  .backside { transform: rotateY(180deg); border: 10px solid var(--back, #e6c27a); }
+  .backside::before { display: none; }
+  .backside .v { font-family: Balsamiq; font-size: 56px; margin-bottom: 10px; }
+  .backside .v.true { color: var(--veg); } .backside .v.myth { color: var(--prot); }
+  .backside .ex { font-size: 30px; font-weight: 800; line-height: 1.25; }
+  .backside .you { margin-top: 14px; font-family: Balsamiq; font-size: 26px; }
+  .answers { position: absolute; left: 50%; top: 600px; transform: translateX(-50%); display: flex; gap: 30px; }
+  .answers .btn { font-size: 40px; padding: 18px 50px; min-width: 300px; }
+  .dots { position: absolute; left: 50%; top: 560px; transform: translateX(-50%); display: flex; gap: 10px; }
+  .dots i { width: 22px; height: 22px; border-radius: 50%; background: var(--cream2); }
+  .dots i.r { background: var(--veg); } .dots i.w { background: var(--prot); } .dots i.cur { box-shadow: 0 0 0 4px var(--grain); }
+  .kids { position: absolute; bottom: 0; height: 250px; }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div class="top">
+    <a class="btn ghost" href="index.html">← Меню</a>
+    <div class="card task" style="--back:#e6c27a"><div class="num">?</div><div>Это <b>правда</b> или <b>миф</b>? Подумай — карточка перевернётся и объяснит.</div></div>
+    <div class="round" id="round">1 из 10</div>
+  </div>
+  <img class="kids" src="../video/sprites/boyact-6.png" style="left:40px">
+  <img class="kids" src="../video/sprites/girlact-1.png" style="right:40px">
+  <div class="deck"><div class="flip" id="flip">
+    <div class="face2 front"><img id="qimg"><div class="q" id="q"></div></div>
+    <div class="face2 backside"><div class="v" id="v"></div><div class="ex" id="ex"></div><div class="you" id="you"></div></div>
+  </div></div>
+  <div class="dots" id="dots"></div>
+  <div class="answers" id="answers">
+    <button class="btn green" data-a="1">Правда</button>
+    <button class="btn" data-a="0">Миф</button>
+  </div>
+  <div class="win"><div class="card" style="--back:#e6c27a"></div></div>
+</div>
+<script src="common.js?v=3"></script>
+<script>
+// Тезисы — из docs/FACT-CHECK.md. Спорное (картошка — овощ?) сюда не берём.
+const CARDS = [
+  { q: "Утром нужно есть только углеводы, а вечером — только белок.", t: false, img: "sunmoon-1", ex: "Такого правила нет. На каждой тарелке — три друга: и утром, и вечером." },
+  { q: "Овощи и фрукты — это половина тарелки.", t: true, img: "pfood-1", ex: "Да! Половина тарелки — овощи и фрукты, остальное — крупы и хлеб и белок." },
+  { q: "Клетчатка есть в мясе и в яйцах.", t: false, img: "pfood-4", ex: "Нет. Клетчатка бывает только в растениях: в овощах, фруктах, крупах, хлебе, фасоли." },
+  { q: "Сок — это то же самое, что целый фрукт.", t: false, img: "el20-2", ex: "Не совсем. В целом фрукте есть клетчатка и он дольше насыщает. Сок — иногда." },
+  { q: "Если наелся, доедать необязательно.", t: true, img: "girlact-4", ex: "Правда. Живот подсказывает, когда хватит. Остальное можно оставить." },
+  { q: "Белок нужен только вечером.", t: false, img: "pfood-5", ex: "Нет. Белок нужен в течение всего дня: яйцо или творог на завтрак — отлично." },
+  { q: "Сладкое — это яд, его нельзя никогда.", t: false, img: "el60-7", ex: "Нет. Сладкое — иногда, понемногу, после основной еды. Без запретов." },
+  { q: "Когда хочется пить, лучше всего вода.", t: true, img: "el10-6", ex: "Правда. Вода утоляет жажду и подходит всегда." },
+  { q: "В животе живут полезные микробы.", t: true, img: "mic-2", ex: "Правда! Их триллионы. Клетчатка — их любимая еда." },
+  { q: "Чем больше съешь, тем сильнее станешь.", t: false, img: "boyact-3", ex: "Нет. Силы дают разные друзья на тарелке, а не много еды. Ешь, пока не наелся." },
+];
+let I = 0, st;
+function start() { I = 0; st = { right: 0, res: [] }; hideWin(); show(); }
+function show() {
+  const c = CARDS[I];
+  $("#flip").classList.remove("turn");
+  setTimeout(() => { $("#q").textContent = c.q; $("#qimg").src = S(c.img); }, I ? 300 : 0);
+  $("#round").textContent = `${I + 1} из ${CARDS.length}`;
+  $("#dots").innerHTML = CARDS.map((_, i) => `<i class="${st.res[i] === true ? "r" : st.res[i] === false ? "w" : ""} ${i === I ? "cur" : ""}"></i>`).join("");
+  $("#answers").innerHTML = `<button class="btn green" data-a="1">Правда</button><button class="btn" data-a="0">Миф</button>`;
+}
+$("#answers").addEventListener("click", e => {
+  const b = e.target.closest("button"); if (!b) return; audio();
+  if (b.dataset.next) { I++; if (I < CARDS.length) show(); else finish(); return; }
+  const c = CARDS[I], ans = b.dataset.a === "1", ok = ans === c.t;
+  st.res[I] = ok; if (ok) st.right++;
+  $("#v").textContent = c.t ? "Правда" : "Миф"; $("#v").className = "v " + (c.t ? "true" : "myth");
+  $("#ex").textContent = c.ex;
+  $("#you").textContent = ok ? "Ты угадал!" : "Ты ответил иначе — зато теперь знаешь.";
+  $("#flip").classList.add("turn"); sfx.flip(); ok ? sfx.check() : sfx.nope();
+  $("#answers").innerHTML = `<button class="btn green" data-next="1">${I < CARDS.length - 1 ? "Следующая →" : "Итог"}</button>`;
+  show.dots && 0;
+  $("#dots").innerHTML = CARDS.map((_, i) => `<i class="${st.res[i] === true ? "r" : st.res[i] === false ? "w" : ""} ${i === I ? "cur" : ""}"></i>`).join("");
+});
+function finish() {
+  sfx.win(); store.set("myths", true);
+  showWin(`<h2>Карточки пройдены!</h2><p class="stars">Угадано: ${st.right} из ${CARDS.length}</p>
+    <p>Главное: на каждой тарелке три друга, клетчатка — только в растениях, вода — лучший напиток, а живот подскажет, когда хватит.</p>
+    <button class="btn green" onclick="start()">Ещё раз</button> <a class="btn ghost" href="index.html">В меню</a>`);
+}
+start();
+</script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+---
+import Sprite from '@/components/Sprite.astro'
+import { nav } from '@/data/nav'
+---
+
+<header class="sticky top-0 z-sticky border-b-4 border-cream-deep bg-cream/90 backdrop-blur">
+  <div class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-2 md:px-6">
+    <a href="/" class="flex items-center gap-2 font-display text-xl font-bold md:text-2xl">
+      <Sprite name="plate3-1" alt="" class="size-10 drop-shadow-none" eager />
+      Три друга
+    </a>
+    <nav aria-label="Разделы" class="hidden gap-1 lg:flex">
+      {nav.map((item) => <a href={item.href} class="rounded-xl px-3 py-2 font-display text-lg font-bold transition hover:bg-paper">{item.label}</a>)}
+    </nav>
+    <details class="relative lg:hidden">
+      <summary class="cursor-pointer list-none rounded-xl bg-paper px-4 py-2 font-display font-bold shadow-paper">Меню</summary>
+      <nav aria-label="Разделы" class="absolute right-0 mt-2 flex w-56 flex-col rounded-2xl bg-paper p-2 shadow-paper-lg">
+        {nav.map((item) => <a href={item.href} class="rounded-xl px-3 py-2 font-display text-lg font-bold hover:bg-cream">{item.label}</a>)}
+      </nav>
+    </details>
+  </div>
+</header>

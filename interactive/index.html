@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<title>Три друга на тарелке — игры</title>
+<link rel="stylesheet" href="common.css?v=3">
+<style>
+  .title { position: absolute; left: 0; right: 0; top: 34px; text-align: center; font-size: 84px; margin: 0; }
+  .title span { display: inline-block; text-shadow: -4px -4px 0 var(--paper), 4px -4px 0 var(--paper), -4px 4px 0 var(--paper), 4px 4px 0 var(--paper), 8px 12px 10px rgba(60,40,10,.25); animation: drop .6s backwards cubic-bezier(.3,1.6,.6,1); }
+  @keyframes drop { from { transform: translateY(-200px) rotate(-20deg); opacity: 0; } }
+  .sub { position: absolute; top: 140px; width: 100%; text-align: center; font-size: 28px; font-weight: 800; }
+  .games { position: absolute; left: 60px; right: 60px; top: 200px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px 30px; }
+  .game { position: relative; height: 300px; min-width: 0; padding: 18px 22px; text-decoration: none; color: var(--ink); transition: transform .2s; overflow: visible; }
+  .game:hover { transform: rotate(-1deg) translateY(-5px); }
+  .game h2 { margin: 0; font-size: 29px; }
+  .game p { margin: 6px 0 0; font-size: 20px; line-height: 1.2; }
+  .game .pic { position: absolute; right: 12px; bottom: 10px; display: flex; align-items: flex-end; gap: 4px; }
+  .game .pic img { height: 120px; }
+  .game .n { position: absolute; left: 22px; bottom: 16px; width: 46px; height: 46px; border-radius: 50%; background: var(--back); display: grid; place-items: center; font-family: Balsamiq; font-size: 26px; color: var(--paper); }
+  .game .done { position: absolute; right: 18px; top: 16px; font-family: Balsamiq; font-size: 19px; color: var(--paper); background: var(--veg); padding: 4px 12px; border-radius: 10px; display: none; }
+  .game.isdone .done { display: block; }
+  .grown { position: absolute; left: 60px; bottom: 26px; font-size: 22px; opacity: .8; cursor: pointer; text-decoration: underline; }
+  #grown .card { left: 120px; right: 120px; top: 60px; bottom: 60px; padding: 34px 54px; overflow: auto; font-size: 24px; line-height: 1.35; text-align: left; }
+  #grown h2 { margin-top: 0; }
+  #grown a { color: var(--water); }
+</style>
+</head>
+<body>
+<div id="stage">
+  <h1 class="title" id="title"></h1>
+  <div class="sub">Позови на тарелку трёх друзей — и сил хватит на весь день</div>
+  <div class="games">
+    <a class="card game" href="plate.html" data-k="plate-2" style="--back:#9cc9b4"><h2>Собери тарелку</h2><p>Завтрак, обед и ужин. Кто в какую часть?</p><div class="pic"><img src="../video/sprites/plate3-1.png" style="height:110px"><img src="../video/sprites/boy-5.png" style="height:150px"></div><div class="n">1</div><div class="done">пройдено</div></a>
+    <a class="card game" href="fiber.html" data-k="fiber" style="--back:#8fb08a"><h2>Паровозик и сад</h2><p>Где есть клетчатка, а где нет?</p><div class="pic"><img src="../video/sprites/mic-2.png"><img src="../video/sprites/girlact-5.png" style="height:150px"></div><div class="n">2</div><div class="done">пройдено</div></a>
+    <a class="card game" href="lunchbox.html" data-k="lunch-2" style="--back:#f0b9b0"><h2>Ланч-бокс для друга</h2><p>Собери обед в школу по заказу.</p><div class="pic"><img src="../video/sprites/lbox-1.png" style="height:100px"><img src="../video/sprites/classgirl-4.png" style="height:150px"></div><div class="n">3</div><div class="done">пройдено</div></a>
+    <a class="card game" href="dishes.html" data-k="dishes" style="--back:#e6c27a"><h2>Что в блюде?</h2><p>Найди друзей в плове, супе и блинчиках.</p><div class="pic"><img src="../video/sprites/el60-8.png" style="height:110px"><img src="../video/sprites/cook-2.png" style="height:150px"></div><div class="n">4</div><div class="done">пройдено</div></a>
+    <a class="card game" href="myths.html" data-k="myths" style="--back:#c9a7d8"><h2>Правда или миф</h2><p>10 карточек: что верно о еде?</p><div class="pic"><img src="../video/sprites/girlact-1.png" style="height:150px"></div><div class="n">5</div><div class="done">пройдено</div></a>
+    <a class="card game" href="tummy.html" data-k="tummy" style="--back:#e8b8cc"><h2>Что говорит живот?</h2><p>Голоден, сыт, хочется пить — как поступить?</p><div class="pic"><img src="../video/sprites/boyact-5.png" style="height:150px"></div><div class="n">6</div><div class="done">пройдено</div></a>
+    <a class="card game" href="snack.html" data-k="snack-3" style="--back:#f3c98b"><h2>Собери перекус</h2><p>Фрукт + ещё один друг. И попить.</p><div class="pic"><img src="../video/sprites/snack-3.png" style="height:90px"><img src="../video/sprites/el10-3.png" style="height:80px"><img src="../video/sprites/toast-1.png" style="height:150px"></div><div class="n">7</div><div class="done">пройдено</div></a>
+  </div>
+  <a id="toSite" href="/" class="grown" style="left:auto; right:60px; display:none; color:inherit">← На сайт</a>
+  <div class="grown" onclick="document.getElementById('grown').classList.add('on')">Для взрослых</div>
+  <div class="win" id="grown"><div class="card" style="--back:#9cc9b4">
+    <button class="btn ghost" style="float:right" onclick="document.getElementById('grown').classList.remove('on')">Закрыть</button>
+    <h2>Для взрослых</h2>
+    <p><b>Главная мысль:</b> «Позови на тарелку трёх друзей» — овощи и фрукты (половина), крупы и хлеб, белок. Та же формула, что у Canada's Food Guide, MyPlate и Гарвардской тарелки. Деления продуктов на «утренние» и «вечерние» в рекомендациях нет.</p>
+    <p><b>Ошибаться можно.</b> Ребёнок сам решает, куда положить еду. Ошибка — это подсказка: продукт возвращается, герой объясняет, после второй попытки нужное место подсвечивается. Еду не делим на хорошую и плохую: сладкое — «иногда», без запрета.</p>
+    <p><b>Сколько есть — решает ребёнок.</b> Взрослый решает, что, когда и где предложить; ребёнок — есть ли и сколько (Эллин Саттер, AAP).</p>
+    <p><b>Клетчатка</b> есть только в растениях. Она помогает пище двигаться по кишечнику и служит пищей полезным микробам. Формулу «выводит токсины» мы не используем: доказательств нет. Ориентир для взрослых (SACN): около 20 г в день в 5–11 лет, 25 г в 11–16 лет — ребёнку считать не нужно.</p>
+    <p><b>Спорное:</b> картофель в MyPlate считается крахмалистым овощем, у Гарварда — нет. В играх он относится к «Крупам и хлебу» как гарнир. Фасоль принимается и как белок, и как овощ.</p>
+    <p>Подробно — <code>docs/FACT-CHECK.md</code>. Источники: <a href="https://food-guide.canada.ca/" target="_blank">Canada's Food Guide</a> · <a href="https://www.myplate.gov/" target="_blank">MyPlate</a> · <a href="https://nutritionsource.hsph.harvard.edu/healthy-eating-plate/" target="_blank">Harvard</a> · <a href="https://www.who.int/news-room/fact-sheets/detail/healthy-diet" target="_blank">ВОЗ</a> · <a href="https://www.healthychildren.org/English/healthy-living/nutrition/Pages/Kids-Need-Fiber-Heres-Why-and-How.aspx" target="_blank">AAP: клетчатка</a> · <a href="https://www.ellynsatterinstitute.org/how-to-feed/the-division-of-responsibility-in-feeding/" target="_blank">Ellyn Satter</a></p>
+  </div></div>
+</div>
+<script src="common.js?v=3"></script>
+<script>
+const t = $("#title"), colors = ["#c9603f", "#c98f1f", "#2f6b4a", "#3f8f86"];
+[..."Три друга на тарелке"].forEach((ch, i) => {
+  const s = document.createElement("span"); s.textContent = ch === " " ? " " : ch;
+  s.style.color = colors[i % 4]; s.style.animationDelay = (i * .04) + "s"; s.style.transform = `rotate(${(Math.random() - .5) * 8}deg)`; t.appendChild(s);
+});
+document.querySelectorAll(".game").forEach(g => g.classList.toggle("isdone", !!store.get(g.dataset.k)));
+// на сайте игры лежат в /games/ — показываем ссылку на главную
+if (location.pathname.startsWith("/games/")) document.getElementById("toSite").style.display = "block";
+</script>
+</body>
+</html>

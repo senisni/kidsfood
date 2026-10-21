@@ -1,0 +1,29 @@
+---
+// Реплика героя: бумажный лист на подложке цвета героя, с лицом и хвостиком
+import { twMerge } from 'tailwind-merge'
+
+import Sprite from '@/components/Sprite.astro'
+import { speakerFace, type Phrase } from '@/data/phrases'
+import { typo } from '@/lib/typo'
+
+interface Props {
+  phrase: Phrase
+  face?: boolean
+  tail?: 'left' | 'right' | 'down'
+  class?: string
+  [key: string]: unknown
+}
+
+const { phrase, face = false, tail = 'down', class: className, ...rest } = Astro.props
+const backing = phrase.who === 'girl' ? 'bg-pink' : 'bg-mint'
+const tailPos = { left: '-left-3 top-1/2 -translate-y-1/2 rotate-90', right: '-right-3 top-1/2 -translate-y-1/2 -rotate-90', down: 'left-8 -bottom-3' }[tail]
+---
+
+<div class:list={[twMerge('flex items-center gap-3', className)]} {...rest}>
+  {face && <Sprite name={speakerFace[phrase.who]} alt="" class:list={['size-14 shrink-0 rounded-full border-4 bg-paper object-cover object-top', phrase.who === 'girl' ? 'border-pink' : 'border-mint']} />}
+  <p class="relative isolate rounded-3xl bg-paper px-5 py-3 font-display text-lg leading-snug font-bold shadow-paper md:text-xl">
+    <span aria-hidden="true" class:list={['absolute inset-0 -z-10 -translate-x-2 translate-y-2 -rotate-1 rounded-3xl', backing]}></span>
+    <span aria-hidden="true" class:list={['absolute size-0 border-x-[0.6rem] border-t-[0.9rem] border-x-transparent border-t-paper', tailPos]}></span>
+    {typo(phrase.text)}
+  </p>
+</div>

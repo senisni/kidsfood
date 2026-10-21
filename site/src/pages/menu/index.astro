@@ -1,0 +1,29 @@
+---
+import PaperTitle from '@/components/PaperTitle.astro'
+import Plate from '@/components/Plate.astro'
+import type { Dish } from '@/components/DishCard.astro'
+import menu from '@/data/menu.json'
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import { meals } from '@/page-components/MenuPage/data/prep'
+import MealSection from '@/page-components/MenuPage/MealSection.astro'
+import PrepSection from '@/page-components/MenuPage/PrepSection.astro'
+import { typo } from '@/lib/typo'
+
+const dishes = menu as Dish[]
+---
+
+<BaseLayout title="Семейное меню: 45 блюд по формуле трёх друзей" description="15 завтраков, 15 обедов и 15 ужинов для семьи с детьми: что заготовить, что заморозить и как быстро приготовить." image="/menu/B01.webp">
+  <section class="mx-auto grid max-w-7xl items-center gap-8 px-4 pt-12 pb-6 md:grid-cols-[1.3fr_1fr] md:px-6">
+    <div>
+      <PaperTitle text="Меню для семьи" class="text-5xl md:text-6xl" />
+      <p class="mt-5 max-w-2xl text-xl leading-relaxed">{typo('На четверых: двое взрослых и двое детей 10–11 лет. Каждое блюдо — три друга. Порции не считаем: детям — сколько хотят, добавка — пожалуйста.')}</p>
+      <nav aria-label="Разделы меню" class="mt-6 flex flex-wrap gap-3">
+        {meals.map((meal) => <a href={`#${meal.anchor}`} class="rounded-2xl bg-paper px-5 py-2 font-display text-lg font-bold shadow-paper hover:-translate-y-0.5">{meal.title}</a>)}
+        <a href="#prep" class="rounded-2xl bg-veg px-5 py-2 font-display text-lg font-bold text-paper shadow-paper hover:-translate-y-0.5">Заготовки</a>
+      </nav>
+    </div>
+    <Plate veg={['tomato', 'cucumber']} grain={['buckwheat']} protein={['egg']} class="mx-auto w-full max-w-xs" />
+  </section>
+  {meals.map((meal) => <MealSection anchor={meal.anchor} title={meal.title} text={meal.text} dishes={dishes.filter((dish) => dish.meal === meal.id)} />)}
+  <PrepSection />
+</BaseLayout>
