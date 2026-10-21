@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url'
 import sharp from 'sharp'
 import { games } from '../src/data/games.ts'
 import { videos } from '../src/data/videos.ts'
+import { metrikaSnippet } from '../src/data/metrika.ts'
 import { execFileSync } from 'node:child_process'
 
 const site = join(dirname(fileURLToPath(import.meta.url)), '..')
@@ -53,7 +54,7 @@ for (const name of await readdir(join(root, 'interactive'))) {
   const schema = game ? { '@context': 'https://schema.org', '@type': 'VideoGame', name: game.title, description, url: canonical, inLanguage: 'ru', genre: 'Обучающая игра', gamePlatform: 'Веб-браузер', isAccessibleForFree: true, image: `${siteUrl}/video/sprites/${game.sprites[0]}.png` } : null
   let html = await readFile(source, 'utf8')
   html = html.replace(/<title>[\s\S]*?<\/title>/i, `<title>${escapeHtml(title)}</title>`)
-  html = html.replace('</head>', `<meta name="description" content="${escapeHtml(description)}"><link rel="canonical" href="${canonical}"><meta name="robots" content="index,follow,max-image-preview:large"><meta property="og:type" content="website"><meta property="og:locale" content="ru_RU"><meta property="og:site_name" content="Три друга на тарелке"><meta property="og:title" content="${escapeHtml(title)}"><meta property="og:description" content="${escapeHtml(description)}"><meta property="og:url" content="${canonical}"><meta property="og:image" content="${siteUrl}/img/social.jpg"><meta name="twitter:card" content="summary_large_image">${schema ? `<script type="application/ld+json">${JSON.stringify(schema).replace(/</g, '\\u003c')}</script>` : ''}</head>`)
+  html = html.replace('</head>', `<meta name="description" content="${escapeHtml(description)}"><link rel="canonical" href="${canonical}"><meta name="robots" content="index,follow,max-image-preview:large"><meta property="og:type" content="website"><meta property="og:locale" content="ru_RU"><meta property="og:site_name" content="Три друга на тарелке"><meta property="og:title" content="${escapeHtml(title)}"><meta property="og:description" content="${escapeHtml(description)}"><meta property="og:url" content="${canonical}"><meta property="og:image" content="${siteUrl}/img/social.jpg"><meta name="twitter:card" content="summary_large_image">${schema ? `<script type="application/ld+json">${JSON.stringify(schema).replace(/</g, '\\u003c')}</script>` : ''}${metrikaSnippet}</head>`)
   html = html.replace('</body>', '<noscript><p>Для игры нужен JavaScript. Можно <a href="/multfilmy/">посмотреть мультфильм</a> или открыть <a href="/menu/">семейное меню</a>.</p></noscript></body>')
   await writeFile(target, html)
 }

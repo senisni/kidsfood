@@ -2,6 +2,7 @@
 import '@/styles/global.css'
 import Footer from '@/components/Footer.astro'
 import Header from '@/components/Header.astro'
+import { metrikaSnippet } from '@/data/metrika'
 import { absoluteUrl, serializeSchema, siteName, siteUrl } from '@/lib/seo'
 
 interface Props {
@@ -45,6 +46,7 @@ const graph = [
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="preload" href="/shared/fonts/nunito-900-cyrillic.woff2" as="font" type="font/woff2" crossorigin />
     <script type="application/ld+json" set:html={serializeSchema({ '@context': 'https://schema.org', '@graph': graph })} />
+    <Fragment set:html={metrikaSnippet} />
   </head>
   <body>
     <a href="#content" class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-modal focus:rounded-xl focus:bg-paper focus:px-5 focus:py-3">К содержимому</a>
