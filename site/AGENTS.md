@@ -62,7 +62,7 @@ scripts/sync-assets.mjs
 
 ## Правила кода (из общего гайда)
 
-- Шрифты: заголовки — Nunito 900 (`font-display font-black`), текст — Nunito, реплики героев — Balsamiq (`font-hand`).
+- Шрифты: заголовки — Rubik 800 (`font-display`), текст — Nunito, реплики героев — Balsamiq (`font-hand`). Все — из `shared/fonts`, лицензия OFL.
 - Компоненты `.astro`; принимают `class`, прокидывают `...rest`, классы сливают через `twMerge`:
 
 ```astro

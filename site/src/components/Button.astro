@@ -9,11 +9,14 @@ interface Props {
   size?: 'md' | 'sm'
   icon?: IconName
   arrow?: boolean
+  iconCircle?: boolean
   class?: string
   [key: string]: unknown
 }
 
-const { href, variant = 'primary', size = 'md', icon, arrow = false, class: className, ...rest } = Astro.props
+const { href, variant = 'primary', size = 'md', icon, arrow = false, iconCircle = false, class: className, ...rest } = Astro.props
+// iconCircle — иконка в светлом кружке, как на первом экране
+const circleTone = { primary: 'text-terracotta', green: 'text-forest', paper: 'text-paper bg-forest' }[variant]
 const tone = {
   primary: 'bg-terracotta text-paper shadow-[0_0.25rem_0_#97401f]',
   green: 'bg-forest text-paper shadow-[0_0.25rem_0_#1f4a33]',
@@ -27,7 +30,7 @@ const scale = size === 'md' ? 'gap-[0.7rem] px-[1.6rem] py-[0.85rem] text-[1.15r
   class:list={[twMerge('inline-flex items-center justify-center rounded-full font-display font-extrabold transition hover:-translate-y-0.5 active:translate-y-0.5 active:shadow-none', tone, scale, className)]}
   {...rest}
 >
-  {icon && <Icon name={icon} />}
+  {icon && (iconCircle ? <span class:list={['-ml-[0.6rem] grid size-[2rem] place-items-center rounded-full bg-paper', circleTone]}><Icon name={icon} class="size-[1.05rem]" /></span> : <Icon name={icon} />)}
   <slot />
   {arrow && <Icon name="arrow" class="transition group-hover:translate-x-1" />}
 </a>
