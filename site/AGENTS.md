@@ -9,6 +9,16 @@
 - `tailwind-merge` для слияния классов в компонентах.
 - Новых зависимостей не добавлять ради того, что пишется десятком строк.
 
+## Публикация
+
+https://kidsfood.insines.ru. Push в `main` собирает и выкладывает сайт сам (`../.github/workflows/deploy.yml`), подробно — в `../README.md`. Перед push: `npm run build` и `npx astro check` без ошибок.
+
+Видео для сайта — веб-версии в `../video/out/web/` (1280 px, 30 fps, CRF 26, `+faststart`) с постером `.jpg`:
+
+```bash
+ffmpeg -i ../video/out/film-v5.mp4 -vf "scale=1280:-2,fps=30" -c:v libx264 -preset slow -crf 26 -pix_fmt yuv420p -c:a aac -b:a 128k -movflags +faststart ../video/out/web/three-friends.mp4
+```
+
 ## Структура
 
 ```text

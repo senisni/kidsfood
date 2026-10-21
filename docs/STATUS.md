@@ -56,7 +56,7 @@
 
 31. «Каша и хлеб» → **«Крупы и хлеб»** везде (игры, меню, фильм, эпизоды, документы) — **сделано**. Карточки меню перевыгружены; ролики: `film-v5.mp4`, `ep-fiber-v4.mp4`, `ep-dinner-v3.mp4`.
 
-32. Сайт `site/` (Astro 7 + Tailwind 4) — **собран**: лендинг (первый экран, три друга, мультфильмы, 7 игр, меню, родителям), страница `/menu/` на 45 блюд. Всё повторяющееся — компоненты (`Sprite`, `Food`, `Plate`, `SpeechBubble`, `PaperCard`, `FriendCard`, `VideoCard`, `GameCard`, `DishCard`…) и данные в `site/src/data/`. Ассеты собирает `npm run sync`. Не выложен в интернет — ждёт выбора хостинга.
+32. Сайт `site/` (Astro 7 + Tailwind 4) — **собран**: лендинг (первый экран, три друга, мультфильмы, 7 игр, меню, родителям), страница `/menu/` на 45 блюд. Всё повторяющееся — компоненты (`Sprite`, `Food`, `Plate`, `SpeechBubble`, `PaperCard`, `FriendCard`, `VideoCard`, `GameCard`, `DishCard`…) и данные в `site/src/data/`. Ассеты собирает `npm run sync`. Опубликован: https://kidsfood.insines.ru (21.10). Репозиторий `senisni/kidsfood`, автодеплой по push в `main`, Caddy — `senisni/caddy-config`, карточка в дашборде `insines-dashboard`.
 
 ## Дальше (после ответа пользователя)
 

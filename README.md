@@ -24,7 +24,14 @@ cd site && npm install && npm run dev
 
 `npm run build` → готовый статический сайт в `site/dist/` (≈30 МБ).
 
-**Публикация:** https://kidsfood.insines.ru — сервер `coopertino`, Caddy из репозитория `senisni/caddy-config`. Push в `main` собирает сайт в GitHub Actions (`.github/workflows/deploy.yml`) и атомарно публикует в `/home/insines/kidsfood/web/current` (симлинк на релиз, хранятся три последних). Деплой включается переменной репозитория `DEPLOY_ENABLED=true`.
+**Публикация:** https://kidsfood.insines.ru
+
+- Сервер `coopertino`, Caddy из `senisni/caddy-config` (`sites/public/kidsfood.caddy`).
+- **Push в `main` → прод обновляется сам.** GitHub Actions (`.github/workflows/deploy.yml`): `npm ci` → `astro check` → `npm run build` (с синхронизацией ассетов) → rsync в `~/kidsfood/web/staging` → атомарное переключение симлинка `~/kidsfood/web/current` на новый релиз → smoke-проверка `https://kidsfood.insines.ru/`. Хранятся три последних релиза.
+- Если сборка не изменилась, релиз не создаётся.
+- Выключатель: переменная репозитория `DEPLOY_ENABLED` (сейчас `true`). Ключ деплоя — секрет `SSH_PRIVATE_KEY` (на сервере в `authorized_keys` с комментарием `kidsfood-deploy@github-actions`).
+- Откат: на сервере `cd ~/kidsfood/web && ls releases` и `ln -sfn releases/<id> current.tmp && mv -Tf current.tmp current`.
+- Что попадает на сайт: всё, что собирает `site/scripts/sync-assets.mjs` из `interactive/`, `video/sprites/`, `video/out/web/`, `docs/menu/`, `shared/fonts/`. Новые ролики для сайта — перекодировать в `video/out/web/` (см. `site/AGENTS.md`).
 
 ## Папки
 
