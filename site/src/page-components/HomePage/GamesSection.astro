@@ -1,25 +1,29 @@
 ---
 import GameCard from '@/components/GameCard.astro'
 import KitImage from '@/components/KitImage.astro'
-import Scene from '@/components/Scene.astro'
 import { games } from '@/data/games'
 import { typo } from '@/lib/typo'
 
-// standalone — отдельная страница /igry/: заголовок h1 и край к подвалу
+// standalone — отдельная страница /igry/: заголовок h1
 interface Props { standalone?: boolean }
 const { standalone = false } = Astro.props
 const Heading = standalone ? 'h1' : 'h2'
+const [first, ...others] = games
 ---
-<Scene id="games" background="games-garden" fill="bg-sage" position="object-top" aria-labelledby="games-title" class="scroll-mt-[5rem] pt-[3rem] pb-[5rem] sm:pt-[3.6rem] sm:pb-[6rem]">
-  <div class="shell relative">
-    <KitImage name="girl-thinking" sizes="(min-width: 640px) 16rem, 9rem" alt="" class="absolute -top-[1.5rem] right-0 w-[7.5rem] sm:-top-[2.2rem] sm:right-[2%] sm:w-[13rem]" />
-    <Heading id="games-title" class="max-w-[70%] font-display text-[2.5rem] leading-[1] font-black text-forest-deep sm:text-[3.3rem]">{standalone ? 'Игры о еде для детей' : 'Пробуем сами'}</Heading>
-    <p class="mt-[0.7rem] max-w-[60%] text-[1.1rem] font-extrabold text-forest-deep/85 sm:max-w-[34rem]">{typo('Ошибаться можно — герои подскажут. Семь бесплатных игр без регистрации.')}</p>
-    <p class="mt-[0.4rem] max-w-[60%] text-[0.9rem] text-ink/70 sm:max-w-none">{typo('На телефоне удобнее играть, повернув экран горизонтально.')}</p>
-    <KitImage name="path-dots" sizes="70rem" alt="" class="pointer-events-none absolute inset-x-0 top-[15rem] hidden w-full opacity-90 lg:block" />
-    <KitImage name="path-dots" sizes="70rem" alt="" class="pointer-events-none absolute inset-x-0 top-[33rem] hidden w-full -scale-x-100 opacity-90 lg:block" />
-    <ul class="relative mt-[2.2rem] flex flex-wrap justify-center gap-x-[0.8rem] gap-y-[1.4rem] sm:gap-x-[1.4rem] sm:gap-y-[1.8rem]">
-      {games.map((game, index) => <li class="flex w-[calc(50%-0.4rem)] sm:w-[13.5rem] lg:w-[15.5rem]"><GameCard game={game} number={index + 1} class="w-full" /></li>)}
-    </ul>
+<section id="games" aria-labelledby="games-title" class="relative scroll-mt-[5rem] overflow-hidden bg-cream py-[3rem] sm:py-[4rem]">
+  <div aria-hidden="true" class="stage">
+    <KitImage name="foliage-right" sizes="16rem" class="absolute -top-[2rem] -right-[2.5rem] w-[8rem] -scale-y-100 sm:w-[12rem]" />
+    <KitImage name="foliage-left" sizes="16rem" class="absolute -bottom-[2rem] -left-[2.5rem] w-[8rem] sm:w-[12rem]" />
   </div>
-</Scene>
+  <div class="shell relative">
+    <div class="flex flex-wrap items-end justify-between gap-x-[2rem] gap-y-[0.6rem]">
+      <Heading id="games-title" class="font-display text-[2.5rem] leading-[1] font-black text-forest-deep sm:text-[3.3rem]">{standalone ? 'Игры о еде для детей' : 'Пробуем сами'}</Heading>
+      <p class="relative -rotate-[3deg] pr-[2.4rem] font-hand text-[1.25rem] leading-snug text-forest-deep sm:text-[1.4rem]">{typo('Ошибаться можно — герои подскажут')}<span aria-hidden="true" class="absolute top-1/2 right-0 flex -translate-y-1/2 flex-col gap-[0.3rem]"><span class="block h-[0.3rem] w-[1.6rem] -rotate-[20deg] rounded-full bg-sand"></span><span class="block h-[0.3rem] w-[1.8rem] rounded-full bg-sand"></span><span class="block h-[0.3rem] w-[1.6rem] rotate-[20deg] rounded-full bg-sand"></span></span></p>
+    </div>
+    <p class="mt-[0.5rem] max-w-[40rem] text-[0.95rem] text-ink/70">{typo('Семь бесплатных игр без регистрации. На телефоне удобнее играть, повернув экран горизонтально.')}</p>
+    <div class="mt-[1.8rem] grid grid-cols-2 gap-[0.8rem] sm:grid-cols-3 sm:gap-[1.2rem] lg:grid-cols-[1.35fr_1fr_1fr_1fr]">
+      <GameCard game={first} featured class="col-span-2 sm:col-span-3 lg:col-span-1 lg:row-span-2" />
+      <ul class="contents">{others.map((game) => <li class="flex"><GameCard game={game} class="w-full" /></li>)}</ul>
+    </div>
+  </div>
+</section>

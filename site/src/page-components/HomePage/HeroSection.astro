@@ -2,14 +2,20 @@
 import Button from '@/components/Button.astro'
 import KitImage from '@/components/KitImage.astro'
 import Scene from '@/components/Scene.astro'
-import SpeechBubble from '@/components/SpeechBubble.astro'
-import { phrases } from '@/data/phrases'
+import { friends } from '@/data/friends'
+
+// парящие значки трёх друзей вокруг тарелки: место и глубина параллакса
+const floaters = [
+  { id: friends[0].id, place: 'top-[8%] left-[6%] w-[4.6rem]', depth: 26, delay: '[animation-delay:-0.4s]' },
+  { id: friends[1].id, place: 'top-[2%] right-[30%] w-[3.8rem]', depth: 34, delay: '[animation-delay:-1.6s]' },
+  { id: friends[2].id, place: 'top-[30%] right-[2%] w-[4.2rem]', depth: 22, delay: '[animation-delay:-2.4s]' },
+]
 ---
-<Scene background="hero-garden" mobileBackground="hero-garden-portrait" fill="bg-skyline" position="object-[50%_100%]" eager aria-labelledby="hero-title" class="pb-[2.2rem] sm:pb-[2.6rem]">
+<Scene data-hero background="hero-garden" mobileBackground="hero-garden-portrait" fill="bg-skyline" position="object-[50%_100%]" depth={-10} eager aria-labelledby="hero-title" class="pb-[2.2rem] sm:pb-[2.6rem]">
   <div aria-hidden="true" class="stage">
-<KitImage name="sun" eager sizes="8rem" class="hidden sm:block absolute top-[1.2rem] right-[1rem] w-[4.2rem] animate-bob sm:top-[1.6rem] sm:right-[3%] sm:w-[6rem]" />
-    </div>
-  <div class="shell grid items-center gap-[0.5rem] pt-[2.2rem] sm:min-h-[36rem] sm:grid-cols-2 lg:grid-cols-[0.85fr_1.15fr] sm:gap-[2rem] sm:pt-[2.5rem]">
+    <div data-depth="-18" class="absolute top-[1.6rem] right-[3%] hidden sm:block"><KitImage name="sun" eager sizes="8rem" class="w-[6rem] animate-bob" /></div>
+  </div>
+  <div class="shell grid items-center gap-[0.5rem] pt-[2.2rem] sm:min-h-[36rem] sm:grid-cols-2 sm:gap-[2rem] sm:pt-[2.5rem] lg:grid-cols-[0.85fr_1.15fr]">
     <div class="relative z-10">
       <h1 id="hero-title" class="font-display text-[3.3rem] leading-[0.95] font-black tracking-tight text-forest-deep [text-shadow:0_0.15rem_0_rgb(255_252_244/0.7)] sm:text-[4rem] lg:text-[4.8rem]">Три друга <br />на тарелке</h1>
       <p class="mt-[0.9rem] max-w-[31rem] text-[1.15rem] leading-snug font-extrabold text-forest-deep sm:text-[1.3rem]">Мультфильмы и игры о еде для детей <span class="whitespace-nowrap">8–12 лет</span></p>
@@ -18,9 +24,44 @@ import { phrases } from '@/data/phrases'
         <Button href="#games" variant="green" icon="gamepad">Выбрать игру</Button>
       </div>
     </div>
-    <div class="relative pt-[3.5rem] sm:pt-[4rem]">
-      <KitImage name="hero-family" eager sizes="(min-width: 640px) 55vw, 100vw" alt="Мальчик и девочка за столом. На тарелке овощи, крупа, хлеб и рыба, рядом яблоко и вода" class="relative w-full" />
-      <SpeechBubble phrase={phrases.heroGirl} tail="down-left" class="absolute top-0 right-[4%] max-w-[10.5rem] rotate-[-3deg] sm:right-[8%] sm:max-w-[12rem]" />
+    <div class="relative pt-[2rem] sm:pt-[3rem]">
+      <div data-depth="12"><KitImage name="hero-family" eager sizes="(min-width: 640px) 55vw, 100vw" alt="Мальчик и девочка за столом. На тарелке овощи, крупа, хлеб и рыба, рядом яблоко и вода" class="relative w-full" /></div>
+      {floaters.map((item) => <div aria-hidden="true" data-depth={item.depth} class:list={['absolute hidden lg:block', item.place]}><KitImage name={`friend-${item.id}`} sizes="6rem" class={`pointer-events-auto w-full animate-bob drop-shadow-[0_0.4rem_0.4rem_rgb(60_40_10/0.25)] transition duration-300 hover:scale-125 hover:rotate-12 ${item.delay}`} /></div>)}
     </div>
   </div>
 </Scene>
+
+<script>
+  // Параллакс первого экрана: слои с data-depth смещаются за курсором (px при depth=10 ≈ 10 px)
+  // и чуть-чуть при прокрутке. Только для мыши и без «уменьшить движение».
+  const hero = document.querySelector<HTMLElement>('[data-hero]')
+  const finePointer = window.matchMedia('(pointer: fine) and (min-width: 1024px)').matches
+  const calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  if (hero && finePointer && !calm) {
+    const layers = [...hero.querySelectorAll<HTMLElement>('[data-depth]')].map((element) => ({ element, depth: Number(element.dataset.depth) }))
+    const target = { x: 0, y: 0 }
+    const current = { x: 0, y: 0 }
+    let scroll = 0
+    let appliedScroll = 0
+    let frame = 0
+    const render = () => {
+      appliedScroll = scroll
+      current.x += (target.x - current.x) * 0.08
+      current.y += (target.y - current.y) * 0.08
+      layers.forEach(({ element, depth }) => {
+        element.style.translate = `${current.x * depth}px ${current.y * depth + appliedScroll * depth * -0.012}px`
+      })
+      const moving = Math.abs(target.x - current.x) + Math.abs(target.y - current.y) > 0.001 || scroll !== appliedScroll
+      frame = moving ? requestAnimationFrame(render) : 0
+    }
+    const wake = () => { if (!frame) frame = requestAnimationFrame(render) }
+    hero.addEventListener('pointermove', (event) => {
+      const box = hero.getBoundingClientRect()
+      target.x = (event.clientX - box.left) / box.width - 0.5
+      target.y = (event.clientY - box.top) / box.height - 0.5
+      wake()
+    })
+    hero.addEventListener('pointerleave', () => { target.x = 0; target.y = 0; wake() })
+    window.addEventListener('scroll', () => { scroll = Math.min(window.scrollY, hero.offsetHeight); wake() }, { passive: true })
+  }
+</script>

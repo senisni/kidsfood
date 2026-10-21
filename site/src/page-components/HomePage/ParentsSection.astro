@@ -2,6 +2,7 @@
 import FactCard from '@/components/FactCard.astro'
 import Icon from '@/components/Icon.astro'
 import KitImage from '@/components/KitImage.astro'
+import PaperHills from '@/components/PaperHills.astro'
 import { facts, homeFacts } from '@/data/facts'
 import { typo } from '@/lib/typo'
 
@@ -10,24 +11,29 @@ interface Props { full?: boolean }
 const { full = false } = Astro.props
 const list = full ? facts : homeFacts
 const notes = [
-  { href: '/roditelyam/', label: 'Памятка: как кормить ребёнка', tone: 'bg-sand/80 rotate-[-2deg]' },
-  { href: '/o-proekte/#sources', label: 'Источники', tone: 'bg-[#f6e7a6] rotate-[1.5deg]' },
+  { href: '/roditelyam/', label: 'Памятка: как кормить ребёнка', tone: 'bg-sand/85 -rotate-[3deg]' },
+  { href: '/o-proekte/#sources', label: 'Источники', tone: 'bg-[#f6e7a6] rotate-[2deg]' },
 ]
 ---
-<section id="parents" aria-labelledby="parents-title" class="relative scroll-mt-[5rem] overflow-hidden bg-cream pt-[3rem] pb-[9rem] sm:pt-[3.6rem] sm:pb-[10rem]">
-  <div aria-hidden="true" class="stage">
-<KitImage name="books-plant" sizes="14rem" class="absolute bottom-[2.6rem] left-[1%] w-[6.5rem] sm:w-[11rem]" />
-  <KitImage name="foliage-left" sizes="20rem" class="absolute -bottom-[1.5rem] left-[16%] hidden w-[11rem] sm:block" />
-  <KitImage name="foliage-right" sizes="20rem" class="absolute -right-[2rem] -bottom-[1rem] w-[9rem] sm:w-[15rem]" />
-    </div>
-  <div class="shell relative grid gap-[1.6rem] lg:grid-cols-[1fr_15rem] lg:items-end lg:gap-[3rem]">
-    <div class="max-w-[48rem]">
+<section id="parents" aria-labelledby="parents-title" class="relative scroll-mt-[5rem] overflow-hidden bg-cream pt-[3rem] sm:pt-[4rem]">
+  <div class="shell relative grid gap-[1.6rem] lg:grid-cols-[11rem_1fr_13rem] lg:items-end lg:gap-[2.4rem]">
+    <KitImage name="books-plant" sizes="14rem" class="hidden w-full self-end lg:block" />
+    <div>
       <h2 id="parents-title" class="font-display text-[2.5rem] leading-[1] font-black text-forest-deep sm:text-[3.3rem]">Родителям и учителям</h2>
       <p class="mt-[0.7rem] max-w-[38rem] text-[1.05rem] leading-relaxed text-ink/80">{typo('Как говорить с детьми о еде спокойно и с интересом: без подсчёта калорий, ярлыков «плохая еда» и требования доесть.')}</p>
       <div class="mt-[1.4rem] grid gap-[0.8rem]">{list.map((fact) => <FactCard fact={fact} />)}</div>
     </div>
-    <ul class="flex flex-wrap gap-[1rem] lg:flex-col">
-      {notes.map((note) => <li><a href={note.href} class:list={['inline-flex items-center gap-[0.6rem] rounded-[0.4rem] px-[1.2rem] py-[1rem] font-display text-[1.05rem] font-extrabold text-ink shadow-paper-lg transition hover:rotate-0', note.tone]}>{typo(note.label)} <Icon name="arrow" /></a></li>)}
-    </ul>
+    <div class="flex flex-wrap items-end gap-[1rem] lg:flex-col lg:items-start">
+      <KitImage name="mustard-sprig" sizes="8rem" class="hidden w-[5rem] rotate-[12deg] lg:block" />
+      {notes.map((note) => <a href={note.href} class:list={['relative inline-flex items-center gap-[0.6rem] rounded-[0.3rem] px-[1.2rem] pt-[1.3rem] pb-[1rem] font-display text-[1.05rem] font-extrabold text-ink shadow-paper-lg transition hover:rotate-0', note.tone]}><span aria-hidden="true" class="absolute -top-[0.45rem] left-1/2 h-[0.9rem] w-[3.2rem] -translate-x-1/2 rotate-[-4deg] rounded-[0.15rem] bg-paper/70 shadow-paper"></span>{typo(note.label)} <Icon name="arrow" /></a>)}
+      <KitImage name="books-plant" sizes="10rem" class="w-[6rem] lg:hidden" />
+    </div>
+  </div>
+  <div aria-hidden="true" class="relative mt-[2rem]">
+    <PaperHills class="relative" />
+    <KitImage name="foliage-left" sizes="16rem" class="absolute bottom-[3.5rem] left-[2%] w-[7rem] sm:w-[11rem]" />
+    <KitImage name="mustard-sprig" sizes="8rem" class="absolute bottom-[3rem] left-[28%] hidden w-[4rem] sm:block" />
+    <KitImage name="mustard-sprig" sizes="8rem" class="absolute right-[24%] bottom-[2.5rem] w-[3.5rem] -scale-x-100 sm:w-[4.5rem]" />
+    <KitImage name="foliage-right" sizes="16rem" class="absolute right-[1%] bottom-[3.5rem] w-[7rem] sm:w-[12rem]" />
   </div>
 </section>

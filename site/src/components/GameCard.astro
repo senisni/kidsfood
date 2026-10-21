@@ -1,6 +1,8 @@
 ---
-// Карточка игры: номер на карте, вырезка, название и кнопка «Играть»
+// Плитка игры. featured — большая карточка первой игры с описанием и кнопкой «Играть»;
+// обычная — цветная плитка: вырезка, название и круглая стрелка.
 import { twMerge } from 'tailwind-merge'
+import Button from '@/components/Button.astro'
 import Icon from '@/components/Icon.astro'
 import KitImage from '@/components/KitImage.astro'
 import type { Game } from '@/data/games'
@@ -8,18 +10,27 @@ import { typo } from '@/lib/typo'
 
 interface Props {
   game: Game
-  number: number
+  featured?: boolean
   class?: string
   [key: string]: unknown
 }
 
-const { game, number, class: className, ...rest } = Astro.props
+const { game, featured = false, class: className, ...rest } = Astro.props
 ---
 
-<a href={game.href} class:list={[twMerge('group relative flex flex-col items-center rounded-[1.8rem] bg-paper/95 px-[0.9rem] pt-[1.1rem] pb-[1rem] text-center shadow-paper-lg ring-2 ring-cream-deep/70 transition hover:-translate-y-1 hover:rotate-[-0.6deg]', className)]} {...rest}>
-  <span aria-hidden="true" class="absolute -top-[0.6rem] -left-[0.4rem] grid size-[2.2rem] place-items-center rounded-full bg-forest font-display text-[1.05rem] font-black text-paper shadow-paper ring-[0.2rem] ring-paper">{number}</span>
-  <KitImage name={game.image} sizes="(min-width: 640px) 14rem, 45vw" class="aspect-square w-[82%] drop-shadow-[0_0.3rem_0.3rem_rgb(60_40_10/0.18)] transition group-hover:scale-105" />
-  <h3 class="mt-[0.3rem] font-display text-[1.1rem] leading-tight font-black text-ink">{typo(game.title)}</h3>
-  <p class="mt-[0.3rem] mb-[0.8rem] text-[0.85rem] leading-snug text-ink/70">{typo(game.text)}</p>
-  <span class="mt-auto inline-flex items-center gap-[0.4rem] rounded-full bg-terracotta px-[1rem] py-[0.35rem] pt-[0.4rem] font-display text-[0.95rem] font-extrabold text-paper shadow-[0_0.2rem_0_#97401f]">Играть <Icon name="arrow" class="transition group-hover:translate-x-1" /></span>
-</a>
+{featured
+  ? <article class={twMerge('group relative flex flex-col overflow-hidden rounded-[2rem] p-[1.4rem] shadow-paper-lg sm:p-[1.8rem]', game.tone, className)} {...rest}>
+      <KitImage name="foliage-left" sizes="10rem" class="absolute -bottom-[1.5rem] -left-[1.5rem] w-[7rem] opacity-90" />
+      <KitImage name="mustard-sprig" sizes="8rem" class="absolute top-[1rem] right-[1rem] w-[3.5rem] rotate-[20deg]" />
+      <a href={game.href} class="relative mx-auto block w-[82%] transition duration-500 group-hover:rotate-[-5deg]"><KitImage name={game.image} alt={game.title} sizes="(min-width: 1024px) 26rem, 80vw" class="w-full drop-shadow-[0_0.6rem_0.6rem_rgb(60_40_10/0.22)]" /></a>
+      <h3 class="relative mt-auto pt-[1rem] font-display text-[2.2rem] leading-[1] font-black text-forest-deep sm:text-[2.6rem]"><a href={game.href} class="hover:underline underline-offset-4">{game.title}</a></h3>
+      <p class="relative mt-[0.5rem] max-w-[22rem] text-[1rem] leading-snug text-ink/75">{typo(game.text)}</p>
+      <Button href={game.href} icon="play" class="relative mt-[1.1rem] self-start" tabindex="-1" aria-hidden="true">Играть</Button>
+    </article>
+  : <a href={game.href} class={twMerge('group relative flex flex-col overflow-hidden rounded-[1.4rem] p-[0.8rem] sm:p-[1rem] shadow-paper transition duration-300 hover:-translate-y-1 hover:shadow-paper-lg', game.tone, className)} {...rest}>
+      <span class="grid aspect-[4/3] place-items-center"><KitImage name={game.image} sizes="(min-width: 1024px) 13rem, 40vw" class="h-full w-auto max-w-full drop-shadow-[0_0.3rem_0.3rem_rgb(60_40_10/0.2)] transition duration-300 group-hover:scale-110 group-hover:rotate-[-3deg]" /></span>
+      <span class="mt-[0.6rem] flex items-end justify-between gap-[0.6rem]">
+        <span class="font-display text-[1rem] leading-tight font-black text-ink sm:text-[1.15rem]">{typo(game.title)}</span>
+        <span aria-hidden="true" class:list={['grid size-[2rem] sm:size-[2.3rem] shrink-0 place-items-center rounded-full text-paper shadow-paper transition group-hover:translate-x-0.5', game.accent]}><Icon name="arrow" class="size-[1.15rem]" /></span>
+      </span>
+    </a>}

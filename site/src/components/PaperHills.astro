@@ -1,0 +1,11 @@
+---
+// Три слоя бумажных холмов; нижний — цвета подвала (pine), чтобы секция перетекала в него
+import { twMerge } from 'tailwind-merge'
+interface Props { class?: string; [key: string]: unknown }
+const { class: className, ...rest } = Astro.props
+---
+<svg aria-hidden="true" viewBox="0 0 1440 220" preserveAspectRatio="none" class={twMerge('pointer-events-none block h-[7rem] w-full sm:h-[10rem]', className)} {...rest}>
+  <path fill="#6f9f5a" d="M0 120 C 160 60 300 70 430 110 S 700 150 820 96 1080 40 1220 84 1380 120 1440 100 V220 H0Z" />
+  <path fill="#3e7544" d="M0 150 C 120 110 260 120 380 150 S 620 180 760 140 980 96 1120 130 1340 170 1440 140 V220 H0Z" />
+  <path fill="#173a2a" d="M0 186 C 200 160 360 170 520 186 S 860 206 1040 182 1300 160 1440 176 V220 H0Z" />
+</svg>

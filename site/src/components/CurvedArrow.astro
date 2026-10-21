@@ -1,0 +1,10 @@
+---
+// Нарисованная от руки изогнутая стрелка: цвет — text-*, поворот и отражение — классами у вызова
+import { twMerge } from 'tailwind-merge'
+interface Props { class?: string; [key: string]: unknown }
+const { class: className, ...rest } = Astro.props
+---
+<svg aria-hidden="true" viewBox="0 0 90 60" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" class={twMerge('pointer-events-none w-[5rem]', className)} {...rest}>
+  <path d="M6 8 C 14 38, 40 52, 78 46" />
+  <path d="M66 36 L 79 46 L 64 54" />
+</svg>

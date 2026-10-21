@@ -21,8 +21,8 @@ export const friends: Friend[] = [
 export const friendById = (id: FriendId) => friends.find((friend) => friend.id === id) as Friend
 
 // классы Tailwind по другу: Tailwind видит их целиком, поэтому не собираем строку на лету
-export const friendTone: Record<FriendId, { text: string; bg: string; border: string; soft: string }> = {
-  veg: { text: 'text-veg', bg: 'bg-veg', border: 'border-veg', soft: 'bg-veg/15' },
-  grain: { text: 'text-grain', bg: 'bg-grain', border: 'border-grain', soft: 'bg-grain/15' },
-  protein: { text: 'text-protein', bg: 'bg-protein', border: 'border-protein', soft: 'bg-protein/15' },
+export const friendTone: Record<FriendId, { text: string; bg: string; border: string; soft: string; ring: string }> = {
+  veg: { text: 'text-veg', bg: 'bg-veg', border: 'border-veg', soft: 'bg-veg/15', ring: 'ring-veg/50' },
+  grain: { text: 'text-grain', bg: 'bg-grain', border: 'border-grain', soft: 'bg-grain/15', ring: 'ring-grain/50' },
+  protein: { text: 'text-protein', bg: 'bg-protein', border: 'border-protein', soft: 'bg-protein/15', ring: 'ring-protein/50' },
 }

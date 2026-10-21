@@ -1,32 +1,37 @@
 ---
+import CurvedArrow from '@/components/CurvedArrow.astro'
 import FriendLabel from '@/components/FriendLabel.astro'
 import KitImage from '@/components/KitImage.astro'
-import { friends } from '@/data/friends'
+import { friends, friendTone } from '@/data/friends'
 import { typo } from '@/lib/typo'
 
-// где стоит ярлык у тарелки на широком экране: овощи — слева от своей половины, крупы и белок — справа
+// где стоит ярлык на широком экране и куда смотрит стрелка: овощи — к левой половине,
+// крупы — к верхней правой четверти, белок — к нижней правой
 const labelPlace = {
-  veg: 'lg:top-[2%] lg:-left-[6%]',
-  grain: 'lg:top-[20%] lg:-right-[8%]',
-  protein: 'lg:bottom-[8%] lg:-right-[4%]',
+  veg: { label: 'lg:top-[0%] lg:left-[-4%]', arrow: 'lg:top-[17%] lg:left-[12%] rotate-[8deg]' },
+  grain: { label: 'lg:top-[10%] lg:right-[-6%]', arrow: 'lg:top-[27%] lg:right-[14%] -scale-x-100 rotate-[-8deg]' },
+  protein: { label: 'lg:bottom-[4%] lg:right-[-4%]', arrow: 'lg:bottom-[25%] lg:right-[17%] -scale-x-100 -scale-y-100' },
 }
 ---
-<section id="friends" aria-labelledby="friends-title" class="relative scroll-mt-[5rem] overflow-hidden bg-cream pt-[2.4rem] pb-[4rem] sm:pt-[2.6rem] sm:pb-[4rem]">
+<section id="friends" aria-labelledby="friends-title" class="relative scroll-mt-[5rem] overflow-hidden bg-cream pt-[3rem] pb-[5rem] sm:py-[4rem]">
   <div aria-hidden="true" class="stage">
-<KitImage name="foliage-left" sizes="20rem" class="absolute -bottom-[2.5rem] -left-[3rem] w-[9rem] sm:w-[12rem]" />
-  <KitImage name="mustard-sprig" sizes="12rem" class="absolute right-[1%] bottom-[2.5rem] hidden w-[7rem] sm:block" />
-  <KitImage name="foliage-right" sizes="20rem" class="absolute -right-[2rem] -bottom-[1rem] w-[8rem] sm:w-[13rem]" />
-    </div>
-  <div class="shell relative grid items-center gap-[1.5rem] sm:grid-cols-2 lg:grid-cols-[0.9fr_1.3fr]">
+    <KitImage name="foliage-right" sizes="16rem" class="absolute -top-[2rem] -left-[3rem] hidden w-[13rem] -scale-y-100 rotate-[8deg] lg:block" />
+    <KitImage name="foliage-left" sizes="24rem" class="absolute -bottom-[3rem] -left-[3rem] w-[7rem] sm:w-[19rem]" />
+    <KitImage name="mustard-sprig" sizes="12rem" class="absolute right-[1%] bottom-[5rem] hidden w-[8rem] rotate-[10deg] sm:block" />
+    <KitImage name="foliage-right" sizes="24rem" class="absolute -right-[3rem] -bottom-[3rem] w-[7rem] sm:w-[17rem]" />
+    <KitImage name="foliage-left" sizes="16rem" class="absolute -top-[2rem] -right-[3rem] hidden w-[12rem] -scale-100 sm:block" />
+  </div>
+  <div class="shell relative grid items-center gap-[1.5rem] sm:grid-cols-2 lg:grid-cols-[0.8fr_1.4fr]">
     <div class="relative z-10">
-      <h2 id="friends-title" class="font-display text-[2.6rem] leading-[1] font-black text-forest-deep sm:text-[3rem] lg:text-[3.4rem]">Кого позовём <br />на тарелку?</h2>
-      <p class="mt-[1rem] max-w-[27rem] text-[1.05rem] leading-relaxed text-ink/80">{typo('Половина тарелки — овощи и фрукты, четверть — крупы и хлеб, четверть — белок. Схема одна для завтрака, обеда и ужина. Это ориентир для разнообразия, а не норма порций.')}</p>
+      <h2 id="friends-title" class="font-display text-[2.6rem] leading-[1] font-black text-forest-deep sm:text-[3rem] lg:text-[3.6rem]">Кого позовём <br />на тарелку?</h2>
+      <p class="mt-[1rem] max-w-[24rem] text-[1.05rem] leading-relaxed text-ink/80">{typo('Половина тарелки — овощи и фрукты, четверть — крупы и хлеб, четверть — белок. Одна схема для завтрака, обеда и ужина — ориентир, а не норма порций.')}</p>
     </div>
-    <div class="relative mx-auto w-full max-w-[36rem] lg:py-[1.5rem]">
-      <KitImage name="plate-three-friends" sizes="(min-width: 640px) 24rem, 75vw" alt="Тарелка: половина — огурцы, брокколи и помидоры, четверть — крупа и хлеб, четверть — рыба, яйцо и фасоль" class="mx-auto w-[78%] drop-shadow-[0_0.5rem_0.6rem_rgb(60_40_10/0.2)] sm:w-[60%] lg:w-[64%]" />
-      <ul class="mt-[1.2rem] grid gap-[0.6rem] lg:mt-0 lg:block">
-        {friends.map((friend) => <li class:list={['lg:absolute lg:w-[15.5rem]', labelPlace[friend.id]]}><FriendLabel friend={friend} class="h-full" /></li>)}
+    <div class="relative mx-auto w-full max-w-[42rem] lg:py-[3rem]">
+      <KitImage name="plate-three-friends" sizes="(min-width: 640px) 30rem, 80vw" alt="Тарелка: половина — огурцы, брокколи и помидоры, четверть — крупа и хлеб, четверть — рыба, яйцо и фасоль" class="mx-auto w-[82%] drop-shadow-[0_0.6rem_0.8rem_rgb(60_40_10/0.22)] transition duration-500 hover:rotate-[-4deg] sm:w-[70%] lg:w-[60%]" />
+      <ul class="mt-[1.4rem] grid gap-[0.9rem] lg:mt-0 lg:block">
+        {friends.map((friend) => <li class:list={['lg:absolute', labelPlace[friend.id].label]}><FriendLabel friend={friend} compact class="lg:max-w-[15rem]" /></li>)}
       </ul>
+      {friends.map((friend) => <CurvedArrow class:list={['absolute hidden lg:block', friendTone[friend.id].text, labelPlace[friend.id].arrow]} />)}
     </div>
   </div>
 </section>
