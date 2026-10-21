@@ -1,19 +1,28 @@
 ---
 import Button from '@/components/Button.astro'
 import KitImage from '@/components/KitImage.astro'
+import PaperCloud from '@/components/PaperCloud.astro'
 import Scene from '@/components/Scene.astro'
 import { friends } from '@/data/friends'
 
-// парящие значки трёх друзей вокруг тарелки: место и глубина параллакса
+// парящие значки трёх друзей вокруг тарелки
+// бумажные облака: место, размер, глубина параллакса и скорость дрейфа
+const clouds = [
+  { place: 'top-[9%] left-[34%] w-[9rem]', depth: 14, drift: '[animation-duration:26s]' },
+  { place: 'top-[4%] left-[58%] w-[6.5rem]', depth: 24, drift: '[animation-duration:34s] [animation-delay:-8s]' },
+  { place: 'top-[22%] right-[12%] w-[11rem]', depth: 18, drift: '[animation-duration:30s] [animation-delay:-15s]' },
+  { place: 'top-[38%] left-[46%] w-[5.5rem] opacity-90', depth: 30, drift: '[animation-duration:40s] [animation-delay:-4s]' },
+]
 const floaters = [
-  { id: friends[0].id, place: 'top-[8%] left-[6%] w-[4.6rem]', depth: 26, delay: '[animation-delay:-0.4s]' },
-  { id: friends[1].id, place: 'top-[2%] right-[30%] w-[3.8rem]', depth: 34, delay: '[animation-delay:-1.6s]' },
-  { id: friends[2].id, place: 'top-[30%] right-[2%] w-[4.2rem]', depth: 22, delay: '[animation-delay:-2.4s]' },
+  { id: friends[0].id, place: 'top-[8%] left-[6%] w-[4.6rem]', delay: '[animation-delay:-0.4s]' },
+  { id: friends[1].id, place: 'top-[2%] right-[30%] w-[3.8rem]', delay: '[animation-delay:-1.6s]' },
+  { id: friends[2].id, place: 'top-[30%] right-[2%] w-[4.2rem]', delay: '[animation-delay:-2.4s]' },
 ]
 ---
-<Scene data-hero background="hero-garden" mobileBackground="hero-garden-portrait" fill="bg-skyline" position="object-[50%_100%]" depth={-10} eager aria-labelledby="hero-title" class="pb-[2.2rem] sm:pb-[2.6rem]">
+<Scene data-hero background="hero-garden" mobileBackground="hero-garden-portrait" fill="bg-skyline" position="object-[50%_100%]" eager aria-labelledby="hero-title" class="pb-[2.2rem] sm:pb-[2.6rem]">
   <div aria-hidden="true" class="stage">
-    <div data-depth="-18" class="absolute top-[1.6rem] right-[3%] hidden sm:block"><KitImage name="sun" eager sizes="8rem" class="w-[6rem] animate-bob" /></div>
+    <div data-depth="-22" class="absolute top-[1.6rem] right-[3%] hidden sm:block"><KitImage name="sun" eager sizes="8rem" class="w-[6rem] animate-bob" /></div>
+    {clouds.map((cloud) => <div data-depth={cloud.depth} class:list={['absolute hidden sm:block', cloud.place]}><PaperCloud class={`w-full animate-drift ${cloud.drift}`} /></div>)}
   </div>
   <div class="shell grid items-center gap-[0.5rem] pt-[2.2rem] sm:min-h-[36rem] sm:grid-cols-2 sm:gap-[2rem] sm:pt-[2.5rem] lg:grid-cols-[0.85fr_1.15fr]">
     <div class="relative z-10">
@@ -25,14 +34,14 @@ const floaters = [
       </div>
     </div>
     <div class="relative pt-[2rem] sm:pt-[3rem]">
-      <div data-depth="12"><KitImage name="hero-family" eager sizes="(min-width: 640px) 55vw, 100vw" alt="Мальчик и девочка за столом. На тарелке овощи, крупа, хлеб и рыба, рядом яблоко и вода" class="relative w-full" /></div>
-      {floaters.map((item) => <div aria-hidden="true" data-depth={item.depth} class:list={['absolute hidden lg:block', item.place]}><KitImage name={`friend-${item.id}`} sizes="6rem" class={`pointer-events-auto w-full animate-bob drop-shadow-[0_0.4rem_0.4rem_rgb(60_40_10/0.25)] transition duration-300 hover:scale-125 hover:rotate-12 ${item.delay}`} /></div>)}
+      <div><KitImage name="hero-family" eager sizes="(min-width: 640px) 55vw, 100vw" alt="Мальчик и девочка за столом. На тарелке овощи, крупа, хлеб и рыба, рядом яблоко и вода" class="relative w-full" /></div>
+      {floaters.map((item) => <div aria-hidden="true" class:list={['absolute hidden lg:block', item.place]}><KitImage name={`friend-${item.id}`} sizes="6rem" class={`pointer-events-auto w-full animate-bob drop-shadow-[0_0.4rem_0.4rem_rgb(60_40_10/0.25)] transition duration-300 hover:scale-125 hover:rotate-12 ${item.delay}`} /></div>)}
     </div>
   </div>
 </Scene>
 
 <script>
-  // Параллакс первого экрана: слои с data-depth смещаются за курсором (px при depth=10 ≈ 10 px)
+  // Параллакс первого экрана: солнце и облака (data-depth) смещаются за курсором; фон и герои стоят (px при depth=10 ≈ 10 px)
   // и чуть-чуть при прокрутке. Только для мыши и без «уменьшить движение».
   const hero = document.querySelector<HTMLElement>('[data-hero]')
   const finePointer = window.matchMedia('(pointer: fine) and (min-width: 1024px)').matches

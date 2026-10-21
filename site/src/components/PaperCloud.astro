@@ -1,0 +1,10 @@
+---
+// Бумажное облако: два слоя (тень и лист), как вырезка из бумаги
+import { twMerge } from 'tailwind-merge'
+interface Props { class?: string; [key: string]: unknown }
+const { class: className, ...rest } = Astro.props
+---
+<svg aria-hidden="true" viewBox="0 0 200 90" class={twMerge('pointer-events-none w-[10rem] drop-shadow-[0_0.25rem_0.25rem_rgb(40_90_100/0.18)]', className)} {...rest}>
+  <path fill="#e7ddc6" d="M24 84 C8 84 4 66 18 60 C14 44 32 34 46 42 C52 22 80 16 94 34 C104 14 140 16 146 42 C160 34 182 42 180 60 C196 64 194 84 176 84 Z" transform="translate(0 4)" />
+  <path fill="#fffcf4" d="M24 82 C8 82 4 64 18 58 C14 42 32 32 46 40 C52 20 80 14 94 32 C104 12 140 14 146 40 C160 32 182 40 180 58 C196 62 194 82 176 82 Z" />
+</svg>
