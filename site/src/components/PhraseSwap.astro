@@ -1,0 +1,22 @@
+---
+// Карточка «вместо — скажите»: привычная фраза зачёркнута, новая — крупно, ниже короткое «почему»
+import { twMerge } from 'tailwind-merge'
+import Icon from '@/components/Icon.astro'
+import type { PhraseSwap } from '@/data/swaps'
+import { typo } from '@/lib/typo'
+
+interface Props { swap: PhraseSwap; class?: string; [key: string]: unknown }
+const { swap, class: className, ...rest } = Astro.props
+const tone = {
+  veg: { stripe: 'bg-veg', text: 'text-veg' },
+  grain: { stripe: 'bg-grain', text: 'text-grain' },
+  protein: { stripe: 'bg-protein', text: 'text-protein' },
+  water: { stripe: 'bg-water', text: 'text-water' },
+}[swap.tone]
+---
+<article class={twMerge('relative flex flex-col overflow-hidden rounded-[1.6rem] bg-paper p-[1.3rem] pl-[1.6rem] shadow-paper ring-2 ring-cream-deep/70 sm:p-[1.6rem] sm:pl-[1.9rem]', className)} {...rest}>
+  <span aria-hidden="true" class:list={['absolute inset-y-0 left-0 w-[0.45rem]', tone.stripe]}></span>
+  <p class="text-[0.9rem] font-bold text-ink/55"><span class="mr-[0.4rem] font-display text-[0.8rem] font-extrabold tracking-wide text-ink/45 uppercase">Вместо</span><s class="decoration-terracotta/70 decoration-2">{typo(swap.instead)}</s></p>
+  <p class:list={['mt-[0.6rem] flex items-start gap-[0.5rem] font-display text-[1.35rem] leading-[1.15em] font-extrabold sm:text-[1.5rem]', tone.text]}><Icon name="chat" class="mt-[0.15rem] size-[1.3rem] shrink-0" /><span>«{typo(swap.say)}»</span></p>
+  <p class="mt-[0.7rem] text-[0.95rem] text-ink/75">{typo(swap.why)}</p>
+</article>

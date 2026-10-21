@@ -3,30 +3,54 @@ import FactCard from '@/components/FactCard.astro'
 import Icon from '@/components/Icon.astro'
 import KitImage from '@/components/KitImage.astro'
 import PaperHills from '@/components/PaperHills.astro'
+import PhraseSwap from '@/components/PhraseSwap.astro'
 import { facts, homeFacts } from '@/data/facts'
+import { swaps } from '@/data/swaps'
 import { typo } from '@/lib/typo'
 
 // full — все вопросы (страница «О проекте»), иначе — выбранные для главной
 interface Props { full?: boolean }
 const { full = false } = Astro.props
 const list = full ? facts : homeFacts
+// как заниматься: от короткой истории к игре и к настоящей еде
+const steps = [
+  { image: 'poster-film', title: 'Посмотрите историю', time: '1 минута', text: 'Мультфильм «Три друга на тарелке». На паузе спросите: кого не хватает тосту?', href: '/multfilmy/film/', label: 'Смотреть' },
+  { image: 'game-plate', title: 'Поиграйте', time: '5 минут', text: 'Ребёнок сам собирает тарелку. Ошибаться можно — герои подскажут.', href: '/games/plate.html', label: 'Играть' },
+  { image: 'dish-syrniki', title: 'Приготовьте вместе', time: 'в выходные', text: 'Выберите блюдо из меню и найдите в нём трёх друзей.', href: '/menu/', label: 'Открыть меню' },
+]
 const notes = [
   { href: '/roditelyam/', label: 'Памятка: как кормить ребёнка', tone: 'bg-sand/85 -rotate-[3deg]' },
   { href: '/o-proekte/#sources', label: 'Источники', tone: 'bg-[#f6e7a6] rotate-[2deg]' },
 ]
 ---
 <section id="parents" aria-labelledby="parents-title" class="relative scroll-mt-[5rem] overflow-hidden bg-cream pt-[3rem] sm:pt-[4rem]">
-  <div class="shell relative grid gap-[1.6rem] lg:grid-cols-[11rem_1fr_13rem] lg:items-end lg:gap-[2.4rem]">
-    <KitImage name="books-plant" sizes="14rem" class="hidden w-full self-end lg:block" />
-    <div>
-      <h2 id="parents-title" class="leading-[1em] font-display text-[2.5rem] font-black text-forest-deep sm:text-[3.3rem]">Родителям и учителям</h2>
-      <p class="mt-[0.7rem] max-w-[38rem] text-[1.05rem] text-ink/80">{typo('Как говорить с детьми о еде спокойно и с интересом: без подсчёта калорий, ярлыков «плохая еда» и требования доесть.')}</p>
-      <div class="mt-[1.4rem] grid gap-[0.8rem]">{list.map((fact) => <FactCard fact={fact} />)}</div>
-    </div>
-    <div class="flex flex-wrap items-end gap-[1rem] lg:flex-col lg:items-start">
-      <KitImage name="mustard-sprig" sizes="8rem" class="hidden w-[5rem] rotate-[12deg] lg:block" />
-      {notes.map((note) => <a href={note.href} class:list={['relative inline-flex items-center gap-[0.6rem] rounded-[0.3rem] px-[1.2rem] pt-[1.3rem] pb-[1rem] font-display text-[1.05rem] font-extrabold text-ink shadow-paper-lg transition hover:rotate-0', note.tone]}><span aria-hidden="true" class="absolute -top-[0.45rem] left-1/2 h-[0.9rem] w-[3.2rem] -translate-x-1/2 rotate-[-4deg] rounded-[0.15rem] bg-paper/70 shadow-paper"></span>{typo(note.label)} <Icon name="arrow" /></a>)}
-      <KitImage name="books-plant" sizes="10rem" class="w-[6rem] lg:hidden" />
+  <div class="shell relative">
+    <p class="font-display text-[1.05rem] font-extrabold text-terracotta">Родителям и учителям</p>
+    <h2 id="parents-title" class="mt-[0.3rem] leading-[1em] font-display text-[2.4rem] font-black text-forest-deep sm:text-[3.2rem]">{typo('Что сказать вместо «доешь»')}</h2>
+    <p class="mt-[0.8rem] max-w-[40rem] text-[1.05rem] text-ink/80">{typo('Четыре фразы для обычного обеда. Без подсчёта калорий, ярлыков «вредно» и уговоров — так ребёнку проще самому выбирать разную еду.')}</p>
+    <div class="mt-[1.6rem] grid gap-[1rem] sm:grid-cols-2 sm:gap-[1.2rem]">{swaps.map((swap) => <PhraseSwap swap={swap} />)}</div>
+
+    <h3 class="mt-[3rem] leading-[1em] font-display text-[1.8rem] font-black text-forest-deep sm:text-[2.2rem]">Как заниматься с ребёнком</h3>
+    <ol class="mt-[1.2rem] grid gap-[1rem] sm:grid-cols-3 sm:gap-[1.2rem]">
+      {steps.map((step, index) => <li class="group relative flex flex-col rounded-[1.6rem] bg-paper p-[1.1rem] shadow-paper ring-2 ring-cream-deep/70">
+        <span aria-hidden="true" class="absolute -top-[0.7rem] -left-[0.5rem] z-10 grid size-[2.4rem] place-items-center rounded-full bg-forest font-display text-[1.15rem] font-black text-paper ring-[0.2rem] ring-paper">{index + 1}</span>
+        <span class="relative block aspect-[16/9] overflow-hidden rounded-[1.1rem] bg-sage/35"><KitImage name={step.image} sizes="(min-width: 640px) 22rem, 90vw" class={step.image.startsWith('poster') ? 'absolute inset-0 size-full object-cover' : 'absolute inset-[6%] size-[88%] object-contain drop-shadow-[0_0.3rem_0.3rem_rgb(60_40_10/0.2)] transition group-hover:scale-105'} /></span>
+        <p class="mt-[0.9rem] text-[0.85rem] font-extrabold text-terracotta">{step.time}</p>
+        <h4 class="mt-[0.2rem] leading-[1em] font-display text-[1.25rem] font-black text-ink">{step.title}</h4>
+        <p class="mt-[0.4rem] mb-[0.9rem] text-[0.95rem] text-ink/75">{typo(step.text)}</p>
+        <a href={step.href} class="mt-auto inline-flex items-center gap-[0.4rem] self-start font-bold text-forest underline underline-offset-4 after:absolute after:inset-0 after:content-['']">{step.label}<Icon name="arrow" /></a>
+      </li>)}
+    </ol>
+
+    <div class="mt-[3rem] grid gap-[1.6rem] lg:grid-cols-[1fr_15rem] lg:items-end lg:gap-[2.4rem]">
+      <div>
+        <h3 class="leading-[1em] font-display text-[1.8rem] font-black text-forest-deep sm:text-[2.2rem]">Частые вопросы</h3>
+        <div class="mt-[1.2rem] grid gap-[0.7rem]">{list.map((fact) => <FactCard fact={fact} />)}</div>
+      </div>
+      <div class="flex flex-wrap items-end gap-[1rem] lg:flex-col lg:items-start">
+        {notes.map((note) => <a href={note.href} class:list={['relative inline-flex items-center gap-[0.6rem] rounded-[0.3rem] px-[1.2rem] pt-[1.3rem] pb-[1rem] font-display text-[1.05rem] font-extrabold text-ink shadow-paper-lg transition hover:rotate-0', note.tone]}><span aria-hidden="true" class="absolute -top-[0.45rem] left-1/2 h-[0.9rem] w-[3.2rem] -translate-x-1/2 rotate-[-4deg] rounded-[0.15rem] bg-paper/70 shadow-paper"></span>{typo(note.label)} <Icon name="arrow" /></a>)}
+        <KitImage name="books-plant" sizes="12rem" class="w-[6rem] lg:mt-[1rem] lg:w-[10rem]" />
+      </div>
     </div>
   </div>
   <div aria-hidden="true" class="relative mt-[2rem]">
