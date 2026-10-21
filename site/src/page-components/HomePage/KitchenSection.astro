@@ -2,7 +2,6 @@
 import Button from '@/components/Button.astro'
 import DishTile from '@/components/DishTile.astro'
 import KitImage from '@/components/KitImage.astro'
-import PaperEdge from '@/components/PaperEdge.astro'
 import Scene from '@/components/Scene.astro'
 import { dishes } from '@/data/dishes'
 import { typo } from '@/lib/typo'
@@ -31,5 +30,4 @@ const day = picks.map((pick) => ({ ...pick, dish: dishes.find((dish) => dish.id 
       <div class="mt-[1.6rem] flex justify-center"><Button href="/menu/" variant="green" arrow>Все 45 блюд и заготовки</Button></div>
     </div>
   </div>
-  <PaperEdge class="text-cream" />
 </Scene>

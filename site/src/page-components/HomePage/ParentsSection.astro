@@ -2,7 +2,6 @@
 import FactCard from '@/components/FactCard.astro'
 import Icon from '@/components/Icon.astro'
 import KitImage from '@/components/KitImage.astro'
-import PaperEdge from '@/components/PaperEdge.astro'
 import { facts, homeFacts } from '@/data/facts'
 import { typo } from '@/lib/typo'
 
@@ -31,5 +30,4 @@ const notes = [
       {notes.map((note) => <li><a href={note.href} class:list={['inline-flex items-center gap-[0.6rem] rounded-[0.4rem] px-[1.2rem] py-[1rem] font-display text-[1.05rem] font-extrabold text-ink shadow-paper-lg transition hover:rotate-0', note.tone]}>{typo(note.label)} <Icon name="arrow" /></a></li>)}
     </ul>
   </div>
-  <PaperEdge class="text-pine" />
 </section>

@@ -1,7 +1,6 @@
 ---
 import GameCard from '@/components/GameCard.astro'
 import KitImage from '@/components/KitImage.astro'
-import PaperEdge from '@/components/PaperEdge.astro'
 import Scene from '@/components/Scene.astro'
 import { games } from '@/data/games'
 import { typo } from '@/lib/typo'
@@ -21,5 +20,4 @@ const Heading = standalone ? 'h1' : 'h2'
       {games.map((game, index) => <li class="flex w-[calc(50%-0.4rem)] sm:w-[13.5rem] lg:w-[15.5rem]"><GameCard game={game} number={index + 1} class="w-full" /></li>)}
     </ul>
   </div>
-  {standalone && <PaperEdge class="text-pine" />}
 </Scene>
