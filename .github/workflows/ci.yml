@@ -24,9 +24,14 @@ jobs:
       - name: Install
         working-directory: site
         run: npm ci
+      # sync создаёт public/ и src/data/menu.json — без них проверка типов не найдёт данные меню
+      - name: Sync assets
+        working-directory: site
+        run: npm run sync
+
       - name: Types
         working-directory: site
         run: npx astro check
       - name: Build
         working-directory: site
-        run: npm run build
+        run: npx astro build
