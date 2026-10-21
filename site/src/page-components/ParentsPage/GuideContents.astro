@@ -1,0 +1,31 @@
+---
+// Оглавление памятки: на телефоне — раскрывающийся список, на широком экране — колонка,
+// которая держится сбоку при прокрутке и подсвечивает текущую тему
+import Icon from '@/components/Icon.astro'
+import { typo } from '@/lib/typo'
+import type { GuideTopic } from './data/guide'
+
+interface Props { topics: GuideTopic[] }
+const { topics } = Astro.props
+---
+<details class="group rounded-[1.3rem] bg-paper shadow-paper ring-2 ring-cream-deep/70 lg:hidden">
+  <summary class="flex list-none items-center justify-between px-[1.1rem] py-[0.9rem] font-display text-[1.1rem] font-extrabold text-forest-deep [&::-webkit-details-marker]:hidden">Все темы ({topics.length})<Icon name="chevron" class="transition group-open:rotate-180" /></summary>
+  <ol class="grid gap-[0.2rem] px-[0.6rem] pb-[0.8rem]">{topics.map((topic, index) => <li><a href={`#${topic.id}`} class="flex gap-[0.6rem] rounded-[0.7rem] px-[0.6rem] py-[0.45rem] text-[0.95rem] font-bold text-ink/80 hover:bg-sage/40"><span class="w-[1.4rem] shrink-0 text-forest">{index + 1}</span>{typo(topic.title)}</a></li>)}</ol>
+</details>
+<nav data-guide-contents aria-label="Темы памятки" class="sticky top-[6rem] hidden max-h-[calc(100vh-7rem)] overflow-y-auto rounded-[1.4rem] bg-paper p-[0.8rem] shadow-paper ring-2 ring-cream-deep/70 lg:block">
+  <p class="px-[0.6rem] pt-[0.2rem] pb-[0.5rem] font-display text-[1rem] font-extrabold text-terracotta">Темы</p>
+  <ol class="grid gap-[0.15rem]">{topics.map((topic, index) => <li><a href={`#${topic.id}`} class="flex gap-[0.6rem] rounded-[0.7rem] px-[0.6rem] py-[0.45rem] text-[0.92rem] font-bold text-ink/75 transition hover:bg-sage/35 aria-[current=true]:bg-sage/60 aria-[current=true]:text-forest-deep"><span class="w-[1.3rem] shrink-0 text-forest">{index + 1}</span>{typo(topic.title)}</a></li>)}</ol>
+</nav>
+<script>
+  // подсветка темы, которая сейчас на экране
+  const contents = document.querySelector<HTMLElement>('[data-guide-contents]')
+  if (contents && 'IntersectionObserver' in window) {
+    const links = new Map([...contents.querySelectorAll<HTMLAnchorElement>('a')].map((link) => [link.hash.slice(1), link]))
+    const observer = new IntersectionObserver((entries) => {
+      entries.filter((entry) => entry.isIntersecting).forEach((entry) => {
+        links.forEach((link, id) => link.setAttribute('aria-current', String(id === entry.target.id)))
+      })
+    }, { rootMargin: '-30% 0px -60% 0px' })
+    links.forEach((_link, id) => { const section = document.getElementById(id); if (section) observer.observe(section) })
+  }
+</script>

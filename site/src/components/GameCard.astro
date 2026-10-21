@@ -23,14 +23,14 @@ const { game, featured = false, class: className, ...rest } = Astro.props
       <KitImage name="foliage-left" sizes="10rem" class="absolute -bottom-[1.5rem] -left-[1.5rem] w-[7rem] opacity-90" />
       <KitImage name="mustard-sprig" sizes="8rem" class="absolute top-[1rem] right-[1rem] w-[3.5rem] rotate-[20deg]" />
       <a href={game.href} class="relative mx-auto block w-[82%] transition duration-500 group-hover:rotate-[-5deg]"><KitImage name={game.image} alt={game.title} sizes="(min-width: 1024px) 26rem, 80vw" class="w-full drop-shadow-[0_0.6rem_0.6rem_rgb(60_40_10/0.22)]" /></a>
-      <h3 class="relative mt-auto pt-[1rem] font-display text-[2.2rem] leading-[1] font-black text-forest-deep sm:text-[2.6rem]"><a href={game.href} class="hover:underline underline-offset-4">{game.title}</a></h3>
-      <p class="relative mt-[0.5rem] max-w-[22rem] text-[1rem] leading-snug text-ink/75">{typo(game.text)}</p>
+      <h3 class="leading-[1em] relative mt-auto pt-[1rem] font-display text-[2.2rem] font-black text-forest-deep sm:text-[2.6rem]"><a href={game.href} class="hover:underline underline-offset-4">{game.title}</a></h3>
+      <p class="relative mt-[0.5rem] max-w-[22rem] text-[1rem] text-ink/75">{typo(game.text)}</p>
       <Button href={game.href} icon="play" class="relative mt-[1.1rem] self-start" tabindex="-1" aria-hidden="true">Играть</Button>
     </article>
   : <a href={game.href} class={twMerge('group relative flex flex-col overflow-hidden rounded-[1.4rem] p-[0.8rem] sm:p-[1rem] shadow-paper transition duration-300 hover:-translate-y-1 hover:shadow-paper-lg', game.tone, className)} {...rest}>
       <span class="grid aspect-[4/3] place-items-center"><KitImage name={game.image} sizes="(min-width: 1024px) 13rem, 40vw" class="h-full w-auto max-w-full drop-shadow-[0_0.3rem_0.3rem_rgb(60_40_10/0.2)] transition duration-300 group-hover:scale-110 group-hover:rotate-[-3deg]" /></span>
       <span class="mt-[0.6rem] flex items-end justify-between gap-[0.6rem]">
-        <span class="font-display text-[1rem] leading-tight font-black text-ink sm:text-[1.15rem]">{typo(game.title)}</span>
+        <span class="font-display text-[1rem] font-black text-ink sm:text-[1.15rem]">{typo(game.title)}</span>
         <span aria-hidden="true" class:list={['grid size-[2rem] sm:size-[2.3rem] shrink-0 place-items-center rounded-full text-paper shadow-paper transition group-hover:translate-x-0.5', game.accent]}><Icon name="arrow" class="size-[1.15rem]" /></span>
       </span>
     </a>}

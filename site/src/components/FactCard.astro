@@ -11,8 +11,8 @@ const { fact, class: className, ...rest } = Astro.props
 <details class:list={[twMerge('group rounded-[1.3rem] bg-paper shadow-paper ring-2 ring-cream-deep/70 open:shadow-paper-lg', className)]} {...rest}>
   <summary class="flex list-none items-center gap-[0.9rem] px-[1.1rem] py-[0.9rem] [&::-webkit-details-marker]:hidden">
     <span class="grid size-[2.3rem] shrink-0 place-items-center rounded-full bg-terracotta/12 text-terracotta"><Icon name={fact.icon ?? 'chat'} /></span>
-    <h3 class="min-w-0 flex-1 font-display text-[1.1rem] leading-snug font-extrabold text-ink">{typo(fact.title)}</h3>
+    <h3 class="leading-[1em] min-w-0 flex-1 font-display text-[1.1rem] font-extrabold text-ink">{typo(fact.title)}</h3>
     <Icon name="chevron" class="text-ink/60 transition group-open:rotate-180" />
   </summary>
-  <div class="px-[1.1rem] pb-[1.1rem] sm:pl-[4.3rem]"><p class="text-[1rem] leading-relaxed text-ink/80">{typo(fact.text)}</p>{fact.source && <a href={fact.source.href} target="_blank" rel="noopener noreferrer" class="mt-[0.6rem] inline-block text-[0.9rem] font-bold text-water underline underline-offset-4">Источник: {fact.source.name} ↗</a>}</div>
+  <div class="px-[1.1rem] pb-[1.1rem] sm:pl-[4.3rem]"><p class="text-[1rem] text-ink/80">{typo(fact.text)}</p>{fact.source && <a href={fact.source.href} target="_blank" rel="noopener noreferrer" class="mt-[0.6rem] inline-block text-[0.9rem] font-bold text-water underline underline-offset-4">Источник: {fact.source.name} ↗</a>}</div>
 </details>

@@ -26,7 +26,7 @@ const mobile = mobileBackground ? kitImage(mobileBackground) : null
     <picture>
       {mobile && <source media="(max-width: 639px)" srcset={mobile.srcset} sizes="100vw" width={mobile.width} height={mobile.height} />}
       <img src={image.src} srcset={image.srcset} sizes="100vw" width={image.width} height={image.height} alt="" loading={eager ? 'eager' : 'lazy'} fetchpriority={eager ? 'high' : undefined} decoding="async" class:list={['size-full object-cover', position]} />
-    </picture>
+  </picture>
   </div>
   <slot />
 </Tag>

@@ -19,15 +19,15 @@ const tone = friendTone[friend.id]
 {compact
   ? <div class={twMerge('flex flex-col items-start gap-[0.35rem]', className)} {...rest}>
       <span class:list={['inline-flex items-center gap-[0.55rem] rounded-full bg-paper py-[0.35rem] pr-[1.2rem] pl-[0.35rem] shadow-paper ring-2', tone.ring]}>
-        <KitImage name={`friend-${friend.id}`} sizes="3rem" class="size-[2.4rem] scale-125" />
+    <KitImage name={`friend-${friend.id}`} sizes="3rem" class="size-[2.4rem] scale-125" />
         <span class:list={['font-display text-[1.1rem] font-black', tone.text]}>{friend.name}</span>
-      </span>
-      <span class="pl-[0.6rem] text-[0.88rem] leading-snug text-ink/70">{typo(friend.why)} · {friend.share}</span>
+   </span>
+      <span class="pl-[0.6rem] text-[0.88rem] text-ink/70">{typo(friend.why)} · {friend.share}</span>
     </div>
   : <div class={twMerge('flex items-center gap-[0.7rem] rounded-[1.2rem] bg-paper py-[0.55rem] pr-[1.1rem] pl-[0.6rem] shadow-paper ring-2 ring-cream-deep', className)} {...rest}>
       <KitImage name={`friend-${friend.id}`} sizes="4rem" class="size-[3rem] shrink-0 scale-125" />
       <span class="min-w-0">
-        <span class:list={['block font-display text-[1.1rem] leading-tight font-black', tone.text]}>{friend.name}</span>
-        <span class="block text-[0.85rem] leading-snug text-ink/70">{typo(friend.why)} · {friend.share}</span>
+        <span class:list={['block font-display text-[1.1rem] font-black', tone.text]}>{friend.name}</span>
+        <span class="block text-[0.85rem] text-ink/70">{typo(friend.why)} · {friend.share}</span>
       </span>
     </div>}

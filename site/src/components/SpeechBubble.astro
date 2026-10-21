@@ -25,8 +25,8 @@ const tailPos = {
 
 <div class:list={[twMerge('flex items-center gap-3', className)]} {...rest}>
   {face && <Sprite name={speakerFace[phrase.who]} alt="" class:list={['size-14 shrink-0 rounded-full border-4 bg-paper object-cover object-top', phrase.who === 'girl' ? 'border-pink' : 'border-mint']} />}
-  <p class="relative rounded-[1.6rem] bg-paper px-[1.3rem] py-[0.8rem] text-center font-hand text-[1.15rem] leading-snug font-bold text-ink shadow-paper-lg ring-1 ring-ink/10">
+ <p class="relative rounded-[1.6rem] bg-paper px-[1.3rem] py-[0.8rem] text-center font-hand text-[1.15rem] font-bold text-ink shadow-paper-lg ring-1 ring-ink/10">
     <span aria-hidden="true" class:list={['absolute size-0 border-x-[0.6rem] border-t-[0.95rem] border-x-transparent border-t-paper', tailPos]}></span>
-    {typo(phrase.text)}
+  {typo(phrase.text)}
   </p>
 </div>

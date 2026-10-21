@@ -18,6 +18,17 @@
   --font-display: 'Nunito', ui-sans-serif, system-ui, sans-serif;
   --font-hand: 'Balsamiq', 'Nunito', ui-sans-serif, sans-serif;
 
+  /* межстрочный: текст — 1.3 (без единиц, чтобы наследовался от своего кегля), заголовки — 1em (leading-[1em] на h1–h3) */
+  --text-xs--line-height: 1.3;
+  --text-sm--line-height: 1.3;
+  --text-base--line-height: 1.3;
+  --text-lg--line-height: 1.3;
+  --text-xl--line-height: 1.3;
+  --text-2xl--line-height: 1.3;
+  --text-3xl--line-height: 1.3;
+  --text-4xl--line-height: 1.3;
+  --text-5xl--line-height: 1.3;
+
   /* палитра бумажного коллажа */
   --color-cream: #f8f3e7;
   --color-cream-deep: #e9dcbc;
@@ -124,7 +135,8 @@
     @media (width >= 40rem) { font-size: calc(12px + (100vw - 640px) * 0.005); }
     @media (width >= 90rem) { font-size: 16px; }
   }
-  body { @apply bg-cream font-sans font-semibold text-ink antialiased; }
+  body { @apply bg-cream font-sans font-semibold text-ink antialiased; line-height: 1.3; }
+  :where(h1, h2, h3, h4) { line-height: 1em; }
   summary { cursor: pointer; }
   img { max-width: 100%; }
   :focus-visible { @apply outline-4 outline-offset-2 outline-protein/60; }

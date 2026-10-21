@@ -6,5 +6,5 @@ const { video, class: className, ...rest } = Astro.props
 ---
 <a href={`/multfilmy/${video.id}/`} class={twMerge('group grid grid-cols-[7rem_minmax(0,1fr)] items-center gap-4 rounded-xl bg-paper p-3 shadow-paper sm:grid-cols-[9rem_minmax(0,1fr)]', className)} {...rest}>
   <img src={video.poster} alt="" width="240" height="135" loading="lazy" class="aspect-video w-full rounded-lg object-cover" />
-  <div><p class="mb-1 text-xs font-bold text-ink/65">{video.length}</p><h3 class="font-display text-xl leading-tight font-bold group-hover:text-forest">{video.title}</h3><span class="mt-2 inline-block text-sm font-bold text-forest">Смотреть →</span></div>
+  <div><p class="mb-1 text-xs font-bold text-ink/65">{video.length}</p><h3 class="leading-[1em] font-display text-xl font-bold group-hover:text-forest">{video.title}</h3><span class="mt-2 inline-block text-sm font-bold text-forest">Смотреть →</span></div>
 </a>

@@ -14,15 +14,15 @@ import { freezeRules, prepSteps } from './data/prep'
         <li>
           <PaperCard backing="bg-sand" class="h-full p-[1.2rem]">
             <span class="grid size-[2.4rem] place-items-center rounded-full bg-terracotta font-display text-[1.1rem] font-black text-paper">{index + 1}</span>
-            <h3 class="mt-[0.6rem] font-display text-[1.25rem] font-black">{step.title}</h3>
-            <p class="mt-[0.3rem] text-[1rem] leading-relaxed">{typo(step.text)}</p>
+            <h3 class="leading-[1em] mt-[0.6rem] font-display text-[1.25rem] font-black">{step.title}</h3>
+            <p class="mt-[0.3rem] text-[1rem] ">{typo(step.text)}</p>
           </PaperCard>
         </li>
       ))
     }
   </ol>
   <PaperCard backing="bg-sky" wrapperClass="mt-[2rem]" class="p-[1.4rem] sm:p-[1.8rem]">
-    <h3 class="font-display text-[1.6rem] font-black">Правила заморозки</h3>
+    <h3 class="leading-[1em] font-display text-[1.6rem] font-black">Правила заморозки</h3>
     <ul class="mt-[0.8rem] grid gap-[0.5rem] text-[1.05rem] sm:grid-cols-2">
       {freezeRules.map((rule) => <li class="flex gap-2"><span aria-hidden="true">❄</span>{typo(rule)}</li>)}
     </ul>

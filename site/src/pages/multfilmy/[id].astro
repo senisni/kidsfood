@@ -20,22 +20,22 @@ const crumbs = [{ name: 'Главная', href: '/' }, { name: 'Мультфил
   </PageHero>
   <section class="shell grid gap-[2rem] py-[2.6rem] sm:grid-cols-[1.5fr_1fr]">
     <div>
-      <h2 class="font-display text-[1.7rem] font-black text-forest-deep">О чём эта история</h2>
-      <div class="mt-[0.8rem] space-y-[0.8rem] text-[1.1rem] leading-relaxed">{video.story.map((paragraph) => <p>{typo(paragraph)}</p>)}</div>
-      <h2 class="mt-[1.8rem] font-display text-[1.7rem] font-black text-forest-deep">Обсудим после просмотра?</h2>
+      <h2 class="leading-[1em] font-display text-[1.7rem] font-black text-forest-deep">О чём эта история</h2>
+      <div class="mt-[0.8rem] space-y-[0.8rem] text-[1.1rem] ">{video.story.map((paragraph) => <p>{typo(paragraph)}</p>)}</div>
+      <h2 class="leading-[1em] mt-[1.8rem] font-display text-[1.7rem] font-black text-forest-deep">Обсудим после просмотра?</h2>
       <p class="mt-[0.6rem] text-[1.1rem]">{typo(video.question)}</p>
       <a href="/roditelyam/" class="mt-[1rem] inline-block text-[0.95rem] font-bold text-water underline underline-offset-4">Памятка для взрослых: как говорить о еде</a>
     </div>
     <aside class="relative overflow-hidden rounded-[1.6rem] bg-sage/45 p-[1.4rem] pb-[11rem] sm:pb-[12rem]">
       <p class="font-display text-[1rem] font-extrabold text-terracotta">Теперь попробуй сам</p>
-      <h2 class="mt-[0.3rem] font-display text-[1.6rem] font-black text-forest-deep">{video.gameTitle}</h2>
-      <p class="mt-[0.5rem] leading-relaxed">{typo('Перенеси открытие из мультфильма в игру. Если ошибёшься, герои подскажут.')}</p>
+      <h2 class="leading-[1em] mt-[0.3rem] font-display text-[1.6rem] font-black text-forest-deep">{video.gameTitle}</h2>
+      <p class="mt-[0.5rem] ">{typo('Перенеси открытие из мультфильма в игру. Если ошибёшься, герои подскажут.')}</p>
       <Button href={video.gameHref} variant="green" icon="gamepad" class="mt-[1rem]">Играть</Button>
       <KitImage name="boy-pointing" sizes="14rem" class="absolute right-0 -bottom-[1rem] w-[11rem] sm:w-[12rem]" />
     </aside>
   </section>
   <section class="shell border-t-2 border-cream-deep pt-[2rem] pb-[3.4rem]">
-    <h2 class="mb-[1.2rem] font-display text-[1.7rem] font-black text-forest-deep">Ещё мультфильмы</h2>
+    <h2 class="leading-[1em] mb-[1.2rem] font-display text-[1.7rem] font-black text-forest-deep">Ещё мультфильмы</h2>
     <ul class="grid gap-[1.2rem] sm:grid-cols-2">{videos.filter((item) => item.id !== video.id).map((item) => <li><VideoTile video={item} /></li>)}</ul>
   </section>
 </BaseLayout>

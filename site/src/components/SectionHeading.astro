@@ -6,6 +6,6 @@ const { kicker, title, text, align = 'left', class: className, ...rest } = Astro
 ---
 <header class:list={[twMerge('mb-[1.6rem] max-w-[46rem]', align === 'center' ? 'mx-auto text-center' : 'text-left', className)]} {...rest}>
   {kicker && <p class="mb-[0.3rem] font-display text-[1.05rem] font-extrabold text-terracotta">{kicker}</p>}
-  <h2 class="font-display text-[2.1rem] leading-[1.05] font-black text-forest-deep sm:text-[2.6rem]">{typo(title)}</h2>
-  {text && <p class="mt-[0.6rem] text-[1.05rem] leading-relaxed text-ink/80">{typo(text)}</p>}
+  <h2 class="leading-[1em] font-display text-[2.1rem] font-black text-forest-deep sm:text-[2.6rem]">{typo(title)}</h2>
+  {text && <p class="mt-[0.6rem] text-[1.05rem] text-ink/80">{typo(text)}</p>}
 </header>
