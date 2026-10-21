@@ -6,12 +6,12 @@ import Scene from '@/components/Scene.astro'
 import { friends } from '@/data/friends'
 
 // парящие значки трёх друзей вокруг тарелки
-// бумажные облака: место, размер, глубина параллакса и скорость дрейфа
+// бумажные облака: место, размер и темп медленного дрейфа (у каждого свой, чтобы не плыли строем)
 const clouds = [
-  { place: 'top-[9%] left-[34%] w-[9rem]', depth: 14, drift: '[animation-duration:26s]' },
-  { place: 'top-[4%] left-[58%] w-[6.5rem]', depth: 24, drift: '[animation-duration:34s] [animation-delay:-8s]' },
-  { place: 'top-[22%] right-[12%] w-[11rem]', depth: 18, drift: '[animation-duration:30s] [animation-delay:-15s]' },
-  { place: 'top-[38%] left-[46%] w-[5.5rem] opacity-90', depth: 30, drift: '[animation-duration:40s] [animation-delay:-4s]' },
+  { place: 'top-[9%] left-[34%] w-[9rem]', drift: '[animation-duration:70s]' },
+  { place: 'top-[4%] left-[58%] w-[6.5rem]', drift: '[animation-duration:90s] [animation-delay:-30s]' },
+  { place: 'top-[22%] right-[12%] w-[11rem]', drift: '[animation-duration:80s] [animation-delay:-55s]' },
+  { place: 'top-[38%] left-[46%] w-[5.5rem] opacity-90', drift: '[animation-duration:100s] [animation-delay:-12s]' },
 ]
 const floaters = [
   { id: friends[0].id, place: 'top-[8%] left-[6%] w-[4.6rem]', delay: '[animation-delay:-0.4s]' },
@@ -19,10 +19,10 @@ const floaters = [
   { id: friends[2].id, place: 'top-[30%] right-[2%] w-[4.2rem]', delay: '[animation-delay:-2.4s]' },
 ]
 ---
-<Scene data-hero background="hero-garden" mobileBackground="hero-garden-portrait" fill="bg-skyline" position="object-[50%_100%]" eager aria-labelledby="hero-title" class="pb-[2.2rem] sm:pb-[2.6rem]">
+<Scene background="hero-garden" mobileBackground="hero-garden-portrait" fill="bg-skyline" position="object-[50%_100%]" eager aria-labelledby="hero-title" class="pb-[2.2rem] sm:pb-[2.6rem]">
   <div aria-hidden="true" class="stage">
-    <div data-depth="-22" class="absolute top-[1.6rem] right-[3%] hidden sm:block"><KitImage name="sun" eager sizes="8rem" class="w-[6rem] animate-bob" /></div>
-    {clouds.map((cloud) => <div data-depth={cloud.depth} class:list={['absolute hidden sm:block', cloud.place]}><PaperCloud class={`w-full animate-drift ${cloud.drift}`} /></div>)}
+    <KitImage name="sun" eager sizes="8rem" class="absolute top-[1.6rem] right-[3%] hidden w-[6rem] sm:block" />
+    {clouds.map((cloud) => <div class:list={['absolute hidden sm:block', cloud.place]}><PaperCloud class={`w-full animate-drift ${cloud.drift}`} /></div>)}
   </div>
   <div class="shell grid items-center gap-[0.5rem] pt-[2.2rem] sm:min-h-[36rem] sm:grid-cols-2 sm:gap-[2rem] sm:pt-[2.5rem] lg:grid-cols-[0.85fr_1.15fr]">
     <div class="relative z-10">
@@ -40,37 +40,3 @@ const floaters = [
   </div>
 </Scene>
 
-<script>
-  // Параллакс первого экрана: солнце и облака (data-depth) смещаются за курсором; фон и герои стоят (px при depth=10 ≈ 10 px)
-  // и чуть-чуть при прокрутке. Только для мыши и без «уменьшить движение».
-  const hero = document.querySelector<HTMLElement>('[data-hero]')
-  const finePointer = window.matchMedia('(pointer: fine) and (min-width: 1024px)').matches
-  const calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-  if (hero && finePointer && !calm) {
-    const layers = [...hero.querySelectorAll<HTMLElement>('[data-depth]')].map((element) => ({ element, depth: Number(element.dataset.depth) }))
-    const target = { x: 0, y: 0 }
-    const current = { x: 0, y: 0 }
-    let scroll = 0
-    let appliedScroll = 0
-    let frame = 0
-    const render = () => {
-      appliedScroll = scroll
-      current.x += (target.x - current.x) * 0.08
-      current.y += (target.y - current.y) * 0.08
-      layers.forEach(({ element, depth }) => {
-        element.style.translate = `${current.x * depth}px ${current.y * depth + appliedScroll * depth * -0.012}px`
-      })
-      const moving = Math.abs(target.x - current.x) + Math.abs(target.y - current.y) > 0.001 || scroll !== appliedScroll
-      frame = moving ? requestAnimationFrame(render) : 0
-    }
-    const wake = () => { if (!frame) frame = requestAnimationFrame(render) }
-    hero.addEventListener('pointermove', (event) => {
-      const box = hero.getBoundingClientRect()
-      target.x = (event.clientX - box.left) / box.width - 0.5
-      target.y = (event.clientY - box.top) / box.height - 0.5
-      wake()
-    })
-    hero.addEventListener('pointerleave', () => { target.x = 0; target.y = 0; wake() })
-    window.addEventListener('scroll', () => { scroll = Math.min(window.scrollY, hero.offsetHeight); wake() }, { passive: true })
-  }
-</script>

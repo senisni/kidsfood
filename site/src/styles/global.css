@@ -54,7 +54,7 @@
   --z-index-modal: 3400;
 
   --animate-bob: bob 3.2s ease-in-out infinite;
-  --animate-drift: drift 30s ease-in-out infinite alternate;
+  --animate-drift: drift 80s ease-in-out infinite;
   --animate-drop: drop 0.7s cubic-bezier(0.3, 1.6, 0.6, 1) backwards;
 
   @keyframes bob {
@@ -62,8 +62,10 @@
     50% { transform: translateY(-0.6rem) rotate(var(--tw-rotate, 0)); }
   }
   @keyframes drift {
-    from { transform: translateX(-1.5rem); }
-    to { transform: translateX(1.5rem); }
+    0%, 100% { transform: translate(-2.5rem, 0); }
+    25% { transform: translate(-0.8rem, -0.35rem); }
+    50% { transform: translate(2.5rem, 0); }
+    75% { transform: translate(0.8rem, 0.35rem); }
   }
   @keyframes drop {
     from { transform: translateY(-6rem) rotate(-14deg); opacity: 0; }

@@ -2,14 +2,12 @@
 // Секция с широким бумажным фоном. Картинка не шире 150rem (2400 px): на очень широких
 // мониторах края плавно уходят в цвет секции (fill), фигуры не растягиваются.
 // mobileBackground — вертикальный вариант фона для экранов уже 640 px.
-// depth — глубина фона для параллакса (data-depth, см. HeroSection); фон чуть увеличен, чтобы края не открывались.
 import { twMerge } from 'tailwind-merge'
 import { kitImage } from '@/data/kit'
 
 interface Props {
   background: string
   mobileBackground?: string
-  depth?: number
   fill: string
   position?: string
   eager?: boolean
@@ -18,19 +16,17 @@ interface Props {
   [key: string]: unknown
 }
 
-const { background, mobileBackground, depth, fill, position = 'object-center', eager = false, as: Tag = 'section', class: className, ...rest } = Astro.props
+const { background, mobileBackground, fill, position = 'object-center', eager = false, as: Tag = 'section', class: className, ...rest } = Astro.props
 const image = kitImage(background)
 const mobile = mobileBackground ? kitImage(mobileBackground) : null
 ---
 
 <Tag class:list={[twMerge('relative isolate overflow-hidden', fill, className)]} {...rest}>
   <div aria-hidden="true" class="absolute inset-y-0 left-1/2 -z-10 w-full max-w-[150rem] -translate-x-1/2 min-[150rem]:mask-x-from-90%">
-    <div data-depth={depth} class:list={['size-full', depth !== undefined && 'scale-[1.06] will-change-transform']}>
     <picture>
       {mobile && <source media="(max-width: 639px)" srcset={mobile.srcset} sizes="100vw" width={mobile.width} height={mobile.height} />}
       <img src={image.src} srcset={image.srcset} sizes="100vw" width={image.width} height={image.height} alt="" loading={eager ? 'eager' : 'lazy'} fetchpriority={eager ? 'high' : undefined} decoding="async" class:list={['size-full object-cover', position]} />
     </picture>
-    </div>
   </div>
   <slot />
 </Tag>

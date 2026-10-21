@@ -12,7 +12,7 @@ export interface Game {
 // tone — фон плитки, accent — цвет кнопки-стрелки (классы Tailwind целиком)
 export const games: Game[] = [
   { href: '/games/plate.html', image: 'game-plate', title: 'Собери тарелку', text: 'Завтрак, обед и ужин: кто в какую часть?', sprites: ['plate3-1', 'toast-1'], tone: 'bg-[#f6d98a]', accent: 'bg-terracotta' },
-  { href: '/games/fiber.html', image: 'game-fiber', title: 'Паровозик и сад', text: 'Где есть клетчатка, а где нет?', sprites: ['mic-2', 'girlact-5'], tone: 'bg-[#d9ead0]', accent: 'bg-forest' },
+  { href: '/games/fiber.html', image: 'game-fiber-garden', title: 'Найди клетчатку', text: 'Где есть клетчатка, а где нет?', sprites: ['mic-2', 'girlact-5'], tone: 'bg-[#d9ead0]', accent: 'bg-forest' },
   { href: '/games/lunchbox.html', image: 'game-lunchbox', title: 'Ланч-бокс для друга', text: 'Обед в школу по заказу: «не ем мясо», «нельзя орехи».', sprites: ['lbox-1', 'classgirl-4'], tone: 'bg-[#f8dcc2]', accent: 'bg-terracotta' },
   { href: '/games/dishes.html', image: 'game-dishes', title: 'Что в блюде?', text: 'Найди друзей в плове, супе и блинчиках.', sprites: ['el60-8', 'cook-2'], tone: 'bg-[#d5e9ec]', accent: 'bg-water' },
   { href: '/games/myths.html', image: 'game-myths', title: 'Правда или миф', text: '10 карточек: что верно о еде?', sprites: ['girlact-1'], tone: 'bg-[#f7e6b0]', accent: 'bg-grain' },
