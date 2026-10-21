@@ -35,3 +35,6 @@ jobs:
       - name: Build
         working-directory: site
         run: npx astro build
+      - name: Verify pages and metadata
+        working-directory: site
+        run: npm run check:build

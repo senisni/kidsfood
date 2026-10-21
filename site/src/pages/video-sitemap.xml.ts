@@ -1,0 +1,5 @@
+import type { APIRoute } from 'astro'
+import { videos } from '@/data/videos'
+import { absoluteUrl } from '@/lib/seo'
+const xml = (value: string) => value.replace(/[<>&"']/g, (character) => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;', "'": '&apos;' })[character] ?? character)
+export const GET: APIRoute = () => new Response(`<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">${videos.map((video) => `<url><loc>${absoluteUrl(`/multfilmy/${video.id}/`)}</loc><video:video><video:thumbnail_loc>${absoluteUrl(video.poster)}</video:thumbnail_loc><video:title>${xml(video.title)}</video:title><video:description>${xml(video.text)}</video:description><video:content_loc>${absoluteUrl(video.src)}</video:content_loc><video:duration>${video.seconds}</video:duration><video:family_friendly>yes</video:family_friendly></video:video></url>`).join('')}</urlset>`, { headers: { 'Content-Type': 'application/xml; charset=utf-8' } })

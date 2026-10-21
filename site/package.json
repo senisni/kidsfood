@@ -6,6 +6,8 @@
     "sync": "node scripts/sync-assets.mjs",
     "dev": "npm run sync && astro dev",
     "build": "npm run sync && astro build",
+    "check:build": "node scripts/check-build.mjs",
+    "smoke": "node scripts/smoke-site.mjs",
     "preview": "astro preview"
   },
   "dependencies": {

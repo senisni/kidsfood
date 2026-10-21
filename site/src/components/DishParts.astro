@@ -1,0 +1,10 @@
+---
+import { twMerge } from 'tailwind-merge'
+import type { Dish } from '@/data/dishes'
+import { friends, friendTone } from '@/data/friends'
+import { typo } from '@/lib/typo'
+interface Props { dish: Dish; class?: string; [key: string]: unknown }
+const { dish, class: className, ...rest } = Astro.props
+const parts = { veg: dish.veg, grain: dish.grain, protein: dish.protein }
+---
+<dl class={twMerge('flex flex-col gap-3 text-base', className)} {...rest}>{friends.map((friend) => <div class="grid grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)] gap-3"><dt class:list={['font-display font-bold', friendTone[friend.id].text]}>{friend.name}</dt><dd>{typo(parts[friend.id])}</dd></div>)}</dl>

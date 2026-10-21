@@ -1,25 +1,18 @@
 ---
 import Button from '@/components/Button.astro'
-import DishCard, { type Dish } from '@/components/DishCard.astro'
+import DishCard from '@/components/DishCard.astro'
+import { dishes } from '@/data/dishes'
 import SectionHeading from '@/components/SectionHeading.astro'
-import SpeechBubble from '@/components/SpeechBubble.astro'
-import menu from '@/data/menu.json'
-import { phrases } from '@/data/phrases'
-
-// по два блюда на завтрак, обед и ужин — витрина, полный список на /menu
-const picks = ['B01', 'B04', 'L05', 'L12', 'D01', 'D06']
-const dishes = (menu as Dish[]).filter((dish) => picks.includes(dish.id))
+const picks = ['B01', 'L05', 'D01']
+const selectedDishes = dishes.filter((dish) => picks.includes(dish.id))
 ---
-
-<section id="menu" class="scroll-mt-20 bg-cream-deep/60 py-20">
-  <div class="mx-auto max-w-7xl px-4 md:px-6">
-    <SectionHeading kicker="Для родителей" title="Меню на 45 блюд" text="15 завтраков, 15 обедов и 15 ужинов по формуле трёх друзей. С заготовками и заморозкой — вкусно и практично." />
-    <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-      {dishes.map((dish) => <DishCard dish={dish} compact />)}
+<section id="menu" class="scroll-mt-24 bg-pink/25 py-12 md:py-16">
+  <div class="mx-auto max-w-7xl px-5 md:px-8">
+    <div class="mb-8 flex flex-wrap items-end justify-between gap-5">
+      <SectionHeading kicker="Продолжим дома · для взрослых" title="Что приготовить завтра?" text="Один день для примера. В семейном меню — 45 идей для завтрака, обеда и ужина, рецепты и заготовки." align="left" class="mb-0 max-w-2xl" />
+      <Button href="/menu/" variant="green">Все 45 блюд <span aria-hidden="true">→</span></Button>
     </div>
-    <div class="mt-10 flex flex-col items-center gap-5">
-      <SpeechBubble phrase={phrases.menu} face tail="left" />
-      <Button href="/menu/" variant="green">Всё меню и план заготовок →</Button>
-    </div>
+    <div class="grid gap-6 md:grid-cols-3">{selectedDishes.map((dish) => <DishCard dish={dish} compact />)}</div>
+    <a href="/menu/#prep" class="mt-6 inline-block font-bold text-forest underline underline-offset-4">Как заготовить еду на несколько дней →</a>
   </div>
 </section>

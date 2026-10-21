@@ -17,9 +17,9 @@
   --font-display: 'Balsamiq', 'Nunito', ui-sans-serif, sans-serif;
 
   /* палитра бумажного коллажа */
-  --color-cream: #f3ead3;
+  --color-cream: #f8f3e7;
   --color-cream-deep: #e9dcbc;
-  --color-paper: #fbf6e8;
+  --color-paper: #fffcf4;
   --color-ink: #2c3a33;
   --color-forest: #2f6b4a;
   --color-mint: #9fd3cf;
@@ -29,13 +29,13 @@
   --color-sand: #e6c27a;
 
   /* три друга */
-  --color-veg: #4f8f4f;
-  --color-grain: #c98f1f;
-  --color-protein: #c9603f;
-  --color-water: #3f8f86;
+  --color-veg: #3e7544;
+  --color-grain: #956516;
+  --color-protein: #ac482f;
+  --color-water: #286d65;
 
-  --shadow-paper: 0 0.3rem 0 rgb(60 40 10 / 0.1), 0 0.6rem 1.4rem rgb(60 40 10 / 0.2);
-  --shadow-paper-lg: 0 0.4rem 0 rgb(60 40 10 / 0.1), 0 1rem 2.4rem rgb(60 40 10 / 0.22);
+  --shadow-paper: 0 0.12rem 0 rgb(60 40 10 / 0.05), 0 0.3rem 0.7rem rgb(60 40 10 / 0.07);
+  --shadow-paper-lg: 0 0.25rem 0 rgb(60 40 10 / 0.07), 0 0.6rem 1.4rem rgb(60 40 10 / 0.1);
 
   /* слои поверх страницы */
   --z-index-sticky: 3000;
@@ -76,6 +76,8 @@
 @layer base {
   html { scroll-behavior: smooth; }
   body { @apply bg-cream font-sans font-semibold text-ink antialiased; }
+  summary { cursor: pointer; }
+  img { max-width: 100%; }
   :focus-visible { @apply outline-4 outline-offset-2 outline-protein/60; }
 }
 

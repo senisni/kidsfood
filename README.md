@@ -27,7 +27,7 @@ cd site && npm install && npm run dev
 **Публикация:** https://kidsfood.insines.ru
 
 - Сервер `coopertino`, Caddy из `senisni/caddy-config` (`sites/public/kidsfood.caddy`).
-- **Push в `main` → прод обновляется сам.** GitHub Actions (`.github/workflows/deploy.yml`): `npm ci` → `astro check` → `npm run build` (с синхронизацией ассетов) → rsync в `~/kidsfood/web/staging` → атомарное переключение симлинка `~/kidsfood/web/current` на новый релиз → smoke-проверка `https://kidsfood.insines.ru/`. Хранятся три последних релиза.
+- **Push в `main` → прод обновляется сам.** GitHub Actions (`.github/workflows/deploy.yml`): `npm ci` → `npm run sync` → `astro check` → `astro build` → `npm run check:build` → rsync в `~/kidsfood/web/staging` → атомарное переключение симлинка `~/kidsfood/web/current` на новый релиз → smoke-проверка `https://kidsfood.insines.ru/`. Хранятся три последних релиза.
 - Если сборка не изменилась, релиз не создаётся.
 - Выключатель: переменная репозитория `DEPLOY_ENABLED` (сейчас `true`). Ключ деплоя — секрет `SSH_PRIVATE_KEY` (на сервере в `authorized_keys` с комментарием `kidsfood-deploy@github-actions`).
 - Откат: на сервере `cd ~/kidsfood/web && ls releases` и `ln -sfn releases/<id> current.tmp && mv -Tf current.tmp current`.
@@ -57,7 +57,7 @@ video/                мультфильм и эпизоды
   music/              сюда класть трек: film.mp3, ep-fiber.mp3 …
   out/                готовые MP4 (out/archive — прежние версии)
   build/              промежуточные файлы, можно удалять
-interactive/          игры: index.html (меню), 6 страниц игр, common.css/js
+interactive/          игры: index.html (меню), 7 страниц игр, common.css/js
 shared/fonts/         шрифты для видео, игр и сайта
 site/                 сайт (Astro + Tailwind): src/ — компоненты и данные, public/ генерируется
 tools/                скилл анимации (zip)
@@ -65,3 +65,12 @@ references/, archive/ присланные примеры и исходные г
 ```
 
 Сборка видео — [video/README.md](video/README.md).
+
+## Дизайн и поиск
+
+- Разбор каждого блока и три варианта композиции — [docs/SITE-DESIGN-REVIEW.md](docs/SITE-DESIGN-REVIEW.md). На сайте реализовано направление «Бумажный альбом».
+- `/multfilmy/` и три страницы просмотра, `/igry/`, `/menu/` и 45 страниц рецептов, `/o-proekte/` — статический HTML с отдельными заголовками, описаниями и каноническими адресами.
+- Общий слой метаданных — `site/src/layouts/BaseLayout.astro`, JSON-LD — `site/src/lib/seo.ts`. Разметка описывает сайт, навигацию, видео, рецепты, игры и видимые вопросы с ответами. Рейтинги, квалификации авторов и неподтверждённые сведения не добавляются.
+- `/sitemap.xml` содержит 60 адресов; `/video-sitemap.xml` — три мультфильма. Обе карты указаны в `robots.txt`. Внешние кабинеты Google Search Console и Яндекс Вебмастер подключаются владельцем отдельно; индексация и позиции не гарантируются разметкой.
+- Проверка: в `site/` выполнить `npm run build`, `npx astro check`, `npm run check:build`. Последняя команда проверяет все HTML-страницы, локальные ссылки и якоря, ресурсы, основные метаданные, JSON-LD и полноту карты сайта. Эта проверка включена в CI и деплой.
+- Для запуска сайта не нужны локальные исходники: опубликованная статика находится на сервере. Для восстановления и дальнейшей работы нужен Git-репозиторий. Актуальные исходники, изображения, шрифты и финальные MP4 отслеживаются Git. `video/out/old/` — прежние ролики, которые существуют только локально; они не входят в актуальный сайт. `site/public/`, `site/dist/`, `video/build/` и зависимости — производные файлы.

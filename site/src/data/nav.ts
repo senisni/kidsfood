@@ -1,7 +1,6 @@
 export const nav = [
-  { href: '/#friends', label: 'Три друга' },
-  { href: '/#videos', label: 'Мультфильмы' },
-  { href: '/#games', label: 'Игры' },
-  { href: '/menu/', label: 'Меню для семьи' },
-  { href: '/#parents', label: 'Родителям' },
+  { href: '/multfilmy/', label: 'Смотреть' },
+  { href: '/igry/', label: 'Играть' },
+  { href: '/menu/', label: 'Семейное меню' },
+  { href: '/#parents', label: 'Взрослым' },
 ]

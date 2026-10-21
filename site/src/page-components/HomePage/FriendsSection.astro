@@ -1,24 +1,12 @@
 ---
 import FriendCard from '@/components/FriendCard.astro'
-import Plate from '@/components/Plate.astro'
 import SectionHeading from '@/components/SectionHeading.astro'
-import SpeechBubble from '@/components/SpeechBubble.astro'
 import { friends } from '@/data/friends'
-import { phrases } from '@/data/phrases'
-import { typo } from '@/lib/typo'
 ---
-
-<section id="friends" class="mx-auto max-w-7xl scroll-mt-20 px-4 py-20 md:px-6">
-  <SectionHeading kicker="Главная мысль" title="На каждой тарелке — три друга" text="Одно правило для завтрака, школьного обеда и ужина. Еда разная — формула одна." />
-  <div class="grid gap-8 md:grid-cols-3">
+<section id="friends" class="mx-auto max-w-7xl scroll-mt-24 px-5 py-12 md:px-8 md:py-16">
+  <SectionHeading kicker="Знакомимся" title="У еды есть своя компания" text="Овощи и фрукты, крупы и хлеб, белок. В игре мы называем их тремя друзьями." align="left" />
+  <div class="grid gap-6 md:grid-cols-3">
     {friends.map((friend) => <FriendCard friend={friend} />)}
   </div>
-  <div class="mt-16 grid items-center gap-10 md:grid-cols-[1fr_1.2fr]">
-    <Plate veg={['broccoli', 'carrot']} grain={['potato']} protein={['fish']} class="mx-auto w-full max-w-sm" />
-    <div class="flex flex-col gap-5">
-      <SpeechBubble phrase={phrases.question} face tail="left" />
-      <p class="text-xl leading-relaxed">{typo('Половина тарелки — овощи и фрукты. Четверть — крупы и хлеб, четверть — белок. Утром и вечером меняется еда и аппетит, а друзья остаются те же: правила «утром углеводы, вечером белок» нет.')}</p>
-      <SpeechBubble phrase={phrases.allThree} face tail="left" />
-    </div>
-  </div>
+  <p class="mt-6 max-w-3xl text-base leading-relaxed text-ink/75">Схема тарелки помогает увидеть разнообразие еды. Это ориентир, а не требование отмерять каждую порцию. В супе, плове или блинчиках друзья тоже могут встретиться.</p>
 </section>

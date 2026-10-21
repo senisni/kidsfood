@@ -1,29 +1,17 @@
 ---
 import { twMerge } from 'tailwind-merge'
-
-import PaperCard from '@/components/PaperCard.astro'
 import Sprite from '@/components/Sprite.astro'
 import type { Game } from '@/data/games'
 import { typo } from '@/lib/typo'
-
-interface Props {
-  game: Game
-  number: number
-  class?: string
-  [key: string]: unknown
-}
-
-const { game, number, class: className, ...rest } = Astro.props
+interface Props { game: Game; featured?: boolean; class?: string; wrapperClass?: string; [key: string]: unknown }
+const { game, featured = false, class: className, wrapperClass, ...rest } = Astro.props
 ---
-
-<PaperCard as="a" href={game.href} backing={game.tone} class={twMerge('flex min-h-72 flex-col p-5 transition group-hover/card:-translate-y-1 group-hover/card:-rotate-1', className)} {...rest}>
-  <h3 class="font-display text-2xl font-bold">{game.title}</h3>
-  <p class="mt-1 max-w-[16rem] text-base">{typo(game.text)}</p>
-  <div class="mt-auto flex items-end justify-between">
-    <span class:list={['grid size-11 place-items-center rounded-full font-display text-xl font-bold text-paper', game.tone]}>{number}</span>
-    <span class="flex items-end gap-1">
-      {game.sprites.map((name, index) => <Sprite name={name} alt="" class:list={[index === game.sprites.length - 1 ? 'h-36' : 'h-24', 'transition group-hover/card:-translate-y-1']} />)}
-    </span>
+<a href={game.href} class:list={[twMerge('group flex min-w-0 flex-col rounded-2xl bg-paper p-5 shadow-paper transition hover:-translate-y-1', featured ? 'min-h-96 p-7' : 'min-h-64', wrapperClass, className)]} {...rest}>
+  {featured && <p class="mb-3 text-sm font-extrabold tracking-wider text-forest uppercase">Начни с этой игры</p>}
+  <h3 class:list={['font-display leading-tight font-bold', featured ? 'text-4xl' : 'text-2xl']}>{game.title}</h3>
+  <p class="mt-2 text-base leading-relaxed text-ink/80">{typo(game.text)}</p>
+  <div class="mt-auto flex min-h-28 items-end justify-end gap-2 pt-5" aria-hidden="true">
+    {game.sprites.map((name, index) => <Sprite name={name} class:list={[featured ? 'h-48 max-w-[48%]' : 'h-24 max-w-[46%]', index === 0 && game.sprites.length > 1 ? 'self-end' : '']} />)}
   </div>
-  <span class="absolute top-4 right-4 rounded-full bg-veg px-3 py-1 font-display text-sm font-bold text-paper opacity-0 transition group-hover/card:opacity-100">Играть →</span>
-</PaperCard>
+  <span class="mt-4 flex items-center justify-between border-t border-ink/10 pt-3 font-display text-lg font-bold text-forest">Играть <span aria-hidden="true" class="transition group-hover:translate-x-1">→</span></span>
+</a>

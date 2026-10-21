@@ -1,0 +1,33 @@
+---
+import type { GetStaticPaths } from 'astro'
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import Breadcrumbs from '@/components/Breadcrumbs.astro'
+import Button from '@/components/Button.astro'
+import DishParts from '@/components/DishParts.astro'
+import DishSteps from '@/components/DishSteps.astro'
+import DishCard from '@/components/DishCard.astro'
+import { dishes, dishHref, mealNames, type Dish } from '@/data/dishes'
+import { absoluteUrl, breadcrumbSchema } from '@/lib/seo'
+import { typo } from '@/lib/typo'
+export const getStaticPaths = (() => dishes.map((dish) => ({ params: { id: dish.id.toLowerCase() }, props: { dish } }))) satisfies GetStaticPaths
+interface Props { dish: Dish }
+const { dish } = Astro.props
+const meal = mealNames[dish.meal]
+const crumbs = [{ name: 'Главная', href: '/' }, { name: 'Семейное меню', href: '/menu/' }, { name: dish.title, href: dishHref(dish) }]
+const description = `${dish.title}: рецепт для семьи. ${dish.veg}; ${dish.grain}; ${dish.protein}. Приготовление${dish.tags.includes('ice') ? ' и заготовка для заморозки' : ''}.`
+const recipe = { '@type': 'Recipe', '@id': absoluteUrl(`/menu/${dish.id.toLowerCase()}/#recipe`), name: dish.title, description, image: absoluteUrl(dish.sprite ?? dish.img), recipeCategory: meal, inLanguage: 'ru', recipeIngredient: [dish.veg, dish.grain, dish.protein], recipeInstructions: dish.how.map((step) => ({ '@type': 'HowToStep', text: step.replace(/<[^>]+>/g, '') })), isAccessibleForFree: true }
+const related = dishes.filter((item) => item.meal === dish.meal && item.id !== dish.id).slice(0, 3)
+---
+<BaseLayout title={`${dish.title} — рецепт для семьи | Три друга на тарелке`} description={description} image={dish.sprite ?? dish.img} schema={[recipe, breadcrumbSchema(crumbs)]}>
+  <article id="recipe" class="mx-auto max-w-7xl px-5 py-10 md:px-8 md:py-12">
+    <Breadcrumbs items={crumbs} />
+    <p class="text-sm font-extrabold tracking-wider text-protein uppercase">{meal} · семейное меню</p>
+    <h1 class="mt-3 max-w-4xl font-display text-4xl leading-tight font-bold md:text-5xl">{typo(dish.title)}</h1>
+    <div class="mt-8 grid items-center gap-8 rounded-3xl bg-paper p-6 md:grid-cols-2 md:p-9">
+      {dish.sprite && <img src={dish.sprite} alt={dish.title} width="640" height="480" class="mx-auto aspect-[4/3] w-full max-w-lg object-contain" fetchpriority="high" />}
+      <div><h2 class="mb-5 font-display text-2xl font-bold">Три друга в этом блюде</h2><DishParts dish={dish} />{dish.tags.includes('ice') && <p class="mt-5 rounded-lg bg-sky/50 px-4 py-3 text-sm font-bold">Подходит для заготовки и заморозки — способ указан в рецепте.</p>}</div>
+    </div>
+    <div class="mt-10 grid gap-10 md:grid-cols-[1.6fr_1fr]"><section><h2 class="mb-5 font-display text-3xl font-bold">Как приготовить</h2><DishSteps steps={dish.how} /></section><aside class="rounded-2xl bg-mint/20 p-6"><h2 class="font-display text-2xl font-bold">Готовим вместе</h2><p class="mt-3 leading-relaxed">Предложите ребёнку найти овощи или фрукты, крупу или хлеб и белковые продукты. Часть еды может быть внутри блюда, часть — рядом на столе.</p><p class="mt-4 text-sm leading-relaxed text-ink/75">Количество продуктов и способ приготовления — в шагах рецепта. Если указан вариант из заготовки, её готовят заранее.</p><Button href="/menu/#prep" variant="ghost" class="mt-5 text-base">План заготовок →</Button></aside></div>
+    <section class="mt-12 border-t border-ink/15 pt-8"><h2 class="mb-6 font-display text-3xl font-bold">Ещё идеи: {meal.toLowerCase()}</h2><div class="grid gap-6 md:grid-cols-3">{related.map((item) => <DishCard dish={item} compact />)}</div></section>
+  </article>
+</BaseLayout>

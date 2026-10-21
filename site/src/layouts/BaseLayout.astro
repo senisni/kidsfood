@@ -1,19 +1,24 @@
 ---
 import '@/styles/global.css'
-
 import Footer from '@/components/Footer.astro'
 import Header from '@/components/Header.astro'
+import { absoluteUrl, serializeSchema, siteName, siteUrl } from '@/lib/seo'
 
 interface Props {
   title: string
   description: string
   image?: string
+  noindex?: boolean
+  schema?: Record<string, unknown>[]
 }
-
-const { title, description, image = '/media/three-friends.jpg' } = Astro.props
-const canonical = new URL(Astro.url.pathname, Astro.site)
+const { title, description, image = '/img/social.jpg', noindex = false, schema = [] } = Astro.props
+const canonical = absoluteUrl(noindex ? '/404.html' : Astro.url.pathname)
+const graph = [
+  { '@type': 'WebSite', '@id': `${siteUrl}/#website`, name: siteName, url: `${siteUrl}/`, inLanguage: 'ru' },
+  { '@type': 'WebPage', '@id': `${canonical}#page`, url: canonical, name: title, description, inLanguage: 'ru', isPartOf: { '@id': `${siteUrl}/#website` }, primaryImageOfPage: { '@type': 'ImageObject', url: absoluteUrl(image) } },
+  ...schema,
+]
 ---
-
 <!doctype html>
 <html lang="ru">
   <head>
@@ -21,18 +26,29 @@ const canonical = new URL(Astro.url.pathname, Astro.site)
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <meta name="robots" content={noindex ? 'noindex,follow' : 'index,follow,max-image-preview:large,max-video-preview:-1'} />
     <link rel="canonical" href={canonical} />
     <meta property="og:type" content="website" />
+    <meta property="og:locale" content="ru_RU" />
+    <meta property="og:site_name" content={siteName} />
+    <meta property="og:url" content={canonical} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content={new URL(image, Astro.site)} />
-    <meta name="theme-color" content="#f3ead3" />
+    <meta property="og:image" content={absoluteUrl(image)} />
+    <meta property="og:image:alt" content={title} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={absoluteUrl(image)} />
+    <meta name="theme-color" content="#f8f3e7" />
     <link rel="icon" href="/video/sprites/plate3-1.png" />
     <link rel="preload" href="/shared/fonts/balsamiq-700-cyrillic.woff2" as="font" type="font/woff2" crossorigin />
+    <script type="application/ld+json" set:html={serializeSchema({ '@context': 'https://schema.org', '@graph': graph })} />
   </head>
   <body>
+    <a href="#content" class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-modal focus:rounded-xl focus:bg-paper focus:px-5 focus:py-3">К содержимому</a>
     <Header />
-    <main><slot /></main>
+    <main id="content"><slot /></main>
     <Footer />
   </body>
 </html>

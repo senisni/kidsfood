@@ -1,21 +1,11 @@
 ---
 import { twMerge } from 'tailwind-merge'
-
-import PaperCard from '@/components/PaperCard.astro'
 import type { Fact } from '@/data/facts'
 import { typo } from '@/lib/typo'
-
-interface Props {
-  fact: Fact
-  backing?: string
-  class?: string
-  [key: string]: unknown
-}
-
-const { fact, backing = 'bg-sand', class: className, ...rest } = Astro.props
+interface Props { fact: Fact; class?: string; [key: string]: unknown }
+const { fact, class: className, ...rest } = Astro.props
 ---
-
-<PaperCard as="article" backing={backing} class={twMerge('p-6', className)} {...rest}>
-  <h3 class="font-display text-2xl leading-tight font-bold">{typo(fact.title)}</h3>
-  <p class="mt-2 text-lg leading-relaxed">{typo(fact.text)}</p>
-</PaperCard>
+<details class:list={[twMerge('group border-b border-ink/15 py-5', className)]} {...rest}>
+  <summary class="font-display text-xl font-bold marker:text-forest md:text-2xl">{typo(fact.title)}</summary>
+  <div class="pt-3"><p class="max-w-2xl text-base leading-relaxed text-ink/80">{typo(fact.text)}</p>{fact.source && <a href={fact.source.href} target="_blank" rel="noopener noreferrer" class="mt-3 inline-block text-sm font-bold text-water underline underline-offset-4">Источник: {fact.source.name} ↗</a>}</div>
+</details>

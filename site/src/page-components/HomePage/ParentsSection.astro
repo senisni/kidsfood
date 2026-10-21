@@ -1,20 +1,11 @@
 ---
 import FactCard from '@/components/FactCard.astro'
-import SectionHeading from '@/components/SectionHeading.astro'
-import { facts, sources } from '@/data/facts'
-
-const backings = ['bg-mint', 'bg-pink', 'bg-veg/50', 'bg-rose', 'bg-sky', 'bg-sand']
+import Button from '@/components/Button.astro'
+import { facts } from '@/data/facts'
+interface Props { full?: boolean }
+const { full = false } = Astro.props
 ---
-
-<section id="parents" class="mx-auto max-w-7xl scroll-mt-20 px-4 py-20 md:px-6">
-  <SectionHeading kicker="Родителям и учителям" title="Что мы говорим детям — и почему" text="Каждая мысль сверена с рекомендациями. Без деления еды на хорошую и плохую, без калорий и «доешь»." />
-  <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-    {facts.map((fact, index) => <FactCard fact={fact} backing={backings[index % backings.length]} />)}
-  </div>
-  <div class="mt-12 text-center">
-    <p class="font-display text-xl font-bold">Источники</p>
-    <ul class="mt-3 flex flex-wrap justify-center gap-x-5 gap-y-2 text-base">
-      {sources.map((source) => <li><a href={source.href} target="_blank" rel="noopener" class="text-water underline underline-offset-4">{source.name}</a></li>)}
-    </ul>
-  </div>
+<section id="parents" class="mx-auto grid max-w-7xl scroll-mt-24 gap-8 px-5 py-12 md:px-8 md:py-16 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
+  <div><p class="mb-3 text-xs font-extrabold tracking-[0.14em] text-protein uppercase">Родителям и учителям</p><h2 class="font-display text-3xl leading-tight font-bold md:text-4xl">Говорим о еде<br />спокойно и с интересом</h2><p class="mt-5 max-w-md text-lg leading-relaxed text-ink/80">Вместе смотреть, пробовать, обсуждать. Без подсчёта калорий, ярлыков «плохая еда» и требования доесть.</p>{!full && <Button href="/o-proekte/" variant="ghost" class="mt-6 text-base">О проекте и источниках →</Button>}</div>
+  <div>{facts.map((fact) => <FactCard fact={fact} />)}</div>
 </section>

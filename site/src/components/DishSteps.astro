@@ -1,0 +1,7 @@
+---
+import { twMerge } from 'tailwind-merge'
+import { typo } from '@/lib/typo'
+interface Props { steps: string[]; class?: string; [key: string]: unknown }
+const { steps, class: className, ...rest } = Astro.props
+---
+<ol class={twMerge('list-decimal space-y-4 pl-5 text-base leading-relaxed [&_em]:font-extrabold [&_em]:not-italic', className)} {...rest}>{steps.map((step) => <li set:html={typo(step)} />)}</ol>

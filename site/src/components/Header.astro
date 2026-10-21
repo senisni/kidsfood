@@ -2,21 +2,15 @@
 import Sprite from '@/components/Sprite.astro'
 import { nav } from '@/data/nav'
 ---
-
-<header class="sticky top-0 z-sticky border-b-4 border-cream-deep bg-cream/90 backdrop-blur">
-  <div class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-2 md:px-6">
-    <a href="/" class="flex items-center gap-2 font-display text-xl font-bold md:text-2xl">
-      <Sprite name="plate3-1" alt="" class="size-10 drop-shadow-none" eager />
-      Три друга
-    </a>
-    <nav aria-label="Разделы" class="hidden gap-1 lg:flex">
-      {nav.map((item) => <a href={item.href} class="rounded-xl px-3 py-2 font-display text-lg font-bold transition hover:bg-paper">{item.label}</a>)}
-    </nav>
-    <details class="relative lg:hidden">
-      <summary class="cursor-pointer list-none rounded-xl bg-paper px-4 py-2 font-display font-bold shadow-paper">Меню</summary>
-      <nav aria-label="Разделы" class="absolute right-0 mt-2 flex w-56 flex-col rounded-2xl bg-paper p-2 shadow-paper-lg">
-        {nav.map((item) => <a href={item.href} class="rounded-xl px-3 py-2 font-display text-lg font-bold hover:bg-cream">{item.label}</a>)}
-      </nav>
-    </details>
+<header class="sticky top-0 z-sticky border-b border-ink/10 bg-paper/95 backdrop-blur">
+  <div class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-3 md:px-8">
+    <a href="/" aria-label="Три друга на тарелке — главная" class="flex shrink-0 items-center gap-2 font-display text-xl font-bold md:text-2xl"><Sprite name="plate3-1" alt="" class="size-9 drop-shadow-none" eager />Три друга</a>
+    <nav aria-label="Основная навигация" class="hidden items-center gap-1 md:flex">{nav.map((item) => <a href={item.href} aria-current={Astro.url.pathname === item.href ? 'page' : undefined} class="rounded-lg px-3 py-2 text-sm font-extrabold transition hover:bg-mint/25 aria-[current=page]:bg-mint/30 lg:text-base">{item.label}</a>)}</nav>
+    <details data-mobile-nav class="relative md:hidden"><summary class="list-none rounded-lg border border-ink/15 bg-paper px-4 py-2 font-bold">Разделы <span aria-hidden="true">☰</span></summary><nav aria-label="Мобильная навигация" class="absolute right-0 mt-3 flex w-60 flex-col rounded-xl border border-ink/10 bg-paper p-2 shadow-paper-lg">{nav.map((item) => <a href={item.href} class="rounded-lg px-4 py-3 font-bold hover:bg-cream">{item.label}</a>)}</nav></details>
   </div>
 </header>
+<script>
+  document.querySelectorAll<HTMLDetailsElement>('[data-mobile-nav]').forEach((menu) => {
+    menu.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => { menu.open = false }))
+  })
+</script>
