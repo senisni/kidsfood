@@ -3,9 +3,7 @@ import FactCard from '@/components/FactCard.astro'
 import Icon from '@/components/Icon.astro'
 import KitImage from '@/components/KitImage.astro'
 import PaperHills from '@/components/PaperHills.astro'
-import PhraseSwap from '@/components/PhraseSwap.astro'
 import { facts, homeFacts } from '@/data/facts'
-import { swaps } from '@/data/swaps'
 import { typo } from '@/lib/typo'
 
 // full — все вопросы (страница «О проекте»), иначе — выбранные для главной
@@ -25,12 +23,10 @@ const notes = [
 ---
 <section id="parents" aria-labelledby="parents-title" class="relative scroll-mt-[5rem] overflow-hidden bg-cream pt-[3rem] sm:pt-[4rem]">
   <div class="shell relative">
-    <p class="font-display text-[1.05rem] font-extrabold text-terracotta">Родителям и учителям</p>
-    <h2 id="parents-title" class="mt-[0.3rem] leading-[1em] font-display text-[2.4rem] font-black text-forest-deep sm:text-[3.2rem]">{typo('Что сказать вместо «доешь»')}</h2>
-    <p class="mt-[0.8rem] max-w-[40rem] text-[1.05rem] text-ink/80">{typo('Четыре фразы для обычного обеда. Без подсчёта калорий, ярлыков «вредно» и уговоров — так ребёнку проще самому выбирать разную еду.')}</p>
-    <div class="mt-[1.6rem] grid gap-[1rem] sm:grid-cols-2 sm:gap-[1.2rem]">{swaps.map((swap) => <PhraseSwap swap={swap} />)}</div>
+    <h2 id="parents-title" class="leading-[1em] font-display text-[2.4rem] font-black text-forest-deep sm:text-[3.2rem]">Родителям и учителям</h2>
+    <p class="mt-[0.8rem] max-w-[40rem] text-[1.05rem] text-ink/80">{typo('Как говорить с детьми о еде спокойно и с интересом: без подсчёта калорий, ярлыков «вредно» и требования доесть.')}</p>
 
-    <h3 class="mt-[3rem] leading-[1em] font-display text-[1.8rem] font-black text-forest-deep sm:text-[2.2rem]">Как заниматься с ребёнком</h3>
+    <h3 class="mt-[2rem] leading-[1em] font-display text-[1.8rem] font-black text-forest-deep sm:text-[2.2rem]">Как заниматься с ребёнком</h3>
     <ol class="mt-[1.2rem] grid gap-[1rem] sm:grid-cols-3 sm:gap-[1.2rem]">
       {steps.map((step, index) => <li class="group relative flex flex-col rounded-[1.6rem] bg-paper p-[1.1rem] shadow-paper ring-2 ring-cream-deep/70">
         <span aria-hidden="true" class="absolute -top-[0.7rem] -left-[0.5rem] z-10 grid size-[2.4rem] place-items-center rounded-full bg-forest font-display text-[1.15rem] font-black text-paper ring-[0.2rem] ring-paper">{index + 1}</span>
