@@ -12,7 +12,7 @@
 | Эпизод «Сад в животе» ≈27 с | `video/out/ep-fiber-v4.mp4` | любой плеер |
 | Эпизод «Ужин: слушай живот» ≈26 с | `video/out/ep-dinner-v3.mp4` |
 | Семейное меню: 45 блюд с картинками | `docs/menu/menu.html`, `docs/menu/img/` | браузер |
-| 7 игр: тарелка, клетчатка, ланч-бокс, что в блюде, правда или миф, что говорит живот, перекус | `interactive/index.html` | двойной клик |
+| 7 игр: тарелка, клетчатка, ланч-бокс, что в блюде, правда или миф, что говорит живот, перекус | `site/src/pages/igry/`, на сайте — `/igry/` | двойной клик |
 
 ## Сайт
 
@@ -31,7 +31,7 @@ cd site && npm install && npm run dev
 - Если сборка не изменилась, релиз не создаётся.
 - Выключатель: переменная репозитория `DEPLOY_ENABLED` (сейчас `true`). Ключ деплоя — секрет `SSH_PRIVATE_KEY` (на сервере в `authorized_keys` с комментарием `kidsfood-deploy@github-actions`).
 - Откат: на сервере `cd ~/kidsfood/web && ls releases` и `ln -sfn releases/<id> current.tmp && mv -Tf current.tmp current`.
-- Что попадает на сайт: всё, что собирает `site/scripts/sync-assets.mjs` из `interactive/`, `video/sprites/`, `video/out/web/`, `docs/menu/`, `shared/fonts/`. Новые ролики для сайта — перекодировать в `video/out/web/` (см. `site/AGENTS.md`).
+- Что попадает на сайт: всё, что собирает `site/scripts/sync-assets.mjs`, `video/sprites/`, `video/out/web/`, `docs/menu/`, `shared/fonts/`. Новые ролики для сайта — перекодировать в `video/out/web/` (см. `site/AGENTS.md`).
 
 ## Папки
 
@@ -57,7 +57,6 @@ video/                мультфильм и эпизоды
   music/              сюда класть трек: film.mp3, ep-fiber.mp3 …
   out/                готовые MP4 (out/archive — прежние версии)
   build/              промежуточные файлы, можно удалять
-interactive/          игры: index.html (меню), 7 страниц игр, common.css/js
 shared/fonts/         шрифты для видео, игр и сайта
 site/                 сайт (Astro + Tailwind): src/ — компоненты и данные, public/ генерируется
 tools/                скилл анимации (zip)

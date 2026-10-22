@@ -2,8 +2,7 @@
 import '@/styles/global.css'
 import Footer from '@/components/Footer.astro'
 import Header from '@/components/Header.astro'
-import { metrikaSnippet } from '@/data/metrika'
-import { absoluteUrl, serializeSchema, siteName, siteUrl } from '@/lib/seo'
+import SeoHead from '@/components/SeoHead.astro'
 
 interface Props {
   title: string
@@ -12,41 +11,13 @@ interface Props {
   noindex?: boolean
   schema?: Record<string, unknown>[]
 }
-const { title, description, image = '/img/social.jpg', noindex = false, schema = [] } = Astro.props
-const canonical = absoluteUrl(noindex ? '/404.html' : Astro.url.pathname)
-const graph = [
-  { '@type': 'WebSite', '@id': `${siteUrl}/#website`, name: siteName, url: `${siteUrl}/`, inLanguage: 'ru' },
-  { '@type': 'WebPage', '@id': `${canonical}#page`, url: canonical, name: title, description, inLanguage: 'ru', isPartOf: { '@id': `${siteUrl}/#website` }, primaryImageOfPage: { '@type': 'ImageObject', url: absoluteUrl(image) } },
-  ...schema,
-]
+const props = Astro.props
 ---
 <!doctype html>
 <html lang="ru">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{title}</title>
-    <meta name="description" content={description} />
-    <meta name="robots" content={noindex ? 'noindex,follow' : 'index,follow,max-image-preview:large,max-video-preview:-1'} />
-    <link rel="canonical" href={canonical} />
-    <meta property="og:type" content="website" />
-    <meta property="og:locale" content="ru_RU" />
-    <meta property="og:site_name" content={siteName} />
-    <meta property="og:url" content={canonical} />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
-    <meta property="og:image" content={absoluteUrl(image)} />
-    <meta property="og:image:alt" content={title} />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={title} />
-    <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={absoluteUrl(image)} />
-    <meta name="theme-color" content="#f8f3e7" />
-    <link rel="icon" type="image/png" href="/favicon.png" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <SeoHead {...props} />
     <link rel="preload" href="/shared/fonts/rubik-800-cyrillic.woff2" as="font" type="font/woff2" crossorigin />
-    <script type="application/ld+json" set:html={serializeSchema({ '@context': 'https://schema.org', '@graph': graph })} />
-    <Fragment set:html={metrikaSnippet} />
   </head>
   <body>
     <a href="#content" class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-modal focus:rounded-xl focus:bg-paper focus:px-5 focus:py-3">К содержимому</a>

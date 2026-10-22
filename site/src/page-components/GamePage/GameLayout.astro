@@ -1,0 +1,28 @@
+---
+// Страница игры: сцена 1600 × 900 на весь экран, без шапки сайта. Общие стили и функции игр — здесь,
+// разметка сцены — в слоте, код игры — в слоте script (после общего кода).
+import SeoHead from '@/components/SeoHead.astro'
+import type { Game } from '@/data/games'
+import { absoluteUrl } from '@/lib/seo'
+import core from './game-core.js?raw'
+import './game.css'
+
+interface Props { game: Game }
+const { game } = Astro.props
+const title = `${game.title} — игра о еде для детей`
+const description = `${game.text} Бесплатная игра для детей 8–12 лет с подсказками, без регистрации.`
+const schema = [{ '@type': 'VideoGame', name: game.title, description, url: absoluteUrl(game.href), inLanguage: 'ru', genre: 'Обучающая игра', gamePlatform: 'Веб‑браузер', isAccessibleForFree: true, image: absoluteUrl(`/video/sprites/${game.sprites[0]}.png`) }]
+---
+<!doctype html>
+<html lang="ru">
+  <head>
+    <SeoHead title={title} description={description} schema={schema} viewport="width=device-width, initial-scale=1, user-scalable=no" />
+  </head>
+  <body>
+    <h1 class="sr-only">{game.title}</h1>
+    <div id="stage"><slot /></div>
+    <noscript><p>Для игры нужен JavaScript. Можно <a href="/multfilmy/">посмотреть мультфильм</a> или открыть <a href="/menu/">семейное меню</a>.</p></noscript>
+    <script is:inline set:html={core} />
+    <slot name="script" />
+  </body>
+</html>

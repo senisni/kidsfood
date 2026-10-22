@@ -1,6 +1,6 @@
-// Общая основа игр: масштаб сцены, звук, прогресс, перетаскивание, полка, полоса подсказок.
+// Общая основа игр (подключается в GameLayout как обычный скрипт: игры используют её функции): масштаб сцены, звук, прогресс, перетаскивание, полка, полоса подсказок.
 "use strict";
-const S = n => `../video/sprites/${n}.png`;
+const S = n => `/video/sprites/${n}.png`;
 const $ = s => document.querySelector(s);
 const stage = document.getElementById("stage");
 let scale = 1;

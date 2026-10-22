@@ -36,29 +36,15 @@ const syncDir = async (from, to, transform) => {
   console.log(`${to.replace(site + '/', '')}: обновлено ${count}`)
 }
 
-// игры: пути к спрайтам и шрифтам остаются относительными (../video/sprites, ../shared/fonts)
-// Метаданные публикации формируются из того же списка, что и карточки сайта.
+// старые адреса игр /games/*.html → /igry/<slug>/: игры теперь обычные страницы Astro (src/pages/igry/).
+// Переадресация на странице, потому что сервер раздаёт статику как есть; noindex и canonical — на новый адрес.
 const escapeHtml = (value) => value.replace(/[&<>"']/g, (character) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[character])
 const siteUrl = 'https://kidsfood.insines.ru'
+const redirectPage = (target, title) => `<!doctype html><html lang="ru"><head><meta charset="utf-8"><title>${escapeHtml(title)}</title><meta name="description" content="${escapeHtml(title)}: страница переехала."><meta name="robots" content="noindex,follow"><link rel="canonical" href="${siteUrl}${target}"><meta property="og:image" content="${siteUrl}/img/social.jpg"><meta http-equiv="refresh" content="0; url=${target}"><script>location.replace(${JSON.stringify(target)} + location.hash)</script></head><body><p>Страница переехала: <a href="${target}">${escapeHtml(title)}</a>.</p></body></html>\n`
 await mkdir(join(pub, 'games'), { recursive: true })
-for (const name of await readdir(join(root, 'interactive'))) {
-  const source = join(root, 'interactive', name)
-  if (!['.html', '.css', '.js'].includes(extname(name))) continue
-  if (!(await stat(source)).isFile()) continue
-  const target = join(pub, 'games', name)
-  if (!name.endsWith('.html')) { await copyFile(source, target); continue }
-  const game = games.find((item) => item.href === `/games/${name}`)
-  const title = game ? `${game.title} — игра о еде для детей` : 'Семь игр о еде — Три друга на тарелке'
-  const description = game ? `${game.text} Бесплатная игра для детей 8–12 лет с подсказками, без регистрации.` : 'Семь игр о еде для детей 8–12 лет: тарелка, ланч-бокс, клетчатка, сытость и перекус.'
-  const canonical = `${siteUrl}${game?.href ?? '/igry/'}`
-  const schema = game ? { '@context': 'https://schema.org', '@type': 'VideoGame', name: game.title, description, url: canonical, inLanguage: 'ru', genre: 'Обучающая игра', gamePlatform: 'Веб-браузер', isAccessibleForFree: true, image: `${siteUrl}/video/sprites/${game.sprites[0]}.png` } : null
-  let html = await readFile(source, 'utf8')
-  html = html.replace(/<title>[\s\S]*?<\/title>/i, `<title>${escapeHtml(title)}</title>`)
-  html = html.replace('</head>', `<meta name="description" content="${escapeHtml(description)}"><link rel="canonical" href="${canonical}"><meta name="robots" content="index,follow,max-image-preview:large"><meta property="og:type" content="website"><meta property="og:locale" content="ru_RU"><meta property="og:site_name" content="Три друга на тарелке"><meta property="og:title" content="${escapeHtml(title)}"><meta property="og:description" content="${escapeHtml(description)}"><meta property="og:url" content="${canonical}"><meta property="og:image" content="${siteUrl}/img/social.jpg"><meta name="twitter:card" content="summary_large_image">${schema ? `<script type="application/ld+json">${JSON.stringify(schema).replace(/</g, '\\u003c')}</script>` : ''}${metrikaSnippet}</head>`)
-  html = html.replace('</body>', '<noscript><p>Для игры нужен JavaScript. Можно <a href="/multfilmy/">посмотреть мультфильм</a> или открыть <a href="/menu/">семейное меню</a>.</p></noscript></body>')
-  await writeFile(target, html)
-}
-console.log('public/games: страницы и метаданные обновлены')
+await writeFile(join(pub, 'games/index.html'), redirectPage('/igry/', 'Игры о еде для детей'))
+for (const game of games) await writeFile(join(pub, 'games', `${game.legacy}.html`), redirectPage(game.href, game.title))
+console.log(`public/games: переадресаций ${games.length + 1}`)
 
 // спрайты: PNG с палитрой — в 3–4 раза легче, прозрачность сохраняется
 await syncDir(join(root, 'video/sprites'), join(pub, 'video/sprites'), {

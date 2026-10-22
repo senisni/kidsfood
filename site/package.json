@@ -9,7 +9,7 @@
     "check:build": "node scripts/check-build.mjs",
     "smoke": "node scripts/smoke-site.mjs",
     "preview": "astro preview",
-    "fix-nbsp": "node scripts/fix-nbsp.mjs src ../interactive/index.html ../interactive/plate.html ../interactive/fiber.html ../interactive/lunchbox.html ../interactive/dishes.html ../interactive/myths.html ../interactive/tummy.html ../interactive/snack.html ../interactive/common.js ../docs/menu/menu.html",
+    "fix-nbsp": "node scripts/fix-nbsp.mjs src ../docs/menu/menu.html",
     "test:typography": "node --test scripts/fix-nbsp.test.mjs"
   },
   "dependencies": {
