@@ -1,5 +1,5 @@
 // Контуры иконок 24×24 для components/Icon.astro
-export type IconName = 'play' | 'gamepad' | 'arrow' | 'chevron' | 'chat' | 'heart' | 'book' | 'sun' | 'moon' | 'clock' | 'plate' | 'leaf' | 'menu'
+export type IconName = 'play' | 'gamepad' | 'arrow' | 'chevron' | 'chat' | 'heart' | 'book' | 'sun' | 'moon' | 'clock' | 'plate' | 'leaf' | 'menu' | 'check' | 'cross'
 
 export const iconPaths: Record<IconName, string> = {
   play: '<path d="M8 5.5v13l10.5-6.5z" fill="currentColor" stroke="none"/>',
@@ -15,4 +15,6 @@ export const iconPaths: Record<IconName, string> = {
   plate: '<circle cx="12" cy="12" r="8.5"/><path d="M12 3.5v17M12 12h8.5"/>',
   leaf: '<path d="M5 19c0-8 5-13.5 14.5-14-.5 9.5-6 14.5-14 14zM5 19l7-7"/>',
   menu: '<path d="M4 7h16M4 12h16M4 17h16"/>',
+  check: '<path d="m5 12.5 4.5 4.5L19 7.5"/>',
+  cross: '<path d="M6.5 6.5l11 11M17.5 6.5l-11 11"/>',
 }

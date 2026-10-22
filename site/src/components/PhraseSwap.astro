@@ -1,5 +1,6 @@
 ---
-// Карточка «вместо — скажите»: привычная фраза зачёркнута, новая — крупно, ниже короткое «почему»
+// Карточка-замена: серое зачёркнутое облачко «как обычно говорят» и цветное «как сказать иначе»,
+// ниже — короткое «почему». Облачка как в чате: хвостик слева, поэтому длинный текст не ломает форму.
 import { twMerge } from 'tailwind-merge'
 import Icon from '@/components/Icon.astro'
 import type { PhraseSwap } from '@/data/swaps'
@@ -8,15 +9,20 @@ import { typo } from '@/lib/typo'
 interface Props { swap: PhraseSwap; class?: string; [key: string]: unknown }
 const { swap, class: className, ...rest } = Astro.props
 const tone = {
-  veg: { stripe: 'bg-veg', text: 'text-veg' },
-  grain: { stripe: 'bg-grain', text: 'text-grain' },
-  protein: { stripe: 'bg-protein', text: 'text-protein' },
-  water: { stripe: 'bg-water', text: 'text-water' },
+  veg: 'bg-veg',
+  grain: 'bg-grain',
+  protein: 'bg-protein',
+  water: 'bg-water',
 }[swap.tone]
 ---
-<article class={twMerge('relative flex flex-col overflow-hidden rounded-[1.6rem] bg-paper p-[1.3rem] pl-[1.6rem] shadow-paper ring-2 ring-cream-deep/70 sm:p-[1.6rem] sm:pl-[1.9rem]', className)} {...rest}>
-  <span aria-hidden="true" class:list={['absolute inset-y-0 left-0 w-[0.45rem]', tone.stripe]}></span>
-  <p class="text-[0.9rem] font-bold text-ink/55"><span class="mr-[0.4rem] font-display text-[0.8rem] font-extrabold tracking-wide text-ink/45 uppercase">Вместо</span><s class="decoration-terracotta/70 decoration-2">{typo(swap.instead)}</s></p>
-  <p class:list={['mt-[0.6rem] flex items-start gap-[0.5rem] font-display text-[1.35rem] leading-[1.15em] font-extrabold sm:text-[1.5rem]', tone.text]}><Icon name="chat" class="mt-[0.15rem] size-[1.3rem] shrink-0" /><span>«{typo(swap.say)}»</span></p>
-  <p class="mt-[0.7rem] text-[0.95rem] text-ink/75">{typo(swap.why)}</p>
+<article class={twMerge('flex flex-col gap-[0.7rem] rounded-[1.6rem] bg-paper p-[1.2rem] shadow-paper ring-2 ring-cream-deep/70 sm:p-[1.4rem]', className)} {...rest}>
+  <div class="flex items-start gap-[0.6rem]">
+    <span aria-hidden="true" class="mt-[0.35rem] grid size-[1.8rem] shrink-0 place-items-center rounded-full bg-ink/8 text-ink/45"><Icon name="cross" class="size-[1rem]" /></span>
+    <p class="rounded-[1.1rem] rounded-tl-[0.3rem] bg-ink/6 px-[0.95rem] py-[0.5rem] text-[0.95rem] font-bold text-ink/55"><span class="sr-only">Вместо: </span><s class="decoration-ink/35 decoration-[0.1rem]">{typo(swap.instead)}</s></p>
+  </div>
+  <div class="flex items-start gap-[0.6rem]">
+    <span aria-hidden="true" class:list={['mt-[0.45rem] grid size-[1.8rem] shrink-0 place-items-center rounded-full text-paper', tone]}><Icon name="check" class="size-[1.05rem]" /></span>
+    <p class:list={['rounded-[1.2rem] rounded-tl-[0.3rem] px-[1.05rem] py-[0.65rem] font-display text-[1.15rem] leading-[1.2em] font-extrabold text-paper shadow-paper sm:text-[1.25rem]', tone]}><span class="sr-only">Скажите: </span>{typo(swap.say)}</p>
+  </div>
+  <p class="mt-auto border-t-2 border-dashed border-cream-deep pt-[0.7rem] text-[0.92rem] text-ink/70">{typo(swap.why)}</p>
 </article>

@@ -109,6 +109,10 @@ for (const set of kitSets) {
 await writeFile(join(site, 'src/data/kit.json'), JSON.stringify(kit, null, 1))
 console.log(`public/kit: обновлено ${kitCount}, всего ${Object.keys(kit).length} картинок`)
 
+// векторный заголовок первого экрана — из ../assets/branding
+await mkdir(join(pub, 'img'), { recursive: true })
+await copyFile(join(root, 'assets/branding/three-friends-v1/title.svg'), join(pub, 'img/title.svg'))
+
 // фон первого экрана — сад без солнца
 const heroSource = join(root, 'video/sprites/garden-nosun.jpg')
 const heroTarget = join(pub, 'img/garden.webp')
